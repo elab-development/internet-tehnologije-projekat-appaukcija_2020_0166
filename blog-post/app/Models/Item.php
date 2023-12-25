@@ -14,6 +14,14 @@ class Item extends Model
         'naziv',
         'opis',
         'pocetna_cena',
+        'trenutna_cena'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function aukcija(){
+        return $this->belongTo(Aukcija::Class);
+    }
 
 }

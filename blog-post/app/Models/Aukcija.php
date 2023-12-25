@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Aukcija extends Model
 {
     use HasFactory;
 
@@ -15,4 +15,10 @@ class Post extends Model
         'vreme_zavrsetka',
         
     ];
+    public function items(){
+        return $this->hasMany(Item::Class);
+    }
+    public function bids(){
+        return $this->hasMany(Bid::Class);
+    }
 }

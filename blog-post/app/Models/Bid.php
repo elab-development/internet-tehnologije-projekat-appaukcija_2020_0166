@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Bid extends Model
 {
     use HasFactory;
+    protected $fillable = [
+ 
+        'iznos'
+    ];
+
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function aukcija(){
+        return $this->belongsTo(Aukcija::class);
+    }
 }
