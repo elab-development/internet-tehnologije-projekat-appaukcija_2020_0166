@@ -18,12 +18,12 @@ class ItemFactory extends Factory
      */
     public function definition()
     {
-        $pocetna_cena=fake()->randomFloat(2, 1, 1000);
+       
         
         return [
             'naziv'=>fake()->word,
             'opis'=>fake()->text,
-            'pocetna_cena'=>fake()->randomFloat(2, 1, 1000),
+            'pocetna_cena'=>$pocetna_cena=fake()->randomFloat(2, 1, 1000),
             'trenutna_cena'=>fake()->randomFloat(2,$pocetna_cena,$pocetna_cena+1000),
             'user_id'=>User::factory()
         ];

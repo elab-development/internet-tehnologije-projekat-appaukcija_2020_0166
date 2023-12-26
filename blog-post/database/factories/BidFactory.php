@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Auction;
+use App\Models\USer;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +20,11 @@ class BidFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'auction_id' => Auction::factory(),
+            'iznos' => fake()->randomFloat(2, 1, 300),
+            'user_id' => function () {
+
+            },
         ];
     }
 }
