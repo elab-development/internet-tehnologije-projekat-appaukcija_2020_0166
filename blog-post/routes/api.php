@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BidController;
+use App\Http\Controllers\UserItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
@@ -25,5 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::get('/items/{id}', [ItemController::class, 'show']);
 Route::get('/bids', [BidController::class, 'index']);
 Route::get('/auctions/{id}', [AuctionController::class, 'show']);
+Route::get('/user/{id}/items', [UserItemController::class, 'index']);
 Route::resource('items', ItemController::class);
 Route::resource('users', UserController::class);

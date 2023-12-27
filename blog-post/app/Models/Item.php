@@ -21,7 +21,7 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
     public function aukcija(){
-        return $this->belongTo(Aukcija::Class);
+        return $this->belongTo(Auction::Class);
     }
 
 }
