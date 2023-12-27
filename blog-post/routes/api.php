@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\BidController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuctionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+// Route::get('/items', [ItemController::class, 'index']);
+// Route::get('/items/{id}', [ItemController::class, 'show']);
+Route::get('/bids', [BidController::class, 'index']);
+Route::get('/auctions/{id}', [AuctionController::class, 'show']);
+Route::resource('items', ItemController::class);
+Route::resource('users', UserController::class);
