@@ -13,7 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::rename('aukcijas', 'auctions');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('adresa')->nullable();
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::rename('auctions', 'aukcijas');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('adresa');
+        });
     }
 };
