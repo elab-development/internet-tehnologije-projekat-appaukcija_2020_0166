@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ItemCollection;
 use App\Http\Resources\ItemResource;
 use App\Models\Item;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
 {
@@ -38,8 +41,29 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'naziv' => 'required|string|max:255',
+            'opis' => 'required|string|max:100',
+            'pocetna_cena' => 'required|numeric|max:1000',
+            'trenutna_cena' => 'required|numeric|max:1000',
+            'user_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $item = Item::create([
+            'naziv' => $request->naziv,
+            'opis' => $request->opis,
+            'pocetna_cena' => $request->pocetna_cena,
+            'trenutna_cena' => $request->trenutna_cena,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return response()->json(['message' => 'Item created successfully.', 'data' => new ItemResource($item)]);
     }
+
 
     /**
      * Display the specified resource.
@@ -72,7 +96,26 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'naziv' => 'required|string|max:255',
+            'opis' => 'required|string|max:100',
+            'pocetna_cena' => 'required|numeric|max:1000',
+            'trenutna_cena' => 'required|numeric|max:1000',
+            'user_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $item->naziv = $request->naziv;
+        $item->opis = $request->opis;
+        $item->pocetna_cena = $request->pocetna_cena;
+        $item->trenutna_cena = $request->trenutna_cena;
+        $item->user_id = $request->user_id;
+        $item->save();
+
+        return response()->json(['message' => 'Item updated successfully.', 'data' => new ItemResource($item)]);
     }
 
     /**
@@ -83,6 +126,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+        return response()->json('Item deleted successfully');
     }
 }
