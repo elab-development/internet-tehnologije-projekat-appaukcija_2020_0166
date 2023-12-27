@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ItemCollection;
+use App\Http\Resources\ItemResource;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,7 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::all();
-        return response()->json($items);
+        return new ItemCollection($items);
     }
 
     /**
@@ -45,13 +47,9 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show( $item_id)
+    public function show(Item $item)
     {
-        $item = Item::find($item_id);
-        if (is_null($item)) {
-            return response()->json('Data not found', 404);
-        }
-        return response()->json($item);
+        return new ItemResource($item);
     }
 
     /**
