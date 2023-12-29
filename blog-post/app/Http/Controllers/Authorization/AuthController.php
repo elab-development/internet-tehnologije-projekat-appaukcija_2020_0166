@@ -38,14 +38,15 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'data' => $user,
+            'message' => 'Korisnik je kreiran!',
+            'Korisnik' => $user,
             'access_token' => $token,
-            'token_type' => 'Bearer',
+            'token_type' => 'Bearer'
+
         ]);
     }
     public function login(Request $request)
     {
-
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()
@@ -57,6 +58,4 @@ class AuthController extends Controller
             ->json(['message' => 'Hi ' . $user->username . '. welcome to home', 'access_token' => $token, 'token_type' => 'Bearer',]);
 
     }
-
-
 }

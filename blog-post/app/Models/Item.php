@@ -14,7 +14,8 @@ class Item extends Model
         'naziv',
         'opis',
         'pocetna_cena',
-        'trenutna_cena'
+        'trenutna_cena',
+        'user_id'
     ];
 
     public function user(){

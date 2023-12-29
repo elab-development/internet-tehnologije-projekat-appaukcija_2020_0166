@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'broj_telefona',
+        'adresa'
     ];
 
     /**
@@ -47,5 +49,12 @@ class User extends Authenticatable
     }
     public function bids(){
         return $this->hasMany(Bid::class);
+    }
+    public function sendPasswordResetNotification($token)
+    {
+
+        $url = 'https://spa.test/reset-password?token=' . $token;
+
+        $this->notify(new ResetPasswordNotification($url));
     }
 }
