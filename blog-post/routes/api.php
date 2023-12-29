@@ -35,19 +35,22 @@ Route::get('/login', function () {
     return 'Please authenticate';
 });
 
+Route::group(['middleware' => ['auth:sanctum', 'admin']], function () {
+    Route::resource('users', UserController::class);
+});
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
-
-    Route::resource('users', UserController::class);
     Route::get('/user/{id}/items', [UserItemController::class, 'index']);
     Route::get('/auctions/{id}', [AuctionController::class, 'show']);
+    Route::delete('/auctions/{id}', [AuctionController::class, 'destroy']);
     Route::get('/bids', [BidController::class, 'index']);
     Route::resource('item', ItemController::class)->only(['update', 'store', 'destroy']);
     Route::resource('items', ItemController::class);
     // API route za izlogovanje korisnika
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 //API rute za resetovanje lozinke
 Route::post('/forget-password', [ForgotPasswordController::class, 'forgotPassword']);

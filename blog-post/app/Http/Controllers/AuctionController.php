@@ -82,8 +82,13 @@ class AuctionController extends Controller
      * @param  \App\Models\Auction  $auction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Auction $auction)
+    public function destroy($auction_id)
     {
-        //
+        $auction = Auction::find($auction_id);
+        if (is_null($auction)) {
+            return response()->json('Data not found', 404);
+        }
+        Auction::destroy($auction_id);
+        return response()-> json('Successful delete', 200);
     }
 }
