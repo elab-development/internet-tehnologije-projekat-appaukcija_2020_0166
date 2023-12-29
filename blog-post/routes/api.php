@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuctionController;
-use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\Authorization\ForgotPasswordController;
+use App\Http\Controllers\Authorization\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::resource('item', ItemController::class)->only(['update', 'store', 'destroy']);
 
-    // API route for logout user
+    // API route za izlogovanje korisnika
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+//API rute za resetovanje lozinke
+Route::post('/forget-password', [ForgotPasswordController::class,'forgotPassword']);
+Route::post('/reset-password', [ForgotPasswordController::class,'reset']);
 
