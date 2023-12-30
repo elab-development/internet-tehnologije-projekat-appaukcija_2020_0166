@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BidResource;
 use App\Models\Bid;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class BidController extends Controller
      */
     public function index()
     {
-        $bids=Bid::all();
+        $bids = Bid::all();
         return response()->json($bids);
     }
 
@@ -47,7 +48,7 @@ class BidController extends Controller
      */
     public function show(Bid $bid)
     {
-        //
+        return new BidResource($bid);
     }
 
     /**

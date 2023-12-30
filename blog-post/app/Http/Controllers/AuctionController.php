@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Auction;
 use Illuminate\Http\Request;
+use App\Http\Resources\AuctionResource;
 
 class AuctionController extends Controller
 {
@@ -14,7 +15,8 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        //
+        $auctions = Auction::all();
+        return response()->json($auctions);
     }
 
     /**
@@ -44,13 +46,9 @@ class AuctionController extends Controller
      * @param  \App\Models\Auction  $auction
      * @return \Illuminate\Http\Response
      */
-    public function show($auction_id)
+    public function show(Auction $auction)
     {
-        $auction = Auction::find($auction_id);
-        if (is_null($auction)) {
-            return response()->json('Data not found', 404);
-        }
-        return response()->json($auction);
+        return new AuctionResource($auction);
     }
 
     /**
