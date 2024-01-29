@@ -1,0 +1,68 @@
+.container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin:3rem
+}
+.container > *{
+    min-width:25rem;
+    max-width:40rem;
+}
+img{
+    border-radius: 3rem;
+    flex:10;
+    object-fit: cover;
+    height: 50rem;
+    margin:1rem;
+    filter: brightness(94%)
+}
+.details{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0;
+    margin-top: -150px;
+    border-radius:3rem;
+    padding:2rem;
+    color: black;
+    margin-left: 1rem;
+}
+.details .name{
+    font-size: 2rem;
+    font-weight: bold;
+
+}
+.details button{
+    border: solid 1px;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border-radius:0.4rem;
+    outline: none;
+}
+
+
+.pocetnaCena {
+    display: flex;
+    align-items: baseline;
+    font-family: "Quicksand",sans-serif;
+    font-size:1.8rem;
+    margin-bottom: -40px;
+}
+
+.pocetnaCena p {
+    margin-right: 10px;
+  
+}
+
+.trenutnaCena {
+    display: flex;
+    align-items: baseline;
+    font-family: "Quicksand",sans-serif;
+    margin-top: 0px;
+    font-size:1.8rem;
+}
+
+.trenutnaCena p {
+    margin-right: 10px;
+}

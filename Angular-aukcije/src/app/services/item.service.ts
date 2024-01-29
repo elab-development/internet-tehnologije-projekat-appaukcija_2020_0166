@@ -31,7 +31,7 @@ export class ItemsService {
       },
       {
         id: 3,
-        naziv: 'Assassins creed IV Black Flagr',
+        naziv: 'Assassins creed IV Black Flag',
         opis: "",
         pocetnaCena: 130,
         trenutnaCena: 180,

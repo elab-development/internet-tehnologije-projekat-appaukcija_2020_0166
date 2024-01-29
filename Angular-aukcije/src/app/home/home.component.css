@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
-ul{
+
+ul {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,29 +8,46 @@ ul{
     list-style-type: none;
     padding: 0;
 }
- li a{
- height:rem;
- width:12rem;
- font-family: "Quicksand",sans-serif;
-    border:1px solid whitesmoke;
+
+li a {
+    height: rem;
+    width: 14rem;
+    font-family: "Quicksand", sans-serif;
+    border: 1px solid whitesmoke;
     border-radius: 1 rem;
-    margin:0.5rem;
-    display:flex;
+    margin: 0.5rem;
+    display: flex;
     flex-direction: column;
     overflow: hidden;
     text-decoration: none;
-    color:black;
+    color: black;
     filter: brightness(96%);
 }
 
-li a:hover{
+li a:hover {
     opacity: 0.7;
     cursor: pointer;
 }
 
-.content{
-    padding:.5rem 1rem;
-    position:relative;
+.content {
+    padding: .5rem 1rem;
+    position: relative;
 }
 
+.pocetnaCena {
+    display: flex;
+    align-items: baseline;
+}
 
+.pocetnaCena p {
+    margin-right: 5px;
+}
+
+.trenutnaCena {
+    display: flex;
+    align-items: baseline;
+}
+
+.trenutnaCena p {
+    margin-right: 5px;
+}

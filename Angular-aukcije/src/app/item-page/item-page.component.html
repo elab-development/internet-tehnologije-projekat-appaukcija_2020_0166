@@ -1,0 +1,27 @@
+<div class="container">
+    <img [src]="items.imageUrl" [alt]="items.naziv" />
+    <div class="details">
+        <div class="header">
+            <span class="name">
+                {{items.naziv}}
+            </span>
+        </div>
+        <div class="pocetnaCena">
+            <p>Pocetna cena:</p>
+            {{items.pocetnaCena|currency}}
+        </div>
+        <div class="trenutnaCena">
+            <p>Trenutna cena:</p>
+            {{items.trenutnaCena|currency}}
+        </div>
+        <button (click)="addToFavorites()" mat-stroked-button>Licitiraj</button>
+        <p>
+            Opis: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat.
+        </p>
+    </div>
+</div>

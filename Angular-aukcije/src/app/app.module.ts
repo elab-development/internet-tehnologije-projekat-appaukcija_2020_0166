@@ -8,6 +8,7 @@ import { SearchComponent } from './search/search.component';
 import { HeaderComponent } from './header/header.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { FollowPageComponent } from './follow-page/follow-page.component';
+import { ItemPageComponent } from './item-page/item-page.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { FollowPageComponent } from './follow-page/follow-page.component';
     HeaderComponent,
     UserLoginComponent,
     FollowPageComponent,
+    ItemPageComponent,
   ],
   imports: [
     BrowserModule,
