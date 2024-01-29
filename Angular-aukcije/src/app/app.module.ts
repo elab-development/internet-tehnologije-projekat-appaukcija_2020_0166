@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { HeaderComponent } from './header/header.component';
+import { UserLoginComponent } from './user-login/user-login.component';
+import { FollowPageComponent } from './follow-page/follow-page.component';
 
 
 @NgModule({
@@ -14,6 +16,8 @@ import { HeaderComponent } from './header/header.component';
     HomeComponent,
     SearchComponent,
     HeaderComponent,
+    UserLoginComponent,
+    FollowPageComponent,
   ],
   imports: [
     BrowserModule,
