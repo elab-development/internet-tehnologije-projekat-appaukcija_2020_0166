@@ -1,1 +1,53 @@
-<p>home works!</p>
+
+<h3>Najtrazeniji predmeti</h3>
+<ul>
+    <li *ngFor="let item of items">
+        <a routerLink="/item/{{item.id}}">
+            <img src="{{item.imageUrl}}" alt="">
+            <div class="content">
+                <div class="Naziv">
+                    {{item.naziv}}
+                </div>
+                <div class="Opis">
+                    {{item.opis}}
+                </div>
+                <div class="product-item-footer">
+                    <div class="pocetnaCena">
+                        {{item.pocetnaCena|currency}}
+                    </div>
+                    <div class="trenutnaCena">
+                        <div class="span">
+                            {{item.trenutnaCena|currency}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+</ul>
+<h3>Istaknuti predmeti</h3>
+<ul>
+    <li *ngFor="let item of items">
+        <a routerLink="/item/{{item.id}}">
+            <img src="{{item.imageUrl}}" alt="">
+            <div class="content">
+                <div class="Naziv">
+                    {{item.naziv}}
+                </div>
+                <div class="Opis">
+                    {{item.opis}}
+                </div>
+                <div class="product-item-footer">
+                    <div class="pocetnaCena">
+                        {{item.pocetnaCena|currency}}
+                    </div>
+                    <div class="trenutnaCena">
+                        <div class="span">
+                            {{item.trenutnaCena|currency}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+</ul>
