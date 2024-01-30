@@ -14,7 +14,6 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
-import { FormaComponent } from './forma/forma.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
 
@@ -27,7 +26,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     UserLoginComponent,
     FollowPageComponent,
     ItemPageComponent,
-    FormaComponent,
 
   ],
   imports: [

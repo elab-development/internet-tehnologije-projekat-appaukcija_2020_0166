@@ -1,1 +1,24 @@
-<p>follow-page works!</p>
+
+<div *ngIf="follow && follow.items.length>0" class="container">
+    <ul>
+        <li *ngFor="let followItem of follow.items">
+            <div>
+                <img [src]="followItem.item.imageUrl" alt="followItem.item.name">
+            </div>
+            <div>
+                <a routerLink="/item/{{followItem.item.id}}">
+                    {{followItem.item.naziv}}
+                    
+                </a>
+            </div>
+           
+           
+            <div>
+                <button class="remove-button" (click)="removeFromFollow(followItem)" mat-stroked-button>Ukloni iz
+                    korpe</button>
+            </div>
+
+        </li>
+    </ul>
+    
+</div>

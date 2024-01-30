@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from '../models/item';
 import { ItemsService } from '../services/item.service';
 import { MatDialog } from '@angular/material/dialog';
-import { FormaComponent } from '../forma/forma.component';
+import { FollowService } from '../services/follow.service';
+import { Follow } from '../models/follow';
 @Component({
   selector: 'app-item-page',
   templateUrl: './item-page.component.html',
@@ -13,18 +14,18 @@ export class ItemPageComponent {
   items!: Item;
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
+    private followService: FollowService,
     private router: Router) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.items = itemsService.getItemById(params['id']);
     })
   }
-  openDialog() {
-    this.matDialog.open(FormaComponent, {
-      width: '350px'
-    })
-  }
-  addToFavorites() {
+  addToFollow() {
 
+      this.followService.addToFollow(this.items);
+      this.router.navigateByUrl('/follow-page');
+    }
   }
-}
+
+
