@@ -20,6 +20,7 @@ export class ItemsService {
         pocetnaCena: 130,
         trenutnaCena: 180,
         imageUrl: '/assets/images/item1.jpg',
+        preostaloVreme:new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) 
       },
       {
         id: 2,
@@ -28,6 +29,7 @@ export class ItemsService {
         pocetnaCena: 130,
         trenutnaCena: 180,
         imageUrl: '/assets/images/item1.jpg',
+        preostaloVreme:new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) 
       },
       {
         id: 3,
@@ -36,6 +38,7 @@ export class ItemsService {
         pocetnaCena: 130,
         trenutnaCena: 180,
         imageUrl: '/assets/images/item1.jpg',
+        preostaloVreme:new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) 
       },
       {
         id: 4,
@@ -44,6 +47,7 @@ export class ItemsService {
         pocetnaCena: 130,
         trenutnaCena: 180,
         imageUrl: '/assets/images/item1.jpg',
+        preostaloVreme:new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) 
       },
       {
         id: 5,
@@ -52,6 +56,7 @@ export class ItemsService {
         pocetnaCena: 130,
         trenutnaCena: 180,
         imageUrl: '/assets/images/item1.jpg',
+        preostaloVreme:new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) 
       },
       {
         id: 6,
@@ -60,6 +65,7 @@ export class ItemsService {
         pocetnaCena: 130,
         trenutnaCena: 180,
         imageUrl: '/assets/images/item1.jpg',
+        preostaloVreme:new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) 
       },
       
     ]

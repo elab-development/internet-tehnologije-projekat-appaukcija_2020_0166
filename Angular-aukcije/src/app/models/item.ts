@@ -5,4 +5,5 @@ export class Item {
     pocetnaCena!:number;
     trenutnaCena!:number;
     imageUrl!:string;
+    preostaloVreme!:Date;
 }
