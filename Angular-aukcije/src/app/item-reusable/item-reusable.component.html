@@ -1,0 +1,22 @@
+<a routerLink="/item/{{item.id}}">
+    <img src="{{item.imageUrl}}" alt="">
+    <div class="content">
+        <div class="Naziv">
+            {{item.naziv}}
+        </div>
+        <div class="Opis">
+            {{item.opis}}
+        </div>
+        <div class="product-item-footer">
+            <div class="pocetnaCena">
+                <p>Pocetna cena:</p>
+                {{item.pocetna_cena|currency}}
+            </div>
+            <div class="trenutnaCena">
+                <p>Trenutna cena:</p>
+                {{item.trenutna_cena|currency}}
+
+            </div>
+        </div>
+    </div>
+</a>
