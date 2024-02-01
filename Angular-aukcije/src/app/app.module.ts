@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ItemReusableComponent } from './item-reusable/item-reusable.component';
 import { FooterComponent } from './footer/footer.component';
 import { CapitalizePipe } from './capitalize.pipe';
+import { AtributskaDirektivaDirective } from './atributska-direktiva.directive';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { CapitalizePipe } from './capitalize.pipe';
     ItemPageComponent,
     ItemReusableComponent,
     FooterComponent,
-    CapitalizePipe
+    CapitalizePipe,
+    AtributskaDirektivaDirective
   ],
   imports: [
     BrowserModule,
