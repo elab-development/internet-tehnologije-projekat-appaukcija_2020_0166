@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginServiceService } from './login-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, pipe, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-login',
@@ -16,30 +20,19 @@ export class UserLoginComponent implements OnInit {
     email: '',
     password: ''
   }
-  constructor() { }
+  constructor(private loginService: LoginServiceService, private router: Router) { }
   ngOnInit(): void {
-    const localData = localStorage.getItem('signUpUsers');
-    if (localData != null) {
-      this.signupUsers = JSON.parse(localData);
-    }
+
   }
-  onSignUp() {
-    this.signupUsers.push(this.signupObj);
-    localStorage.setItem('signupUsers', JSON.stringify(this.signupUsers));
-    this.signupObj = {
-      userName: '',
-      email: '',
-      password: ''
-    }
-  }
+
   onLogin() {
-    debugger
-    const IsUserExist = this.signupUsers.find(m => m.email == this.loginObj.email && m.password == this.loginObj.password);
-    if (IsUserExist != undefined) {
-      alert('User Login Successfully');
-    }
-    else {
-      alert('Wrong credentials');
-    }
+    this.loginService.logIn(this.loginObj.userName, this.loginObj.password)
+    .subscribe(response => 
+      {
+        response.userName = this.loginObj.userName;
+        localStorage.setItem('user', JSON.stringify(response));
+        this.router.navigate(['/']);
+      }, error=> {console.log(error);});
+
   }
 }

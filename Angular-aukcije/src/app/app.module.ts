@@ -16,6 +16,10 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ContactComponent } from './contact/contact.component';
 import { ItemPageComponent } from './item-page/item-page.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ItemReusableComponent } from './item-reusable/item-reusable.component';
+import { FooterComponent } from './footer/footer.component';
+import { CapitalizePipe } from './capitalize.pipe';
 
 
 @NgModule({
@@ -27,7 +31,10 @@ import { ItemPageComponent } from './item-page/item-page.component';
     UserLoginComponent,
     FollowPageComponent,
     ContactComponent,
-    ItemPageComponent
+    ItemPageComponent,
+    ItemReusableComponent,
+    FooterComponent,
+    CapitalizePipe
   ],
   imports: [
     BrowserModule,
@@ -38,8 +45,8 @@ import { ItemPageComponent } from './item-page/item-page.component';
     MatIconModule,
     MatButtonToggleModule,
     MatDialogModule,
-    MatFormFieldModule
-    
+    MatFormFieldModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
