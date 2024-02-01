@@ -1,26 +1,30 @@
 <div class="container">
-    <img [src]="items.imageUrl" [alt]="items.naziv" />
+    <img [src]="item.imageUrl" [alt]="item.naziv" />
     <div class="details">
         <div class="header">
             <span class="name">
-                {{items.naziv}}
+                {{item.naziv}}
             </span>
         </div>
         <div class="pocetnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Pocetna cena:</p>
-            {{items.pocetna_cena|currency}}
+            {{item.pocetna_cena|currency}}
         </div>
         <div class="trenutnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Trenutna cena:</p>
-            {{items.trenutna_cena|currency}}
+            {{item.trenutna_cena|currency}}
         </div>
         <div class="preostaloVreme" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Aukcija traje do:</p>
-            {{items.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
+            {{item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
+        </div>
+        <div class="preostaloVreme" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
+            <p>Preostalo vreme aukcije:</p>
+            {{preostaliDani}} dana {{preostaliSati}}:{{preostaliMinuti}}:{{preostaleSekunde}}
         </div>
         <div class="unesi">
             <p><mat-form-field appearance="fill">
-                    <input type="number" matInput #matInput placeholder="Unesi licitaciju" >
+                    <input type="number" matInput #matInput placeholder="Unesi licitaciju">
                     <mat-icon> attach_money</mat-icon>
                 </mat-form-field></p>
         </div>
@@ -36,7 +40,7 @@
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
             ea commodo consequat.
         </p>
-        
+
     </div>
     <div class="contact">
         <h3>Prodavac</h3>
@@ -44,7 +48,7 @@
 
             <div class="nazivKorisnika">
 
-                {{items.naziv}}
+                {{item.naziv}}
 
             </div>
 

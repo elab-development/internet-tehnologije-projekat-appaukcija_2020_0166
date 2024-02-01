@@ -3,7 +3,7 @@ id!:number;
 role!:string;
 username!:string;
 email!:string;
-password!:number;
+password!:string;
 broj_telefona!:string;
 adresa!:string;
 

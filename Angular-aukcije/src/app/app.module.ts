@@ -8,7 +8,6 @@ import { SearchComponent } from './search/search.component';
 import { HeaderComponent } from './header/header.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { FollowPageComponent } from './follow-page/follow-page.component';
-import { ItemPageComponent } from './item-page/item-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -16,6 +15,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ContactComponent } from './contact/contact.component';
+import { ItemPageComponent } from './item-page/item-page.component';
 
 
 @NgModule({
@@ -28,7 +28,6 @@ import { ContactComponent } from './contact/contact.component';
     FollowPageComponent,
     ContactComponent,
     ItemPageComponent
-
   ],
   imports: [
     BrowserModule,
