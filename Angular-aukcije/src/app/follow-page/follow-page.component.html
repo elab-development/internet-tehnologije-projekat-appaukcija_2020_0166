@@ -11,11 +11,17 @@
                     
                 </a>
             </div>
-           
+           <div>
+            <p>Trenutna cena:</p>
+            {{followItem.item.trenutnaCena|currency}}
+           </div>
+           <div>
+            <p>Kraj licitacije:</p>
+            {{followItem.item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
+           </div>
            
             <div>
-                <button class="remove-button" (click)="removeFromFollow(followItem)" mat-stroked-button>Ukloni iz
-                    korpe</button>
+                <button class="remove-button" (click)="removeFromFollow(followItem)" mat-raised-button>Ukloni iz Pratim</button>
             </div>
 
         </li>

@@ -13,6 +13,7 @@ private follow: Follow=new Follow();
     let followItem = this.follow.items.find(proizvod => proizvod.item.id===item.id )
     if (followItem) {
       this.changeQuantity(followItem, followItem.quantity + 1);
+   
       return;
     }
     this.follow.items.push(new FollowItem(item));

@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { UserComponent } from './user/user.component';
+import { ContactComponent } from './contact/contact.component';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     UserLoginComponent,
     FollowPageComponent,
     ItemPageComponent,
+    UserComponent,
+    ContactComponent,
 
   ],
   imports: [

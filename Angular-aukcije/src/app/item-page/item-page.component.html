@@ -6,19 +6,28 @@
                 {{items.naziv}}
             </span>
         </div>
-        <div class="pocetnaCena">
+        <div class="pocetnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Pocetna cena:</p>
             {{items.pocetnaCena|currency}}
         </div>
-        <div class="trenutnaCena">
+        <div class="trenutnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Trenutna cena:</p>
             {{items.trenutnaCena|currency}}
         </div>
-        <div class="preostaloVreme">
+        <div class="preostaloVreme" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Aukcija traje do:</p>
             {{items.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
         </div>
-        <button (click)="addToFollow()" mat-raised-button>Licitiraj</button>
+        <div class="unesi">
+            <p><mat-form-field appearance="fill">
+                    <input type="number" matInput #matInput placeholder="Unesi licitaciju" >
+                    <mat-icon> attach_money</mat-icon>
+                </mat-form-field></p>
+        </div>
+        <div class="upozorenje">
+            <p *ngIf="validationMessage.length > 0" style="color:red">{{validationMessage}}</p>
+        </div>
+        <button (click)="getSelectedPriceValue(matInput.value)" mat-raised-button>Licitiraj</button>
         <p>
             Opis: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
@@ -27,5 +36,31 @@
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
             ea commodo consequat.
         </p>
+        
+    </div>
+    <div class="contact">
+        <h3>Prodavac</h3>
+        <div>
+
+            <div class="nazivKorisnika">
+
+                {{items.naziv}}
+
+            </div>
+
+
+            <div class="uProizvoda">
+                <a href="#" routerLink="/user">
+                    <button mat-raised-button><mat-icon>inbox</mat-icon>Svi predmeti prodavca</button>
+                </a>
+            </div>
+            <mat-dialog-actions>
+
+                <button mat-raised-button (click)="openDialog()"><mat-icon> message</mat-icon>Kontaktiraj
+                    prodavca</button>
+
+            </mat-dialog-actions>
+
+        </div>
     </div>
 </div>

@@ -1,79 +1,133 @@
-.container{
-    display:flex;
+.container {
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin:3rem
+    margin: 3rem
 }
-.container > *{
-    min-width:25rem;
-    max-width:40rem;
+
+.container>* {
+    min-width: 25rem;
+    max-width: 40rem;
 }
-img{
+
+img {
     border-radius: 3rem;
-    flex:10;
+    flex: 10;
     object-fit: cover;
     height: 50rem;
-    margin:1rem;
+    margin: 1rem;
     filter: brightness(94%)
 }
-.details{
-    width:100%;
+
+.details {
+    width: 100%;
     display: flex;
     flex-direction: column;
     flex: 1 0;
     margin-top: -150px;
-    border-radius:3rem;
-    padding:2rem;
+    border-radius: 3rem;
+    padding: 2rem;
     color: black;
     margin-left: 1rem;
 }
-.details .name{
+
+.details .name {
     font-size: 2rem;
     font-weight: bold;
 
 }
-.details button{
+
+.details button {
     border: solid 1px;
     font-size: 1.2rem;
     padding: 1rem;
-    border-radius:0.4rem;
+    border-radius: 0.4rem;
     border-color: black;
-    background-color:#0E4C92 ;
+    background-color: #0E4C92;
 }
 
 
 .pocetnaCena {
     display: flex;
     align-items: baseline;
-    font-family: "Quicksand",sans-serif;
-    font-size:1.8rem;
+    
+    font-size: 1.8rem;
     margin-bottom: -40px;
 }
 
 .pocetnaCena p {
     margin-right: 10px;
-  
+
 }
 
 .trenutnaCena {
     display: flex;
     align-items: baseline;
-    font-family: "Quicksand",sans-serif;
     margin-top: 0px;
-    font-size:1.8rem;
+    font-size: 1.8rem;
 }
+
 .preostaloVreme {
     display: flex;
     align-items: baseline;
-    font-family: "Quicksand",sans-serif;
     margin-top: -40px;
-    font-size:1.8rem;
+    font-size: 1.8rem;
 }
+
 .preostaloVreme p {
     margin-right: 10px;
 }
 
 .trenutnaCena p {
     margin-right: 10px;
+}
+
+.unesi p {
+    margin-top: -30px;
+}
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1 3;
+    height: 15rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding: .5rem;
+    margin: .5rem;
+    margin-top: -15rem;
+}
+
+.contact>div {
+    font-size: 1.4rem;
+    margin: 1rem;
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.contact .nazivKorisnika {
+    margin-bottom: 1.5rem;
+}
+
+.contact .uProizvoda {
+    margin-bottom: 1.5rem;
+}
+
+.contact button {
+    margin-left: 3rem;
+    background-color: white;
+    color:#0E4C92;
+}
+.contact a{
+    text-decoration: none;
+    color: inherit;
+}
+.upozorenje p{
+    margin-top: -40px;
 }

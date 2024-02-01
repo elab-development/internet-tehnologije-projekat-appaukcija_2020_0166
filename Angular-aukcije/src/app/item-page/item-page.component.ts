@@ -5,6 +5,7 @@ import { ItemsService } from '../services/item.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FollowService } from '../services/follow.service';
 import { Follow } from '../models/follow';
+import { ContactComponent } from '../contact/contact.component';
 @Component({
   selector: 'app-item-page',
   templateUrl: './item-page.component.html',
@@ -12,6 +13,9 @@ import { Follow } from '../models/follow';
 })
 export class ItemPageComponent {
   items!: Item;
+  unosIznosa: any;
+  displayVal: any;
+  validationMessage: string = '';
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
     private followService: FollowService,
@@ -21,11 +25,31 @@ export class ItemPageComponent {
         this.items = itemsService.getItemById(params['id']);
     })
   }
+  openDialog() {
+    this.matDialog.open(ContactComponent, {
+      width: '350px'
+    })
+
+  }
   addToFollow() {
 
-      this.followService.addToFollow(this.items);
-      this.router.navigateByUrl('/follow-page');
+    this.followService.addToFollow(this.items,);
+    this.router.navigateByUrl('/follow-page');
+  }
+  getSelectedPriceValue(value: string) {
+    this.displayVal = parseInt(value);
+    if (!this.displayVal) {
+      this.validationMessage = "Molimo vas unesite vasu licitaciju.";
+      return;
     }
+    if (this.displayVal <= this.items.trenutnaCena) {
+      this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
+      return;
+    }
+    this.items.trenutnaCena=this.displayVal;
+    
+   this.addToFollow();
   }
 
 
+}

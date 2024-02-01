@@ -34,10 +34,13 @@ ul li:last-child{
     border: none;
 }
 ul li img{
-    width:5rem;
+    width:7rem;
     height:5rem;
     border-radius: 100rem;
     object-fit: cover;
+}
+ul li button{
+    background-color: #0E4C92;
 }
 ul li div{
     padding: 1;
