@@ -8,7 +8,7 @@ export class ItemsService {
   private data = [
     {
       id: 1,
-      naziv: 'Assassins creed IV Black Flag',
+      naziv: 'assassins creed IV Black Flag',
       opis: "",
       pocetna_cena: 130,
       trenutna_cena: 180,
