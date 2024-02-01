@@ -1,0 +1,55 @@
+.footer {
+    width: 100%;
+    margin-top: 75px;
+    background-color: #0E4C92;
+}
+
+.footer-last-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.footer-images {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.75cm;
+}
+
+.footer-slika1 {
+    margin-bottom: 1cm;
+
+    margin-left: 2cm;
+    height: 2.5cm;
+    width: 4cm;
+}
+
+.footer-links {
+    margin-right: 0.3cm;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+}
+
+.footer-text {
+    margin-left: 0.5cm;
+    font-size: 20px;
+    color: white;
+}
+
+.footer-naslovv {
+    padding-top: 0.5cm;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.links {
+    padding-bottom: 0.1cm;
+    margin: 0.2cm;
+
+    height: 0.7cm;
+    width: 0.6cm;
+
+}
