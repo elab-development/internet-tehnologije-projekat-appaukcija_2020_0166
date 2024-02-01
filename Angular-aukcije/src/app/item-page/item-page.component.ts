@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FollowService } from '../services/follow.service';
 import { Follow } from '../models/follow';
 import { ContactComponent } from '../contact/contact.component';
+import { SharedDataService } from '../services/shared-data.service';
 @Component({
   selector: 'app-item-page',
   templateUrl: './item-page.component.html',
@@ -18,7 +19,7 @@ export class ItemPageComponent {
   validationMessage: string = '';
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
-    private followService: FollowService,
+    private followService: FollowService, 
     private router: Router) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
@@ -42,14 +43,15 @@ export class ItemPageComponent {
       this.validationMessage = "Molimo vas unesite vasu licitaciju.";
       return;
     }
-    if (this.displayVal <= this.items.trenutnaCena) {
+    if (this.displayVal <= this.items.trenutna_cena) {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
       return;
     }
-    this.items.trenutnaCena=this.displayVal;
+    this.items.trenutna_cena=this.displayVal;
     
    this.addToFollow();
   }
+
 
 
 }
