@@ -21,6 +21,10 @@ import { ItemReusableComponent } from './item-reusable/item-reusable.component';
 import { FooterComponent } from './footer/footer.component';
 import { CapitalizePipe } from './capitalize.pipe';
 import { AtributskaDirektivaDirective } from './atributska-direktiva.directive';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { UserComponent } from './user/user.component';
+import { CartComponent } from './cart/cart.component';
+
 
 
 @NgModule({
@@ -36,7 +40,9 @@ import { AtributskaDirektivaDirective } from './atributska-direktiva.directive';
     ItemReusableComponent,
     FooterComponent,
     CapitalizePipe,
-    AtributskaDirektivaDirective
+    AtributskaDirektivaDirective,
+    UserComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,8 @@ import { AtributskaDirektivaDirective } from './atributska-direktiva.directive';
     MatButtonToggleModule,
     MatDialogModule,
     MatFormFieldModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

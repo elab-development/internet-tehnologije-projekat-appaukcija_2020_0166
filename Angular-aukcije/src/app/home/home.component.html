@@ -3,13 +3,14 @@
 </app-search>
 <h3>Najtrazeniji predmeti</h3>
 <ul>
-    <li *ngFor="let item of items">
+    <li *ngFor="let item of items |paginate:{itemsPerPage:6,currentPage:p}">
         <app-item-reusable [item]="item"></app-item-reusable>
     </li>
 </ul>
 <h3>Istaknuti predmeti</h3>
 <ul>
-    <li *ngFor="let item of items">
+    <li *ngFor="let item of items |paginate:{itemsPerPage:6,currentPage:p}">
         <app-item-reusable [item]="item"></app-item-reusable>
     </li>
 </ul>
+<div class="pagination"><pagination-controls (pageChange)="p = $event"></pagination-controls></div>

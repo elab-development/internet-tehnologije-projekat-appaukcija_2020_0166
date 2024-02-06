@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FollowService } from '../services/follow.service';
 import { ContactComponent } from '../contact/contact.component';
 import moment from 'moment';
+import { preserveWhitespacesDefault } from '@angular/compiler';
 
 @Component({
   selector: 'app-item-page',
@@ -21,7 +22,7 @@ export class ItemPageComponent {
   preostaliDani: number = 0;
   preostaliMinuti: number = 0;
   preostaleSekunde: number = 0;
-
+  intervalId: any;
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
     private followService: FollowService,
@@ -31,7 +32,8 @@ export class ItemPageComponent {
         this.item = itemsService.getItemById(params['id']);
     })
     this.remainingTime();
-    setInterval(() => this.remainingTime(), 1000);
+    this.intervalId = setInterval(() => this.remainingTime(), 1000);
+
   }
   openDialog() {
     this.matDialog.open(ContactComponent, {
@@ -51,7 +53,12 @@ export class ItemPageComponent {
     this.preostaliSati = Math.abs(preostaloVreme.hours());
     this.preostaliMinuti = Math.abs(preostaloVreme.minutes());
     this.preostaleSekunde = Math.abs(preostaloVreme.seconds());
+    if (this.preostaleSekunde == 0) {
+      clearInterval(this.intervalId);
+     
+    }
   }
+
 
   getSelectedPriceValue(value: string) {
     this.displayVal = parseInt(value);
@@ -61,6 +68,9 @@ export class ItemPageComponent {
     }
     if (this.displayVal <= this.item.trenutna_cena) {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
+    }
+    if (this.preostaleSekunde == 0) {
+      this.validationMessage = "Licitacija je istekla, ne mozete vise licitirati."
       return;
     }
     this.item.trenutna_cena = this.displayVal;

@@ -5,13 +5,15 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { FollowPageComponent } from './follow-page/follow-page.component';
 import { ContactComponent } from './contact/contact.component';
 import { ItemPageComponent } from './item-page/item-page.component';
+import { UserComponent } from './user/user.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'search/:searchTerm', component: HomeComponent },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'follow-page', component: FollowPageComponent },
-  { path: 'item/:id', component: ItemPageComponent},
-  { path: 'contact/:id', component: ContactComponent},
+  { path: 'item/:id', component: ItemPageComponent },
+  { path: 'contact/:id', component: ContactComponent },
+  { path: 'user', component: UserComponent },
 ];
 
 @NgModule({
