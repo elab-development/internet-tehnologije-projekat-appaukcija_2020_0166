@@ -17,7 +17,7 @@ import { CartService } from '../services/cart.service';
 export class ItemPageComponent {
   item!: Item;
   unosIznosa: any;
-  displayVal: any;
+  displayVal: number = 0;
   validationMessage: string = '';
   preostaliSati: number = 0;
   preostaliDani: number = 0;
@@ -26,7 +26,7 @@ export class ItemPageComponent {
   intervalId: any;
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
-    private followService: FollowService,private cartService:CartService,
+    private followService: FollowService, private cartService: CartService,
     private router: Router) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
@@ -45,12 +45,11 @@ export class ItemPageComponent {
   addToFollow() {
 
     this.followService.addToFollow(this.item,);
-    this.router.navigateByUrl('/follow-page');
   }
   addToCart() {
 
-    this.cartService.addToCart(this.item,);
-    
+    this.cartService.addToCart(this.item);
+
   }
 
   remainingTime() {
@@ -59,14 +58,18 @@ export class ItemPageComponent {
     this.preostaliSati = Math.abs(preostaloVreme.hours());
     this.preostaliMinuti = Math.abs(preostaloVreme.minutes());
     this.preostaleSekunde = Math.abs(preostaloVreme.seconds());
-    if (this.preostaleSekunde == 0) {
+    if (this.preostaleSekunde === 0) {
       clearInterval(this.intervalId);
-     
+      this.itemsService.deleteItemById(this.item.id)
+      this.itemsService.addItemGotovo(this.item);
+      this.addToCart();
+
     }
   }
 
 
   getSelectedPriceValue(value: string) {
+    this.validationMessage='';
     this.displayVal = parseInt(value);
     if (!this.displayVal) {
       this.validationMessage = "Molimo vas unesite vasu licitaciju.";
@@ -74,6 +77,7 @@ export class ItemPageComponent {
     }
     if (this.displayVal <= this.item.trenutna_cena) {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
+      return;
     }
     if (this.preostaleSekunde == 0) {
       this.validationMessage = "Licitacija je istekla, ne mozete vise licitirati."

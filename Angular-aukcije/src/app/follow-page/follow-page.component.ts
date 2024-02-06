@@ -11,6 +11,7 @@ import { FollowItem } from '../models/follow-item';
 })
 export class FollowPageComponent {
 follow!:Follow;
+date:Date=new Date(Date.now());
 constructor(private followService: FollowService,private matDialog:MatDialog) {
   this.setFollow();
 }

@@ -28,12 +28,13 @@
                     <mat-icon> attach_money</mat-icon>
                 </mat-form-field></p>
         </div>
-        <div class="pobeda" *ngIf="preostaleSekunde==0">
+        <div class="pobeda" *ngIf="preostaleSekunde==0 ">
             <p>
-                POBEDAAAA
-
+                Aukcija je zavrsena, pobednik je:
+               {{item.naziv}}
             </p>
-            {{addToCart()}}
+           
+          
         </div>
 
         <div class="upozorenje">

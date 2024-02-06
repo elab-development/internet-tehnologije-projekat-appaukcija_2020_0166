@@ -5,6 +5,7 @@ import { Item } from '../models/item';
   providedIn: 'root'
 })
 export class ItemsService {
+  private dataGotovo: Item[] = [];
   private data = [
     {
       id: 1,
@@ -14,7 +15,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       user_id: 2,
-      preostaloVreme: new Date(Date.now() +  10 * 1000)
+      preostaloVreme: new Date(Date.now() + 60 * 1000)
 
     },
     {
@@ -24,7 +25,7 @@ export class ItemsService {
       pocetna_cena: 50,
       trenutna_cena: 70,
       imageUrl: '/assets/images/lopta.png',
-      preostaloVreme: new Date(Date.now() +  60 * 1000),
+      preostaloVreme: new Date(Date.now() + 10 * 1000),
       user_id: 2
     },
     {
@@ -34,7 +35,7 @@ export class ItemsService {
       pocetna_cena: 60,
       trenutna_cena: 90,
       imageUrl: '/assets/images/tastatura.jpg',
-      preostaloVreme: new Date(Date.now() +  60 * 1000),
+      preostaloVreme: new Date(Date.now() + 60 * 1000),
       user_id: 2
     },
     {
@@ -44,7 +45,7 @@ export class ItemsService {
       pocetna_cena: 120,
       trenutna_cena: 160,
       imageUrl: '/assets/images/punjaczaajfon.jpg',
-      preostaloVreme: new Date(Date.now() +  60 * 1000),
+      preostaloVreme: new Date(Date.now() + 60 * 1000),
       user_id: 3
     },
     {
@@ -54,7 +55,7 @@ export class ItemsService {
       pocetna_cena: 20,
       trenutna_cena: 30,
       imageUrl: '/assets/images/trzalice.jpg',
-      preostaloVreme: new Date(Date.now() +  60 * 1000),
+      preostaloVreme: new Date(Date.now() + 60 * 1000),
       user_id: 3
     },
     {
@@ -64,7 +65,7 @@ export class ItemsService {
       pocetna_cena: 40,
       trenutna_cena: 48,
       imageUrl: '/assets/images/kokakola.jpg',
-      preostaloVreme: new Date(Date.now() +  60 * 1000),
+      preostaloVreme: new Date(Date.now() + 60 * 1000),
       user_id: 3
     },
     {
@@ -75,7 +76,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       user_id: 2,
-      preostaloVreme: new Date(Date.now() +  60 * 1000),
+      preostaloVreme: new Date(Date.now() + 60 * 1000),
 
     },
     {
@@ -198,6 +199,9 @@ export class ItemsService {
   getAll(): Item[] {
     return this.data;
   }
+  getAllGotovo():Item[]{
+    return this.dataGotovo;
+  }
 
   update(item: Item): Item {
     let itemToUpdate = this.data.find(e => e.id === item.id)!;
@@ -209,5 +213,14 @@ export class ItemsService {
     itemToUpdate.preostaloVreme = item.preostaloVreme;
     itemToUpdate.user_id = item.user_id;
     return itemToUpdate;
+  }
+  deleteItemById(id: number) {
+    const index = this.getAll().findIndex(item => item.id === id);
+    if (index !== -1) {
+      this.getAll().splice(index, 1);
+    }
+  }
+  addItemGotovo(item: Item): void {
+    this.dataGotovo.push(item);
   }
 }
