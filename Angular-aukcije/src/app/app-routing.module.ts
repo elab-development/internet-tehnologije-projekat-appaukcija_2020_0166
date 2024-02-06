@@ -6,6 +6,7 @@ import { FollowPageComponent } from './follow-page/follow-page.component';
 import { ContactComponent } from './contact/contact.component';
 import { ItemPageComponent } from './item-page/item-page.component';
 import { UserComponent } from './user/user.component';
+import { CartComponent } from './cart/cart.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'search/:searchTerm', component: HomeComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'item/:id', component: ItemPageComponent },
   { path: 'contact/:id', component: ContactComponent },
   { path: 'user', component: UserComponent },
+  { path: 'cart', component: CartComponent },
 ];
 
 @NgModule({

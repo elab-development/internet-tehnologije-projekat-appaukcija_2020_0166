@@ -28,10 +28,12 @@
                     <mat-icon> attach_money</mat-icon>
                 </mat-form-field></p>
         </div>
-        <div class="pobeda">
-            <p *ngIf="preostaleSekunde==0">
+        <div class="pobeda" *ngIf="preostaleSekunde==0">
+            <p>
                 POBEDAAAA
+
             </p>
+            {{addToCart()}}
         </div>
 
         <div class="upozorenje">

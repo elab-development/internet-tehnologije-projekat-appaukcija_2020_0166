@@ -1,1 +1,25 @@
-<p>cart works!</p>
+<div *ngIf="cart && cart.items.length>0" class="container">
+    <ul>
+        <li *ngFor="let cartItem of cart.items">
+            <div>
+                <img [src]="cartItem.item.imageUrl" alt="followItem.item.name">
+            </div>
+            <div>
+                <a routerLink="/item/{{cartItem.item.id}}">
+                    {{cartItem.item.naziv}}
+
+                </a>
+            </div>
+            <div>
+                <p>Trenutna cena:</p>
+                {{cartItem.item.trenutna_cena|currency}}
+            </div>
+            <div>
+                <p>Kraj licitacije:</p>
+                {{cartItem.item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
+            </div>
+
+        </li>
+    </ul>
+
+</div>

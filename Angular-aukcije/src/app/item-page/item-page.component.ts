@@ -7,6 +7,7 @@ import { FollowService } from '../services/follow.service';
 import { ContactComponent } from '../contact/contact.component';
 import moment from 'moment';
 import { preserveWhitespacesDefault } from '@angular/compiler';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-item-page',
@@ -25,7 +26,7 @@ export class ItemPageComponent {
   intervalId: any;
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
-    private followService: FollowService,
+    private followService: FollowService,private cartService:CartService,
     private router: Router) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
@@ -45,6 +46,11 @@ export class ItemPageComponent {
 
     this.followService.addToFollow(this.item,);
     this.router.navigateByUrl('/follow-page');
+  }
+  addToCart() {
+
+    this.cartService.addToCart(this.item,);
+    
   }
 
   remainingTime() {
