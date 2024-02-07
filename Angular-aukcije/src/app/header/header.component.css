@@ -15,9 +15,10 @@ button {
     color: white;
 
 }
-.left-button button{
+
+.left-button button {
     background-color: #0E4C92;
-    
+
 }
 
 div button:hover {
@@ -32,20 +33,28 @@ div button:hover {
 }
 
 .right-buttons button {
-    margin-top:10px;
+    margin-top: 10px;
     margin-right: 10px;
     background-color: #0E4C92;
     width: 5rem;
 }
-.right-buttons p{
+
+.right-buttons p {
     margin-top: 0px;
-    margin-left:11.5px;
-    font-family: "Quicksand",sans-serif;
-font-weight: 1000;
+    margin-left: 11.5px;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 1000;
 }
 
 .container {
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+}
+
+.user-info p {
+    margin-top: 5rem;
+    margin-left: 5rem;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 1000;
 }

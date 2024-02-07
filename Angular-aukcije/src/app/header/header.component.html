@@ -2,6 +2,11 @@
     <div class="container">
         <div class="left-button">
             <a href="#" routerLink="/"><button mat-raised-button>KupiBrzo!</button></a>
+            
+        </div>
+        <div class="user-info" *ngIf="user">
+            
+            <p>{{user.userName}}</p>
         </div>
         <div class="right-buttons">
             <div class="pratim">
@@ -19,8 +24,9 @@
                 <p>Uloguj se</p>
             </div>
 
-            <div class="user-info" *ngIf="user">
-                <p>{{user.userName}}</p>
+            <div class="user-iogout" *ngIf="user">
+                <button mat-fab (click)="onLogout()"><mat-icon>account_circle</mat-icon></button>
+                <p>Izloguj se</p>
             </div>
         </div>
 
