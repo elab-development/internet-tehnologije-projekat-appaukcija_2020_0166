@@ -28,13 +28,14 @@
                     <mat-icon> attach_money</mat-icon>
                 </mat-form-field></p>
         </div>
-        <div class="pobeda" *ngIf="preostaleSekunde==0 ">
+        <div class="pobeda"
+            *ngIf="preostaleSekunde == 0 && preostaliMinuti==0 && preostaliSati==0 && preostaliDani==0 ">
             <p>
                 Aukcija je zavrsena, pobednik je:
-               {{item.naziv}}
+                {{item.naziv}}
             </p>
-           
-          
+
+
         </div>
 
         <div class="upozorenje">
@@ -64,7 +65,7 @@
 
 
             <div class="uProizvoda">
-                <a href="#" routerLink="/user">
+                <a href="#" routerLink="/user/{{item.user_id}}">
                     <button mat-raised-button><mat-icon>inbox</mat-icon>Svi predmeti prodavca</button>
                 </a>
             </div>

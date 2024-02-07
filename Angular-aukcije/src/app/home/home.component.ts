@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Item } from '../models/item';
 import { ItemsService } from '../services/item.service';
 import { ActivatedRoute } from '@angular/router';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ export class HomeComponent {
   i: number = 0;
   itemsPerPage: number = 6;
   totalProduct: any;
-  constructor(private itemSerivce: ItemsService, private route: ActivatedRoute) { }
+  constructor(private itemSerivce: ItemsService, private route: ActivatedRoute,
+    private cartService: CartService) { }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if (params['searchTerm']){
@@ -27,7 +29,17 @@ export class HomeComponent {
         this.items = this.itemSerivce.getAll();
         this.itemsGotovo = this.itemSerivce.getAllGotovo();
     })
-   
+    setInterval(() => this.updateItem(), 1000);
+  }
+  updateItem(){
+    this.items.forEach(element => {
+      if(element.preostaloVreme<=new Date(Date.now())){
+        this.itemSerivce.addItemGotovo(element); 
+        this.itemSerivce.deleteItemById(element.id);
+        this.cartService.addToCart(element);
+        
+      }
+     });
   }
 
 }

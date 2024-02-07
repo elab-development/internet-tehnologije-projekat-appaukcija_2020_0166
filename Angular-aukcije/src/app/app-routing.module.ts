@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'follow-page', component: FollowPageComponent },
   { path: 'item/:id', component: ItemPageComponent },
   { path: 'contact/:id', component: ContactComponent },
-  { path: 'user', component: UserComponent },
+  { path: 'user/:id', component: UserComponent },
   { path: 'cart', component: CartComponent },
 ];
 

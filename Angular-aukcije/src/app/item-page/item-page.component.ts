@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from '../models/item';
 import { ItemsService } from '../services/item.service';
@@ -24,6 +24,7 @@ export class ItemPageComponent {
   preostaliMinuti: number = 0;
   preostaleSekunde: number = 0;
   intervalId: any;
+
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
     private followService: FollowService, private cartService: CartService,
@@ -32,10 +33,15 @@ export class ItemPageComponent {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
     })
-    this.remainingTime();
-    this.intervalId = setInterval(() => this.remainingTime(), 1000);
+
 
   }
+  ngOnInit(): void {
+    this.remainingTime();
+    this.intervalId = setInterval(() => this.remainingTime(), 1000);
+  }
+
+
   openDialog() {
     this.matDialog.open(ContactComponent, {
       width: '350px'
@@ -46,11 +52,7 @@ export class ItemPageComponent {
 
     this.followService.addToFollow(this.item,);
   }
-  addToCart() {
-
-    this.cartService.addToCart(this.item);
-
-  }
+ 
 
   remainingTime() {
     let preostaloVreme = moment.duration(moment().diff(this.item.preostaloVreme));
@@ -58,18 +60,18 @@ export class ItemPageComponent {
     this.preostaliSati = Math.abs(preostaloVreme.hours());
     this.preostaliMinuti = Math.abs(preostaloVreme.minutes());
     this.preostaleSekunde = Math.abs(preostaloVreme.seconds());
-    if (this.preostaleSekunde === 0) {
+    if (this.preostaleSekunde == 0 && this.preostaliMinuti==0 && this.preostaliSati==0 && this.preostaliDani==0) {
+      
+   
       clearInterval(this.intervalId);
-      this.itemsService.deleteItemById(this.item.id)
-      this.itemsService.addItemGotovo(this.item);
-      this.addToCart();
-
     }
+    return;
+
   }
 
 
   getSelectedPriceValue(value: string) {
-    this.validationMessage='';
+    this.validationMessage = '';
     this.displayVal = parseInt(value);
     if (!this.displayVal) {
       this.validationMessage = "Molimo vas unesite vasu licitaciju.";

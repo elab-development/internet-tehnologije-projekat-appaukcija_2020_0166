@@ -1,1 +1,24 @@
-<p>user works!</p>
+<div *ngIf="items && items.length>0" class="container">
+    <ul>
+        <li *ngFor="let item of items">
+            <div>
+                <img [src]="item.imageUrl" alt="followItem.item.name">
+            </div>
+            <div>
+                <a routerLink="/item/{{item.id}}">
+                    {{item.naziv}}
+                </a>
+
+            </div>
+            <div>
+                <p>Trenutna cena:</p>
+                {{item.trenutna_cena|currency}}
+            </div>
+            <div>
+                <p>Kraj licitacije:</p>
+                {{item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
+            </div>
+        </li>
+    </ul>
+
+</div>

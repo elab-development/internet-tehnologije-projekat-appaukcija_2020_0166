@@ -15,7 +15,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       user_id: 2,
-      preostaloVreme: new Date(Date.now() + 60 * 1000)
+      preostaloVreme: new Date(2024, 1, 7, 14,18, 0)
 
     },
     {
@@ -25,7 +25,7 @@ export class ItemsService {
       pocetna_cena: 50,
       trenutna_cena: 70,
       imageUrl: '/assets/images/lopta.png',
-      preostaloVreme: new Date(Date.now() + 10 * 1000),
+      preostaloVreme: new Date(2024, 1, 7, 14,30, 0),
       user_id: 2
     },
     {
@@ -35,7 +35,7 @@ export class ItemsService {
       pocetna_cena: 60,
       trenutna_cena: 90,
       imageUrl: '/assets/images/tastatura.jpg',
-      preostaloVreme: new Date(Date.now() + 60 * 1000),
+      preostaloVreme: new Date(2024, 1, 7, 14, 30, 0),
       user_id: 2
     },
     {
@@ -45,7 +45,7 @@ export class ItemsService {
       pocetna_cena: 120,
       trenutna_cena: 160,
       imageUrl: '/assets/images/punjaczaajfon.jpg',
-      preostaloVreme: new Date(Date.now() + 60 * 1000),
+      preostaloVreme: new Date(2024, 1, 7, 14, 30, 0),
       user_id: 3
     },
     {
@@ -55,7 +55,7 @@ export class ItemsService {
       pocetna_cena: 20,
       trenutna_cena: 30,
       imageUrl: '/assets/images/trzalice.jpg',
-      preostaloVreme: new Date(Date.now() + 60 * 1000),
+      preostaloVreme: new Date(2024, 1, 7, 14, 30, 0),
       user_id: 3
     },
     {
@@ -65,7 +65,7 @@ export class ItemsService {
       pocetna_cena: 40,
       trenutna_cena: 48,
       imageUrl: '/assets/images/kokakola.jpg',
-      preostaloVreme: new Date(Date.now() + 60 * 1000),
+      preostaloVreme: new Date(2024, 1, 7, 14, 30, 0),
       user_id: 3
     },
     {
@@ -76,7 +76,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       user_id: 2,
-      preostaloVreme: new Date(Date.now() + 60 * 1000),
+      preostaloVreme: new Date(Date.now() + 10 * 60 * 1000),
 
     },
     {
@@ -87,7 +87,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 2
+      user_id: 3
     },
     {
       id: 9,
@@ -97,7 +97,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 2
+      user_id: 4
     },
     {
       id: 10,
@@ -107,7 +107,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 3
+      user_id: 4
     },
     {
       id: 11,
@@ -117,7 +117,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 3
+      user_id: 4
     },
     {
       id: 12,
@@ -126,7 +126,7 @@ export class ItemsService {
       pocetna_cena: 130,
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
-      user_id: 2,
+      user_id: 4,
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
 
     },
@@ -138,7 +138,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 2
+      user_id: 4
     },
     {
       id: 14,
@@ -148,7 +148,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 2
+      user_id: 4
     },
     {
       id: 15,
@@ -158,7 +158,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 3
+      user_id: 4
     },
     {
       id: 16,
@@ -168,7 +168,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 3
+      user_id: 4
     },
     {
       id: 6,
@@ -178,7 +178,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 3
+      user_id: 4
     },
     {
       id: 12,
@@ -188,7 +188,7 @@ export class ItemsService {
       trenutna_cena: 180,
       imageUrl: '/assets/images/item1.jpg',
       preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 3
+      user_id: 4
     },
   ];
   constructor() { }
@@ -199,8 +199,17 @@ export class ItemsService {
   getAll(): Item[] {
     return this.data;
   }
-  getAllGotovo():Item[]{
+  getAllGotovo(): Item[] {
     return this.dataGotovo;
+  }
+  getAllItemsByUserId(id: number): Item[] {
+    let dataUser: Item[] = [];
+    this.data.forEach(element => {
+      if (element.user_id == id) {
+        dataUser.push(element)
+      }
+    })
+    return dataUser;
   }
 
   update(item: Item): Item {
@@ -221,6 +230,11 @@ export class ItemsService {
     }
   }
   addItemGotovo(item: Item): void {
+    let itemGotovo = this.dataGotovo.find(proizvod => proizvod.id === item.id)
+    if (itemGotovo) {
+
+      return;
+    }
     this.dataGotovo.push(item);
   }
 }
