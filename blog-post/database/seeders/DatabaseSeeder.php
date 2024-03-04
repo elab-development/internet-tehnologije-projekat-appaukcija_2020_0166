@@ -19,10 +19,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Auction::truncate();
-        Item::truncate();
-        User::truncate();
-        Bid::truncate();
+        
+
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
         $user3 = User::factory()->create();

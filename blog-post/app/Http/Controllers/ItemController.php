@@ -97,22 +97,22 @@ class ItemController extends Controller
     public function update(Request $request, Item $item)
     {
         $validator = Validator::make($request->all(), [
-            'naziv' => 'required|string|max:255',
-            'opis' => 'required|string|max:100',
-            'pocetna_cena' => 'required|numeric|max:1000',
-            'trenutna_cena' => 'required|numeric|max:1000',
-            'user_id' => 'required',
+            // 'naziv' => 'required|string|max:255',
+            // 'opis' => 'required|string|max:100',
+            // 'pocetna_cena' => 'required|numeric|max:1000',
+            'trenutna_cena' => 'required|numeric|max:10000',
+            // 'user_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
 
-        $item->naziv = $request->naziv;
-        $item->opis = $request->opis;
-        $item->pocetna_cena = $request->pocetna_cena;
+        // $item->naziv = $request->naziv;
+        // $item->opis = $request->opis;
+        // $item->pocetna_cena = $request->pocetna_cena;
         $item->trenutna_cena = $request->trenutna_cena;
-        $item->user_id = $request->user_id;
+        // $item->user_id = $request->user_id;
         $item->save();
 
         return response()->json(['message' => 'Item updated successfully.', 'data' => new ItemResource($item)]);

@@ -15,7 +15,8 @@ class Item extends Model
         'opis',
         'pocetna_cena',
         'trenutna_cena',
-        'user_id'
+        'user_id',
+        'url'
     ];
 
     public function user(){
