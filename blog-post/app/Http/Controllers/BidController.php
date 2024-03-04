@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\BidResource;
 use App\Models\Bid;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class BidController extends Controller
 {
@@ -13,6 +15,30 @@ class BidController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function createBid(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'auction_id' => 'required|numeric',
+            'iznos' => 'required|numeric|max:1000',
+            'user_id' => 'required|'
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
+        }
+        $bid = Bid::create([
+            'auction_id' => $request->auction_id,
+            'iznos' => $request->iznos,
+            'user_id' =>Auth::user()->id,
+        ]);
+        return response()->json([
+            'message' => 'Bid je kreiran!',
+            'Bid' => $bid
+        
+
+        ]);
+    }
     public function index()
     {
         $bids = Bid::all();

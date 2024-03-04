@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
-    
+    Route::post('/bid', [BidController::class, 'createBid']);
     Route::get('/auctions/{id}', [AuctionController::class, 'show']);
   
     Route::resource('item', ItemController::class)->only(['update']);
