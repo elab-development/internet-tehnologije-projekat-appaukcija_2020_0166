@@ -8,6 +8,10 @@ import { ContactComponent } from '../contact/contact.component';
 import moment from 'moment';
 import { preserveWhitespacesDefault } from '@angular/compiler';
 import { CartService } from '../services/cart.service';
+import { GetAuctionsService } from '../get-autions/get-auctions.service';
+import { LoginResponse } from '../user-login/login-response';
+import { Auction } from '../models/auction';
+import { UpdateTrenutnaCenaService } from '../update/update-trenutna-cena.service';
 
 @Component({
   selector: 'app-item-page',
@@ -15,6 +19,7 @@ import { CartService } from '../services/cart.service';
   styleUrl: './item-page.component.css'
 })
 export class ItemPageComponent {
+  auctions!: Auction[];
   item!: Item;
   unosIznosa: any;
   displayVal: number = 0;
@@ -24,11 +29,13 @@ export class ItemPageComponent {
   preostaliMinuti: number = 0;
   preostaleSekunde: number = 0;
   intervalId: any;
-
+  public user!: LoginResponse | null;
+  userToken!: string;
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
     private followService: FollowService, private cartService: CartService,
-    private router: Router) {
+    private router: Router, private getAuctionService: GetAuctionsService,
+    private updateTrenutnaCenaService: UpdateTrenutnaCenaService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
@@ -37,8 +44,9 @@ export class ItemPageComponent {
 
   }
   ngOnInit(): void {
+
     this.remainingTime();
-    this.intervalId = setInterval(() => this.remainingTime(), 1000);
+     this.intervalId = setInterval(() => this.remainingTime(), 1000);
   }
 
 
@@ -52,7 +60,7 @@ export class ItemPageComponent {
 
     this.followService.addToFollow(this.item,);
   }
- 
+
 
   remainingTime() {
     let preostaloVreme = moment.duration(moment().diff(this.item.preostaloVreme));
@@ -60,9 +68,9 @@ export class ItemPageComponent {
     this.preostaliSati = Math.abs(preostaloVreme.hours());
     this.preostaliMinuti = Math.abs(preostaloVreme.minutes());
     this.preostaleSekunde = Math.abs(preostaloVreme.seconds());
-    if (this.preostaleSekunde == 0 && this.preostaliMinuti==0 && this.preostaliSati==0 && this.preostaliDani==0) {
-      
-   
+    if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0) {
+
+
       clearInterval(this.intervalId);
     }
     return;
@@ -87,9 +95,26 @@ export class ItemPageComponent {
     }
     this.item.trenutna_cena = this.displayVal;
     this.item = this.itemsService.update(this.item)
+    this.updateTrenutnaCena();
     this.addToFollow();
   }
+  updateTrenutnaCena() {
+    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
+    this.userToken = this.user.access_token;
+    if (this.userToken !== null) {
 
+      this.updateTrenutnaCenaService.updateTrenutnaCena(this.userToken, this.item.id, this.item).
+        subscribe(response => {
+          console.log(response)
+        }, error => { console.log(error); });
 
+    }
 
+    else {
+      console.warn('User token is null. Logout not performed.');
+    }
+  }
 }
+
+
+

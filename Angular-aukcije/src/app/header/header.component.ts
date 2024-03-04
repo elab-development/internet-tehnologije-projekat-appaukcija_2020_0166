@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
           console.log(response)
         }, error => { console.log(error); });
       localStorage.removeItem('user');
+     
     }
 
     else {

@@ -1,197 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Item } from '../models/item';
+import { LoginResponse } from '../user-login/login-response';
+import { GetItemsService } from '../items/get-items.service';
+import { Auction } from '../models/auction';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemsService {
+  public user!: LoginResponse | null;
+  userToken!: string;
+
   private dataGotovo: Item[] = [];
-  private data = [
-    {
-      id: 1,
-      naziv: 'assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      user_id: 2,
-      preostaloVreme: new Date(2024, 1, 7, 14,18, 0)
+  private data: Item[] = [
 
-    },
-    {
-      id: 2,
-      naziv: 'Kosarkaska lopta',
-      opis: "",
-      pocetna_cena: 50,
-      trenutna_cena: 70,
-      imageUrl: '/assets/images/lopta.png',
-      preostaloVreme: new Date(2024, 1, 7, 14,30, 0),
-      user_id: 2
-    },
-    {
-      id: 3,
-      naziv: 'Tastatura',
-      opis: "",
-      pocetna_cena: 60,
-      trenutna_cena: 90,
-      imageUrl: '/assets/images/tastatura.jpg',
-      preostaloVreme: new Date(2024, 1, 7, 14, 30, 0),
-      user_id: 2
-    },
-    {
-      id: 4,
-      naziv: 'Punjac za ajfon',
-      opis: "",
-      pocetna_cena: 120,
-      trenutna_cena: 160,
-      imageUrl: '/assets/images/punjaczaajfon.jpg',
-      preostaloVreme: new Date(2024, 1, 7, 14, 30, 0),
-      user_id: 3
-    },
-    {
-      id: 5,
-      naziv: 'Trzalice za gitaru',
-      opis: "",
-      pocetna_cena: 20,
-      trenutna_cena: 30,
-      imageUrl: '/assets/images/trzalice.jpg',
-      preostaloVreme: new Date(2024, 1, 7, 14, 30, 0),
-      user_id: 3
-    },
-    {
-      id: 6,
-      naziv: 'Koka kola case',
-      opis: "",
-      pocetna_cena: 40,
-      trenutna_cena: 48,
-      imageUrl: '/assets/images/kokakola.jpg',
-      preostaloVreme: new Date(2024, 1, 7, 14, 30, 0),
-      user_id: 3
-    },
-    {
-      id: 7,
-      naziv: 'assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      user_id: 2,
-      preostaloVreme: new Date(Date.now() + 10 * 60 * 1000),
-
-    },
-    {
-      id: 8,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 3
-    },
-    {
-      id: 9,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
-    {
-      id: 10,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
-    {
-      id: 11,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
-    {
-      id: 12,
-      naziv: 'assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      user_id: 4,
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-
-    },
-    {
-      id: 13,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
-    {
-      id: 14,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
-    {
-      id: 15,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
-    {
-      id: 16,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
-    {
-      id: 6,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
-    {
-      id: 12,
-      naziv: 'Assassins creed IV Black Flag',
-      opis: "",
-      pocetna_cena: 130,
-      trenutna_cena: 180,
-      imageUrl: '/assets/images/item1.jpg',
-      preostaloVreme: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      user_id: 4
-    },
   ];
-  constructor() { }
+  constructor(private getItemService: GetItemsService) {
+    this.setItems();
+  }
   getItemById(id: number): Item {
     return this.getAll().find(item => item.id == id)!;
   }
@@ -214,7 +40,7 @@ export class ItemsService {
 
   update(item: Item): Item {
     let itemToUpdate = this.data.find(e => e.id === item.id)!;
-    itemToUpdate.imageUrl = item.imageUrl;
+    itemToUpdate.url = item.url;
     itemToUpdate.naziv = item.naziv;
     itemToUpdate.opis = item.opis;
     itemToUpdate.pocetna_cena = item.pocetna_cena;
@@ -236,5 +62,29 @@ export class ItemsService {
       return;
     }
     this.dataGotovo.push(item);
+  }
+
+  setData(items: Item[]) {
+    this.data = items;
+  }
+  setItems() {
+  
+
+      this.getItemService.getItems().
+        subscribe(response => {
+
+          this.setData(response);
+
+
+        }, error => { console.log(error); });
+
+    
+
+    
+  }
+  getItemsByAuction(auction:Auction): Item {
+   let item = this.data.filter(e=>e.id === auction.item_id)[0];
+   item.preostaloVreme=auction.vreme_zavrsetka;
+   return item;
   }
 }

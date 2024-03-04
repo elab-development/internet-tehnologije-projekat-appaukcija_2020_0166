@@ -2,7 +2,7 @@
     <ul>
         <li *ngFor="let item of items">
             <div>
-                <img [src]="item.imageUrl" alt="followItem.item.name">
+                <img [src]="item.url" alt="followItem.item.name">
             </div>
             <div>
                 <a routerLink="/item/{{item.id}}">

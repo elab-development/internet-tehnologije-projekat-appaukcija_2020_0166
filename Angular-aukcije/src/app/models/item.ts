@@ -4,7 +4,7 @@ export class Item {
     opis!:string;
     pocetna_cena!:number;
     trenutna_cena!:number;
-    imageUrl!:string;
+    url!:string;
     user_id!:number;
     preostaloVreme!:Date;
 }
