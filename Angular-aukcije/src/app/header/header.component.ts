@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginResponse } from '../user-login/login-response';
 import { UserLogoutService } from '../user-logout/user-logout.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,7 +10,7 @@ import { UserLogoutService } from '../user-logout/user-logout.service';
 export class HeaderComponent implements OnInit {
   public user!: LoginResponse | null;
   userToken!: string;
-  constructor(private logOutService: UserLogoutService) { }
+  constructor(private logOutService: UserLogoutService,private router: Router) { }
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
     this.userToken = this.user.access_token;
@@ -23,7 +24,7 @@ export class HeaderComponent implements OnInit {
           console.log(response)
         }, error => { console.log(error); });
       localStorage.removeItem('user');
-     
+      this.router.navigate(['/']);
     }
 
     else {

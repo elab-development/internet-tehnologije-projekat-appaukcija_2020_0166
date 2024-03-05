@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 import { ContactComponent } from './contact/contact.component';
 import { ItemPageComponent } from './item-page/item-page.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -54,6 +55,7 @@ import { CartComponent } from './cart/cart.component';
     MatButtonToggleModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatInputModule,
     HttpClientModule,
     NgxPaginationModule
   ],

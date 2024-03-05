@@ -49,7 +49,7 @@ export class HomeComponent {
 
   }
   updateItem() {
-    debugger
+ 
     this.items.forEach(element => {
       if (moment(element.preostaloVreme) <= moment()) {
         this.itemSerivce.addItemGotovo(element);

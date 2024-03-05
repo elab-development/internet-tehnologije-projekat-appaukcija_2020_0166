@@ -23,10 +23,10 @@
             {{preostaliDani}} dana {{preostaliSati}}:{{preostaliMinuti}}:{{preostaleSekunde}}
         </div>
         <div class="unesi">
-            <p><mat-form-field appearance="fill">
+            <mat-form-field  class="form-field" >
                     <input type="number" matInput #matInput placeholder="Unesi licitaciju">
                     <mat-icon> attach_money</mat-icon>
-                </mat-form-field></p>
+                </mat-form-field>
         </div>
         <div class="pobeda"
             *ngIf="preostaleSekunde == 0 && preostaliMinuti==0 && preostaliSati==0 && preostaliDani==0 ">

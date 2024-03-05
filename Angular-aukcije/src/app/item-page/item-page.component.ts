@@ -12,6 +12,8 @@ import { GetAuctionsService } from '../get-autions/get-auctions.service';
 import { LoginResponse } from '../user-login/login-response';
 import { Auction } from '../models/auction';
 import { UpdateTrenutnaCenaService } from '../update/update-trenutna-cena.service';
+import { CreateBidService } from '../create-bid/create-bid.service';
+import { createApplication } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-item-page',
@@ -21,6 +23,7 @@ import { UpdateTrenutnaCenaService } from '../update/update-trenutna-cena.servic
 export class ItemPageComponent {
   auctions!: Auction[];
   item!: Item;
+
   unosIznosa: any;
   displayVal: number = 0;
   validationMessage: string = '';
@@ -35,7 +38,8 @@ export class ItemPageComponent {
     private itemsService: ItemsService, private matDialog: MatDialog,
     private followService: FollowService, private cartService: CartService,
     private router: Router, private getAuctionService: GetAuctionsService,
-    private updateTrenutnaCenaService: UpdateTrenutnaCenaService) {
+    private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
+    private createBidService:CreateBidService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
@@ -46,7 +50,7 @@ export class ItemPageComponent {
   ngOnInit(): void {
 
     this.remainingTime();
-     this.intervalId = setInterval(() => this.remainingTime(), 1000);
+    this.intervalId = setInterval(() => this.remainingTime(), 1000);
   }
 
 
@@ -89,32 +93,43 @@ export class ItemPageComponent {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
       return;
     }
-    if (this.preostaleSekunde == 0) {
+    if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0) {
       this.validationMessage = "Licitacija je istekla, ne mozete vise licitirati."
       return;
     }
-    this.item.trenutna_cena = this.displayVal;
-    this.item = this.itemsService.update(this.item)
+
     this.updateTrenutnaCena();
-    this.addToFollow();
+    
   }
   updateTrenutnaCena() {
     this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-    this.userToken = this.user.access_token;
-    if (this.userToken !== null) {
 
+    if (this.user !== null) {
+      this.userToken = this.user.access_token;
+      this.item.trenutna_cena = this.displayVal;
+      this.item = this.itemsService.update(this.item)
       this.updateTrenutnaCenaService.updateTrenutnaCena(this.userToken, this.item.id, this.item).
         subscribe(response => {
           console.log(response)
         }, error => { console.log(error); });
-
+        
+      
+        
+       this.createBidService.makeBid(this.userToken,2,this.item.trenutna_cena).
+       subscribe(response => {
+        console.log(response)
+      }, error => { console.log(error); });
+        this.addToFollow();
+        console.log(this.item.trenutna_cena);
     }
 
     else {
-      console.warn('User token is null. Logout not performed.');
+      alert("Da bi ste licitirali morate biti ulogovani!")
+      this.router.navigate(['/user-login']);
     }
   }
 }
+
 
 
 
