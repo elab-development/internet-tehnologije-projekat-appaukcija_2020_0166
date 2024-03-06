@@ -5,6 +5,7 @@ export class FollowItem {
         this.item = item;
     }
     item: Item;
+    gotov:boolean=false;
     quantity: number = 1;
     
 }

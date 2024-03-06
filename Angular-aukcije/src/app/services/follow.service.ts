@@ -12,7 +12,7 @@ private follow: Follow=new Follow();
   addToFollow(item: Item): void {
     let followItem = this.follow.items.find(proizvod => proizvod.item.id===item.id )
     if (followItem) {
-      this.changeQuantity(followItem, followItem.quantity + 1);
+     
    
       return;
     }
@@ -22,8 +22,9 @@ private follow: Follow=new Follow();
     this.follow.items =
       this.follow.items.filter(proizvod => proizvod.item.id != itemId);
   }
-
-
+  changeGotovo(followItem: FollowItem) {
+    followItem.gotov=true;
+  }
   changeQuantity(followItem: FollowItem, quantity: number) {
     followItem.quantity = quantity;
   }

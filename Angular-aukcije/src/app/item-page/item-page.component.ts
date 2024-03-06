@@ -51,6 +51,7 @@ export class ItemPageComponent {
 
     this.remainingTime();
     this.intervalId = setInterval(() => this.remainingTime(), 1000);
+    this.setAuctions();
   }
 
 
@@ -113,9 +114,9 @@ export class ItemPageComponent {
           console.log(response)
         }, error => { console.log(error); });
         
-      
-        
-       this.createBidService.makeBid(this.userToken,2,this.item.trenutna_cena).
+        const auction_id=this.getAuctionByItem(this.item.id);
+        console.log(auction_id);
+       this.createBidService.makeBid(this.userToken,auction_id,this.item.trenutna_cena).
        subscribe(response => {
         console.log(response)
       }, error => { console.log(error); });
@@ -128,6 +129,23 @@ export class ItemPageComponent {
       this.router.navigate(['/user-login']);
     }
   }
+  setAuctions() {
+   
+   
+
+    this.getAuctionService.getAuctions().
+      subscribe(response => {
+        this.auctions = response;
+        console.log(this.auctions);
+
+      }, error => { console.log(error); });
+
+ 
+}
+getAuctionByItem(item_id:number):number{
+  let auction = this.auctions.filter(e=>e.item_id === item_id)[0];
+  return auction.id;
+}
 }
 
 

@@ -20,12 +20,12 @@
             {{followItem.item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
            </div>
            
-            <div *ngIf="this.followItem.item.preostaloVreme<date">
+            <div *ngIf="this.followItem.gotov==true">
                 <button class="remove-button" (click)="removeFromFollow(followItem)" mat-raised-button>Ukloni iz Pratim</button>
             </div>
-            <div *ngIf="this.followItem.item.preostaloVreme<date">
-                <p>Aukcija je istekla</p>
-                {{removeFromFollow(followItem)}}
+            <div *ngIf="this.followItem.gotov==true">
+                <p>KRAJ LICITACIJE, AUKCIJA JE ISTEKLA!</p>
+                
             </div>
 
         </li>
