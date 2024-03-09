@@ -87,5 +87,6 @@ export class ItemsService {
    item.preostaloVreme=auction.vreme_zavrsetka;
    return item;
   }
+
  
 }

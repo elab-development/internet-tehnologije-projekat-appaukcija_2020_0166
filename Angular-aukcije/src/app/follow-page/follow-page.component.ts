@@ -48,6 +48,7 @@ addItemsToFollow(){
     this.bids.forEach(element => {
     if(element.user_id===this.user?.user_id){
       this.auction=this.auctionService.getAuctionById(element.auction_id);
+      
       this.followService.addToFollow(this.itemService.getItemsByAuction(this.auction));
     }
   

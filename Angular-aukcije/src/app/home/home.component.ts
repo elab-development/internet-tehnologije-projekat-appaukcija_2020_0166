@@ -26,7 +26,7 @@ export class HomeComponent {
   itemsPerPage: number = 6;
   totalProduct: any;
   constructor(private itemSerivce: ItemsService, private route: ActivatedRoute, private logOutService: UserLogoutService,
-    private cartService: CartService, private getItemService: GetItemsService, private getAuctionService: GetAuctionsService) {
+   private getItemService: GetItemsService, private getAuctionService: GetAuctionsService) {
     this.items = this.itemSerivce.getAll();
   }
   ngOnInit(): void {
@@ -45,16 +45,19 @@ export class HomeComponent {
       this.itemsGotovo = this.itemSerivce.getAllGotovo();
     })
 
+  
     setInterval(() => this.updateItem(), 1000);
-
   }
   updateItem() {
  
     this.items.forEach(element => {
       if (moment(element.preostaloVreme) <= moment()) {
         this.itemSerivce.addItemGotovo(element);
-        this.itemSerivce.deleteItemById(element.id);
-        this.cartService.addToCart(element);
+        const indexToRemove = this.items.indexOf(element);
+        if (indexToRemove !== -1) {
+          this.items.splice(indexToRemove,1);
+        }
+       
 
       }
     });
@@ -67,8 +70,7 @@ export class HomeComponent {
         subscribe(response => {
           this.auctions = response;
           this.getItems();
-          console.log(this.auctions);
-          console.log(this.items);
+          
 
         }, error => { console.log(error); });
 
@@ -82,5 +84,6 @@ export class HomeComponent {
     });
 
   }
+  
 
 }

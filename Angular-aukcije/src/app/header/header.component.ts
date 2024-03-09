@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
         }, error => { console.log(error); });
       localStorage.removeItem('user');
       this.router.navigate(['/']);
+      window.location.reload();
     }
 
     else {

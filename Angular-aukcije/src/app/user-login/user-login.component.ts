@@ -40,6 +40,7 @@ export class UserLoginComponent implements OnInit {
         response.userName = this.loginObj.userName;
         localStorage.setItem('user', JSON.stringify(response));
         this.router.navigate(['/']);
+        window.location.reload();
        
       }, error => { console.log(error); });
 

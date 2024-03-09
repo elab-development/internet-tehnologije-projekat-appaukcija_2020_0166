@@ -14,6 +14,9 @@ import { Auction } from '../models/auction';
 import { UpdateTrenutnaCenaService } from '../update/update-trenutna-cena.service';
 import { CreateBidService } from '../create-bid/create-bid.service';
 import { createApplication } from '@angular/platform-browser';
+import { Bid } from '../models/bid';
+import { GetBidsService } from '../get-bids/get-bids.service';
+import { AuctionService } from '../services/auction.service';
 
 @Component({
   selector: 'app-item-page',
@@ -25,6 +28,7 @@ export class ItemPageComponent {
   item!: Item;
 
   unosIznosa: any;
+  user_id: number = 0;
   displayVal: number = 0;
   validationMessage: string = '';
   preostaliSati: number = 0;
@@ -32,6 +36,9 @@ export class ItemPageComponent {
   preostaliMinuti: number = 0;
   preostaleSekunde: number = 0;
   intervalId: any;
+  maxBid!: number;
+  auctionId!: number;
+  bids: Bid[] = [];
   public user!: LoginResponse | null;
   userToken!: string;
   constructor(private activatedRoute: ActivatedRoute,
@@ -39,22 +46,74 @@ export class ItemPageComponent {
     private followService: FollowService, private cartService: CartService,
     private router: Router, private getAuctionService: GetAuctionsService,
     private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
-    private createBidService:CreateBidService) {
+    private createBidService: CreateBidService, private getBidService: GetBidsService, private auctionService: AuctionService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
+
+      this.auctionId = this.auctionService.getAuctionIdByItemId(this.item.id);
+
+
     })
 
 
   }
   ngOnInit(): void {
-
+    this.setBids();
     this.remainingTime();
     this.intervalId = setInterval(() => this.remainingTime(), 1000);
     this.setAuctions();
+
   }
 
+  setBids() {
+    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
+    this.userToken = this.user.access_token;
 
+    this.getBidService.getBids(this.userToken).subscribe(
+      (response) => {
+        let bidss = response;
+
+        bidss.forEach((element) => {
+          if (element.auction_id === this.auctionId) {
+            this.bids.push(element);
+          }
+        });
+
+        this.maxBid = this.MaxBid();
+        this.user_id = this.MaxBidUserId(this.maxBid);
+
+        console.log(this.bids);
+        console.log(this.user_id);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  MaxBid(): number {
+
+    if (this.bids.length === 0) {
+      return 0;
+    }
+    let maxIznos: number = 0;
+    this.bids.forEach(element => {
+      if (element.iznos > maxIznos) {
+        maxIznos = element.iznos;
+
+      }
+
+    });
+    console.log(maxIznos);
+    return maxIznos;
+  }
+  MaxBidUserId(maxIznos: number): number {
+    let bid = this.bids.filter(e => e.iznos === maxIznos)[0];
+
+
+    return bid.user_id;
+  }
   openDialog() {
     this.matDialog.open(ContactComponent, {
       width: '350px'
@@ -63,7 +122,7 @@ export class ItemPageComponent {
   }
   addToFollow() {
 
-    this.followService.addToFollow(this.item,);
+    this.followService.addToFollow(this.item);
   }
 
 
@@ -73,14 +132,23 @@ export class ItemPageComponent {
     this.preostaliSati = Math.abs(preostaloVreme.hours());
     this.preostaliMinuti = Math.abs(preostaloVreme.minutes());
     this.preostaleSekunde = Math.abs(preostaloVreme.seconds());
+
+
+    
     if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0) {
 
 
       clearInterval(this.intervalId);
+      if (this.user_id === this.user?.user_id) {
+        this.cartService.addToCart(this.item);
+      }
     }
+    
+
     return;
 
   }
+
 
 
   getSelectedPriceValue(value: string) {
@@ -100,7 +168,7 @@ export class ItemPageComponent {
     }
 
     this.updateTrenutnaCena();
-    
+
   }
   updateTrenutnaCena() {
     this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
@@ -111,17 +179,16 @@ export class ItemPageComponent {
       this.item = this.itemsService.update(this.item)
       this.updateTrenutnaCenaService.updateTrenutnaCena(this.userToken, this.item.id, this.item).
         subscribe(response => {
-          console.log(response)
+
         }, error => { console.log(error); });
-        
-        const auction_id=this.getAuctionByItem(this.item.id);
-        console.log(auction_id);
-       this.createBidService.makeBid(this.userToken,auction_id,this.item.trenutna_cena).
-       subscribe(response => {
-        console.log(response)
-      }, error => { console.log(error); });
-        this.addToFollow();
-        console.log(this.item.trenutna_cena);
+
+
+
+      this.createBidService.makeBid(this.userToken, this.auctionId, this.item.trenutna_cena).
+        subscribe(response => {
+
+        }, error => { console.log(error); });
+      this.addToFollow();
     }
 
     else {
@@ -130,22 +197,16 @@ export class ItemPageComponent {
     }
   }
   setAuctions() {
-   
-   
 
     this.getAuctionService.getAuctions().
       subscribe(response => {
         this.auctions = response;
-        console.log(this.auctions);
 
       }, error => { console.log(error); });
 
- 
-}
-getAuctionByItem(item_id:number):number{
-  let auction = this.auctions.filter(e=>e.item_id === item_id)[0];
-  return auction.id;
-}
+
+  }
+
 }
 
 

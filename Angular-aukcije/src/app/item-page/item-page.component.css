@@ -135,9 +135,15 @@ img {
     margin-top: -40px;
 }
 .pobeda p{
-    margin-top: -4rem;
+    margin-top: 0rem;
     margin-left: 4rem;
 
+}
+.upozorenje{
+    margin-top: 2rem;
+}
+.gotovo{
+   font-weight: 500;
 }
 
 
