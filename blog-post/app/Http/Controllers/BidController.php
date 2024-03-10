@@ -20,8 +20,8 @@ class BidController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'auction_id' => 'required|numeric',
-            'iznos' => 'required|numeric|max:1000',
-            'user_id' => 'required|'
+            'iznos' => 'required|numeric',
+            
 
         ]);
         if ($validator->fails()) {

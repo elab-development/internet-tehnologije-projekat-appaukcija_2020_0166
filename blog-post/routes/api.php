@@ -32,19 +32,22 @@ use App\Http\Controllers\Authorization\AuthController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/auctions', [AuctionController::class, 'index']);
+Route::get('/bids', [BidController::class, 'index']);
 Route::resource('items', ItemController::class);
 Route::post('/forget-password', [ForgotPasswordController::class, 'forgotPassword']);
 Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
+Route::resource('users', UserController::class);
 Route::get('/login', function () {
     return 'Please authenticate';
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'admin']], function () {
-    Route::resource('users', UserController::class);
+  
+    
     Route::delete('/auctions/{id}', [AuctionController::class, 'destroy']);
     Route::resource('item', ItemController::class)->only(['update', 'store', 'destroy']);
-    Route::get('/user/{id}/items', [UserItemController::class, 'index']);
-    Route::get('/bids', [BidController::class, 'index']);
+   
+  
     
 });
 
@@ -54,9 +57,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::post('/bid', [BidController::class, 'createBid']);
     Route::get('/auctions/{id}', [AuctionController::class, 'show']);
-  
     Route::resource('item', ItemController::class)->only(['update']);
-    
+    Route::get('/user/{id}/items', [UserItemController::class, 'index']);
    
     Route::get('/logout', [AuthController::class, 'logout']);
 });

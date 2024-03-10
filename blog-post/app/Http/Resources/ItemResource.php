@@ -23,7 +23,7 @@ class ItemResource extends JsonResource
             'opis' => $this->resource->opis,
             'pocetna_cena' => $this->resource->pocetna_cena,
             'trenutna_cena' => $this->resource->trenutna_cena,
-            'user' => new UserResource($this->resource->user),
+            'user_id' => $this->resource->user_id,
             'url'=>$this->resource->url
 
         ];
