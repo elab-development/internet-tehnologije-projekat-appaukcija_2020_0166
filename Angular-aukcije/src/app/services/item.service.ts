@@ -68,25 +68,25 @@ export class ItemsService {
     this.data = items;
   }
   setItems() {
-  
-
-      this.getItemService.getItems().
-        subscribe(response => {
-
-          this.setData(response);
 
 
-        }, error => { console.log(error); });
+    this.getItemService.getItems().
+      subscribe(response => {
 
-    
+        this.setData(response);
 
-    
+        
+      }, error => { console.log(error); });
+
+
+
+
   }
-  getItemsByAuction(auction:Auction): Item {
-   let item = this.data.filter(e=>e.id === auction.item_id)[0];
-   item.preostaloVreme=auction.vreme_zavrsetka;
-   return item;
+  getItemsByAuction(auction: Auction): Item {
+    let item = this.data.filter(e => e.id === auction.item_id)[0];
+    item.preostaloVreme = auction.vreme_zavrsetka;
+    return item;
   }
 
- 
+
 }

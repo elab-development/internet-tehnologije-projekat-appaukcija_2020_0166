@@ -39,6 +39,7 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
 
     this.setAuctions();
+    setInterval(() => this.updateCart(), 1000);
   }
 
   setCart() {
@@ -103,6 +104,13 @@ MaxBids(auction_id:number){
     this.bidsFinishMax.push(this.maxBid);
   }
   
+}
+updateCart(){
+  this.cart.items.forEach(element => {
+    if(moment(element.item.preostaloVreme) >= moment() ){
+      this.cartService.removeFromCart(element.item.id);
+    }
+  });
 }
 
 }

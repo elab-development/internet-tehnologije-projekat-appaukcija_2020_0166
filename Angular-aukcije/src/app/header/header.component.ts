@@ -44,7 +44,6 @@ export class HeaderComponent implements OnInit {
     }
   }
   onClickFollow(){
-    console.log(this.userToken);
      if (this.userToken !== undefined) {
        this.router.navigate(['/follow-page']);
      }

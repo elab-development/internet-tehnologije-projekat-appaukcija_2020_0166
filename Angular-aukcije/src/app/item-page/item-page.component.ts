@@ -28,7 +28,7 @@ export class ItemPageComponent {
   item!: Item;
 
   unosIznosa: any;
-  user_id: number = 0;
+
   displayVal: number = 0;
   validationMessage: string = '';
   preostaliSati: number = 0;
@@ -37,7 +37,7 @@ export class ItemPageComponent {
   preostaleSekunde: number = 0;
   intervalId: any;
   maxBid!: number;
-  signal: number=0;
+  signal: number = 0;
   auctionId!: number;
   bids: Bid[] = [];
   public user!: LoginResponse | null;
@@ -63,7 +63,7 @@ export class ItemPageComponent {
     this.remainingTime();
     this.intervalId = setInterval(() => this.remainingTime(), 1000);
     this.setAuctions();
-
+    console.log(this.item.user_id);
   }
 
 
@@ -88,18 +88,14 @@ export class ItemPageComponent {
 
 
 
-    if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0) {
+    if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0 || moment(this.item.preostaloVreme) <= moment()) {
 
 
       clearInterval(this.intervalId);
-      if (this.user_id === this.user?.user_id) {
-        this.cartService.addToCart(this.item);
-      }
-      this.signal=1;
-    } if (moment(this.item.preostaloVreme) <= moment()) {
-      this.signal = 1;
 
+      this.signal = 1;
     }
+
 
 
     return;
@@ -119,7 +115,7 @@ export class ItemPageComponent {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
       return;
     }
-    if (this.signal=1) {
+    if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0 || moment(this.item.preostaloVreme) <= moment()) {
       this.validationMessage = "Licitacija je istekla, ne mozete vise licitirati."
       return;
     }

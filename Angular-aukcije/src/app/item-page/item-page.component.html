@@ -31,7 +31,7 @@
         <div class="gotovo"
             *ngIf="signal==1 ">
             <p>
-                Aukcija je zavrsena.
+                Aukcija je zavrsena. Ne mozete vise licitirati.
                 
             </p>
 
@@ -65,7 +65,7 @@
 
 
             <div class="uProizvoda">
-                <a href="#" routerLink="/user/{{item.user_id}}">
+                <a href="#" routerLink="/user/{{this.item.user_id}}">
                     <button mat-raised-button><mat-icon>inbox</mat-icon>Svi predmeti prodavca</button>
                 </a>
             </div>

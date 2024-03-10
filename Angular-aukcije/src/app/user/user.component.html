@@ -5,19 +5,12 @@
                 <img [src]="item.url" alt="followItem.item.name">
             </div>
             <div>
-                <a routerLink="/item/{{item.id}}">
-                    {{item.naziv}}
-                </a>
+
+                {{item.naziv}}
+
 
             </div>
-            <div>
-                <p>Trenutna cena:</p>
-                {{item.trenutna_cena|currency}}
-            </div>
-            <div>
-                <p>Kraj licitacije:</p>
-                {{item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
-            </div>
+
         </li>
     </ul>
 

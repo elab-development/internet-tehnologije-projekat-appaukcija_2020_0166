@@ -72,6 +72,9 @@ addItemsToFollow(){
       
 
       }
+      else{
+        element.gotov=false;
+      }
     });
   }
 

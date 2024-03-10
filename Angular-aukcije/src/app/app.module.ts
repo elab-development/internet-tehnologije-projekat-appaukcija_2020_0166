@@ -43,7 +43,7 @@ import { CartComponent } from './cart/cart.component';
     CapitalizePipe,
     AtributskaDirektivaDirective,
     UserComponent,
-    CartComponent
+    CartComponent,
   ],
   imports: [
     BrowserModule,

@@ -58,3 +58,9 @@ div button:hover {
     font-family: "Quicksand", sans-serif;
     font-weight: 1000;
 }
+.dodajAukciju p{
+    margin-left: -0.5rem;
+}
+.pratim p{
+    margin-left: 1.2rem;
+}

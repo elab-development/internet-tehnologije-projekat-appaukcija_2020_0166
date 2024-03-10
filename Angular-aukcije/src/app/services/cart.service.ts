@@ -24,4 +24,8 @@ export class CartService {
   getCart(): Cart {
     return this.cart;
   }
+  removeFromCart(itemId: number): void {
+    this.cart.items =
+      this.cart.items.filter(proizvod => proizvod.item.id != itemId);
+  }
 }

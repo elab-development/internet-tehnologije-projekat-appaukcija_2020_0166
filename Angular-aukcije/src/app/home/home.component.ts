@@ -26,13 +26,13 @@ export class HomeComponent {
   itemsPerPage: number = 6;
   totalProduct: any;
   constructor(private itemSerivce: ItemsService, private route: ActivatedRoute, private logOutService: UserLogoutService,
-   private getItemService: GetItemsService, private getAuctionService: GetAuctionsService) {
+    private getItemService: GetItemsService, private getAuctionService: GetAuctionsService) {
     this.items = this.itemSerivce.getAll();
   }
   ngOnInit(): void {
 
     this.setAuctions();
-    
+
     this.route.params.subscribe(params => {
 
       if (params['searchTerm']) {
@@ -45,45 +45,45 @@ export class HomeComponent {
       this.itemsGotovo = this.itemSerivce.getAllGotovo();
     })
 
-  
+
     //setInterval(() => this.updateItem(), 1000);
   }
   updateItem() {
- 
+
     this.items.forEach(element => {
       if (moment(element.preostaloVreme) <= moment()) {
         this.itemSerivce.addItemGotovo(element);
         const indexToRemove = this.items.indexOf(element);
         if (indexToRemove !== -1) {
-          this.items.splice(indexToRemove,1);
+          this.items.splice(indexToRemove, 1);
         }
-       
+
 
       }
     });
   }
   setAuctions() {
-   
-   
 
-      this.getAuctionService.getAuctions().
-        subscribe(response => {
-          this.auctions = response;
-          this.getItems();
-          
 
-        }, error => { console.log(error); });
 
-   
+    this.getAuctionService.getAuctions().
+      subscribe(response => {
+        this.auctions = response;
+        this.getItems();
+
+
+      }, error => { console.log(error); });
+
+
   }
   getItems() {
     this.items = [];
     this.auctions.forEach(element => {
       this.items.push(this.itemSerivce.getItemsByAuction(element));
-
+      console.log(this.items);
     });
 
   }
-  
+
 
 }
