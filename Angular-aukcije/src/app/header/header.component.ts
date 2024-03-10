@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
     this.userToken = this.user.access_token;
   }
   onLogout() {
-
+  
     if (this.userToken !== null) {
 
       this.logOutService.logout(this.userToken).
@@ -32,4 +32,26 @@ export class HeaderComponent implements OnInit {
       console.warn('User token is null. Logout not performed.');
     }
   }
+  onClickCart(){
+   console.log(this.userToken);
+    if (this.userToken !== undefined) {
+      this.router.navigate(['/cart']);
+    }
+
+    else {
+      alert('Ulogujte se da bi ste pristupili svojim predmetima!');
+      this.router.navigate(['/user-login']);
+    }
+  }
+  onClickFollow(){
+    console.log(this.userToken);
+     if (this.userToken !== undefined) {
+       this.router.navigate(['/follow-page']);
+     }
+ 
+     else {
+       alert('Ulogujte se da bi ste pristupili aukcijama koje pratite!');
+       this.router.navigate(['/user-login']);
+     }
+   }
 }

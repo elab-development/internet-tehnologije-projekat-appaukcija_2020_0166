@@ -46,7 +46,7 @@ export class HomeComponent {
     })
 
   
-    setInterval(() => this.updateItem(), 1000);
+    //setInterval(() => this.updateItem(), 1000);
   }
   updateItem() {
  

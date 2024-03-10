@@ -18,7 +18,7 @@
             <p>Aukcija traje do:</p>
             {{item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
         </div>
-        <div class="preostaloVreme" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
+        <div class="preostaloVreme" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }" *ngIf="signal==0">
             <p>Preostalo vreme aukcije:</p>
             {{preostaliDani}} dana {{preostaliSati}}:{{preostaliMinuti}}:{{preostaleSekunde}}
         </div>
@@ -29,7 +29,7 @@
                 </mat-form-field>
         </div>
         <div class="gotovo"
-            *ngIf="preostaleSekunde == 0 && preostaliMinuti==0 && preostaliSati==0 && preostaliDani==0 ">
+            *ngIf="signal==1 ">
             <p>
                 Aukcija je zavrsena.
                 

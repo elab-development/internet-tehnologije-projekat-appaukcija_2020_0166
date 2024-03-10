@@ -37,6 +37,7 @@ export class ItemPageComponent {
   preostaleSekunde: number = 0;
   intervalId: any;
   maxBid!: number;
+  signal: number=0;
   auctionId!: number;
   bids: Bid[] = [];
   public user!: LoginResponse | null;
@@ -59,61 +60,13 @@ export class ItemPageComponent {
 
   }
   ngOnInit(): void {
-    this.setBids();
     this.remainingTime();
     this.intervalId = setInterval(() => this.remainingTime(), 1000);
     this.setAuctions();
 
   }
 
-  setBids() {
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-    this.userToken = this.user.access_token;
 
-    this.getBidService.getBids(this.userToken).subscribe(
-      (response) => {
-        let bidss = response;
-
-        bidss.forEach((element) => {
-          if (element.auction_id === this.auctionId) {
-            this.bids.push(element);
-          }
-        });
-
-        this.maxBid = this.MaxBid();
-        this.user_id = this.MaxBidUserId(this.maxBid);
-
-        console.log(this.bids);
-        console.log(this.user_id);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  MaxBid(): number {
-
-    if (this.bids.length === 0) {
-      return 0;
-    }
-    let maxIznos: number = 0;
-    this.bids.forEach(element => {
-      if (element.iznos > maxIznos) {
-        maxIznos = element.iznos;
-
-      }
-
-    });
-    console.log(maxIznos);
-    return maxIznos;
-  }
-  MaxBidUserId(maxIznos: number): number {
-    let bid = this.bids.filter(e => e.iznos === maxIznos)[0];
-
-
-    return bid.user_id;
-  }
   openDialog() {
     this.matDialog.open(ContactComponent, {
       width: '350px'
@@ -134,7 +87,7 @@ export class ItemPageComponent {
     this.preostaleSekunde = Math.abs(preostaloVreme.seconds());
 
 
-    
+
     if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0) {
 
 
@@ -142,8 +95,12 @@ export class ItemPageComponent {
       if (this.user_id === this.user?.user_id) {
         this.cartService.addToCart(this.item);
       }
+      this.signal=1;
+    } if (moment(this.item.preostaloVreme) <= moment()) {
+      this.signal = 1;
+
     }
-    
+
 
     return;
 
@@ -162,7 +119,7 @@ export class ItemPageComponent {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
       return;
     }
-    if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0) {
+    if (this.signal=1) {
       this.validationMessage = "Licitacija je istekla, ne mozete vise licitirati."
       return;
     }

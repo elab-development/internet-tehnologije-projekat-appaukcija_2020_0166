@@ -39,9 +39,8 @@ export class UserLoginComponent implements OnInit {
       .subscribe(response => {
         response.userName = this.loginObj.userName;
         localStorage.setItem('user', JSON.stringify(response));
-        this.router.navigate(['/']);
         window.location.reload();
-       
+        this.router.navigate(['/']);
       }, error => { console.log(error); });
 
   }

@@ -10,13 +10,12 @@
         </div>
         <div class="right-buttons">
             <div class="pratim">
-                <a href="#" routerLink="/follow-page"><button mat-fab
-                        color="black"><mat-icon>star</mat-icon></button></a>
+                <button mat-fab (click)="onClickFollow()"><mat-icon>star</mat-icon></button>
                 <p>Pratim</p>
             </div>
             <div class="mojiPredmeti">
-                <a href="#" routerLink="/cart"><button mat-fab
-                        color="black"><mat-icon>shopping_cart</mat-icon></button></a>
+            
+                    <button mat-fab (click)="onClickCart()" ><mat-icon>shopping_cart</mat-icon></button>
                 <p>Predmeti</p>
             </div>
             <div class="Uloguj se" *ngIf="!user">
