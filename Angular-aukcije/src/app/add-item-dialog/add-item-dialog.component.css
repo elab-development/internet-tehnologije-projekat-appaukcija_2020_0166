@@ -1,0 +1,17 @@
+.poruka{
+    background-color: #0E4C92;
+}
+
+
+.poruka button{
+    background-color: 	#636363
+}
+.gore{
+    display: flex;
+    justify-content: space-between;
+}
+.gore h3{
+    color:white;
+    margin-left: 1rem;
+    font-weight: 500;
+}

@@ -1,0 +1,39 @@
+<div class="poruka">
+    <div class="gore">
+        <h3>Unos aukcije</h3>
+        <button mat-icon-button style="float:right;margin:5px" matDialogClose>
+            <mat-icon>close</mat-icon>
+        </button>    
+    </div>
+    
+    <mat-dialog-content>
+        <header>Unesite podatke predmeta:</header>
+        <p><mat-form-field appearance="fill" class="podaci">
+                <input matInput #nazivPredmeta placeholder="Naziv predmeta ">
+
+            </mat-form-field></p>
+        <mat-form-field appearance="fill" class="podaci">
+            <input matInput #opisPredmeta  placeholder="Opis predmeta  ">
+
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="podaci">
+            <input type="number" matInput #pocetnaCena placeholder="Pocetna cena ">
+
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="podaci">
+            <input type="number" matInput #trenutnaCena placeholder="Trenutna cena ">
+
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="podaci">
+            <input matInput #slika placeholder="Slika ">
+
+        </mat-form-field>
+    </mat-dialog-content>
+    <div class="upozorenje">
+        <p *ngIf="validationMessage.length > 0" style="color:red">{{validationMessage}}</p>
+    </div>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" style="margin-right:5%;" (click)="AddAuction(nazivPredmeta.value,opisPredmeta.value,pocetnaCena.value,trenutnaCena.value,slika.value)">Pošalji!</button>
+        <button mat-raised-button color="warn" matDialogClose>Cancel</button>
+    </mat-dialog-actions>
+</div>

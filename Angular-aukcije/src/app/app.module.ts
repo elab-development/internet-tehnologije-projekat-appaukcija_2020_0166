@@ -25,6 +25,7 @@ import { AtributskaDirektivaDirective } from './atributska-direktiva.directive';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { UserComponent } from './user/user.component';
 import { CartComponent } from './cart/cart.component';
+import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component';
 
 
 
@@ -44,6 +45,7 @@ import { CartComponent } from './cart/cart.component';
     AtributskaDirektivaDirective,
     UserComponent,
     CartComponent,
+    AddItemDialogComponent,
   ],
   imports: [
     BrowserModule,

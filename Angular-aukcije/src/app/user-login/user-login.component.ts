@@ -30,7 +30,7 @@ export class UserLoginComponent implements OnInit {
     this.registerService.register(this.signupObj.userName, this.signupObj.email, this.signupObj.password, this.signupObj.broj_telefona, this.signupObj.adresa)
       .subscribe(response => {
         console.log(response);
-        alert('Uspesno ste se registrovali!')
+      
       }, error => { console.log(error); });
 
   }

@@ -80,7 +80,7 @@ export class HomeComponent {
     this.items = [];
     this.auctions.forEach(element => {
       this.items.push(this.itemSerivce.getItemsByAuction(element));
-      console.log(this.items);
+    
     });
 
   }

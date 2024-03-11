@@ -60,3 +60,7 @@ ul li select{
  button{
     margin-top:5% !important;
 }
+.nazivKorisnika p{
+    font-weight: 600;
+    margin-left: 5rem;
+}

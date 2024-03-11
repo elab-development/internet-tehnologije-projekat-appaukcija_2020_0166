@@ -10,8 +10,10 @@
         </div>
         <div class="right-buttons">
             <div class="dodajAukciju" *ngIf="user">
-                <button mat-fab >	<mat-icon>add_shopping_cart</mat-icon></button>
+               
+                <button mat-fab (click)="AddAuction()" >	<mat-icon>add_shopping_cart</mat-icon></button>
                 <p>Dodaj aukciju</p>
+            
             </div>
             <div class="pratim">
                 <button mat-fab (click)="onClickFollow()"><mat-icon>star</mat-icon></button>
