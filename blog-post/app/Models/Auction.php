@@ -10,15 +10,17 @@ class Auction extends Model
     use HasFactory;
 
     protected $fillable = [
- 
+        'item_id',
         'vreme_pocetka',
         'vreme_zavrsetka',
-        
+
     ];
-    public function items(){
+    public function items()
+    {
         return $this->hasMany(Item::Class);
     }
-    public function bids(){
+    public function bids()
+    {
         return $this->hasMany(Bid::Class);
     }
 }

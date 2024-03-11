@@ -44,9 +44,10 @@ class ItemController extends Controller
         $validator = Validator::make($request->all(), [
             'naziv' => 'required|string|max:255',
             'opis' => 'required|string|max:100',
-            'pocetna_cena' => 'required|numeric|max:1000',
-            'trenutna_cena' => 'required|numeric|max:1000',
-            'user_id' => 'required',
+            'pocetna_cena' => 'required|numeric',
+            'trenutna_cena' => 'required|numeric',
+         
+            'url'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -59,6 +60,7 @@ class ItemController extends Controller
             'pocetna_cena' => $request->pocetna_cena,
             'trenutna_cena' => $request->trenutna_cena,
             'user_id' => Auth::user()->id,
+            'url'=>$request->url
         ]);
 
         return response()->json(['message' => 'Item created successfully.', 'data' => new ItemResource($item)]);

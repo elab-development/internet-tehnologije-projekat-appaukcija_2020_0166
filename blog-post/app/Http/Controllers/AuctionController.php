@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AuctionResource;
 use App\Models\Auction;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class AuctionController extends Controller
 {
     /**
@@ -23,9 +24,9 @@ class AuctionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
     }
 
     /**
@@ -36,8 +37,29 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $validator = Validator::make($request->all(), [
+            'item_id' => 'required|string|max:255',
+            'vreme_pocetka' => 'required|date_format:Y-m-d H:i:s',
+            'vreme_zavrsetka' => 'required|date_format:Y-m-d H:i:s',
+          
+         
+           
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $auction = Auction::create([
+            'item_id' => $request->item_id,
+            'vreme_pocetka' => $request->vreme_pocetka,
+            'vreme_zavrsetka' => $request->vreme_zavrsetka,
+            
+        ]);
+
+        return response()->json(['message' => 'Auction created successfully.']);
     }
+    
 
     /**
      * Display the specified resource.
