@@ -17,6 +17,8 @@ import { createApplication } from '@angular/platform-browser';
 import { Bid } from '../models/bid';
 import { GetBidsService } from '../get-bids/get-bids.service';
 import { AuctionService } from '../services/auction.service';
+import { User } from '../models/user';
+import { UsersService } from '../users/users.service';
 
 @Component({
   selector: 'app-item-page',
@@ -26,9 +28,10 @@ import { AuctionService } from '../services/auction.service';
 export class ItemPageComponent {
   auctions!: Auction[];
   item!: Item;
-
+  users: User[] = [];
+  userId!: number;
   unosIznosa: any;
-
+  userName!: string;
   displayVal: number = 0;
   validationMessage: string = '';
   preostaliSati: number = 0;
@@ -47,7 +50,8 @@ export class ItemPageComponent {
     private followService: FollowService, private cartService: CartService,
     private router: Router, private getAuctionService: GetAuctionsService,
     private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
-    private createBidService: CreateBidService, private getBidService: GetBidsService, private auctionService: AuctionService) {
+    private createBidService: CreateBidService, private getBidService: GetBidsService, private auctionService: AuctionService,
+    private usersService: UsersService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
@@ -154,10 +158,32 @@ export class ItemPageComponent {
     this.getAuctionService.getAuctions().
       subscribe(response => {
         this.auctions = response;
-
+        this.setUsers();
       }, error => { console.log(error); });
 
 
+  }
+  setUsers() {
+    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
+    this.userToken = this.user.access_token;
+    this.usersService.getUsers(this.userToken, this.userId)
+      .subscribe(response => {
+        const responseData = response as unknown as { users: User[] };
+        this.users = responseData.users;
+        console.log(this.users);
+
+        this.users.forEach(element => {
+          console.log("this.userId:", this.userId, "element.id:", element.id);
+          if (this.item.user_id.toString() === element.id.toString()) {
+            this.userName = element.username;
+            console.log("Match found! UserName:", this.userName);
+          }
+        });
+
+
+      }, error => {
+        console.log(error);
+      });
   }
 
 }

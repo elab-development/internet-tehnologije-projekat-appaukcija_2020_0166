@@ -1,9 +1,26 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError, map, throwError } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  constructor() { }
+  private apiUrl: string = "http://127.0.0.1:8000/api/users";
+  constructor(private readonly httpClient: HttpClient) { }
+
+  getUsers(accessToken: string,userId: number){
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken}`
+    });
+    return this.httpClient.get(this.apiUrl).pipe(
+      map(response => response as User[]),
+      catchError(error => {
+        console.error('Logout failed:', error);
+        return throwError(error);
+      })
+    );
+  }
 }
