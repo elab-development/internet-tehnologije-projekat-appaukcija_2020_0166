@@ -45,7 +45,7 @@ Route::get('/login', function () {
 Route::group(['middleware' => ['auth:sanctum', 'admin']], function () {
   
     
-    Route::delete('/auctions/{id}', [AuctionController::class, 'destroy']);
+
     
    
   
@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('auction', AuctionController::class)->only(['update', 'store', 'destroy']);
     Route::resource('item', ItemController::class)->only(['update', 'store', 'destroy']);
     Route::get('/logout', [AuthController::class, 'logout']);
+    Route::delete('/auctions/{id}', [AuctionController::class, 'destroy']);
 });
 
 
