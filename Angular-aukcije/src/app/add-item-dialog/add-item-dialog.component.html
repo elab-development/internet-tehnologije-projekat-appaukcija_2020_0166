@@ -17,15 +17,16 @@
 
         </mat-form-field>
         <mat-form-field appearance="fill" class="podaci">
-            <input type="number" matInput #pocetnaCena placeholder="Pocetna cena ">
+            <input type="number" Input #pocetnaCena placeholder="Pocetna cena ">
 
         </mat-form-field>
-        <mat-form-field appearance="fill" class="podaci">
-            <input type="number" matInput #trenutnaCena placeholder="Trenutna cena ">
-
-        </mat-form-field>
+     
         <mat-form-field appearance="fill" class="podaci">
             <input matInput #slika placeholder="Slika ">
+
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="podaci">
+            <input type="date" matInput #vreme_zavrsetka  (change)="updateDate(vreme_zavrsetka.value)" placeholder="Vreme zavrsetka aukcije ">
 
         </mat-form-field>
     </mat-dialog-content>
@@ -33,7 +34,7 @@
         <p *ngIf="validationMessage.length > 0" style="color:red">{{validationMessage}}</p>
     </div>
     <mat-dialog-actions align="end">
-        <button mat-raised-button color="primary" style="margin-right:5%;" (click)="AddAuction(nazivPredmeta.value,opisPredmeta.value,pocetnaCena.value,trenutnaCena.value,slika.value)">Pošalji!</button>
+        <button mat-raised-button color="primary" style="margin-right:5%;" (click)="AddAuction(nazivPredmeta.value,opisPredmeta.value,pocetnaCena.value,pocetnaCena.value,slika.value)">Pošalji!</button>
         <button mat-raised-button color="warn" matDialogClose>Cancel</button>
     </mat-dialog-actions>
 </div>

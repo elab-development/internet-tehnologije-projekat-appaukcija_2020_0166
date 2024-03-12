@@ -26,6 +26,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { UserComponent } from './user/user.component';
 import { CartComponent } from './cart/cart.component';
 import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -61,7 +62,7 @@ import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.compon
     HttpClientModule,
     NgxPaginationModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

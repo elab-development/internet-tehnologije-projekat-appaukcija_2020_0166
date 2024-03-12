@@ -22,7 +22,7 @@
             <p>Preostalo vreme aukcije:</p>
             {{preostaliDani}} dana {{preostaliSati}}:{{preostaliMinuti}}:{{preostaleSekunde}}
         </div>
-        <div class="unesi">
+        <div class="unesi" >
             <mat-form-field  class="form-field" >
                     <input type="number" matInput #matInput placeholder="Unesi licitaciju">
                     <mat-icon> attach_money</mat-icon>
@@ -41,7 +41,10 @@
         <div class="upozorenje">
             <p *ngIf="validationMessage.length > 0" style="color:red">{{validationMessage}}</p>
         </div>
-        <button (click)="getSelectedPriceValue(matInput.value)" mat-raised-button>Licitiraj</button>
+        
+              <button (click)="getSelectedPriceValue(matInput.value)" mat-raised-button>Licitiraj</button>
+        
+      
         <p>
             Opis: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
@@ -77,5 +80,10 @@
             </mat-dialog-actions>
 
         </div>
+        <div class="obrisiAukciju" *ngIf="item.user_id===userId" >
+            <button mat-raised-button (click)="deleteAuction()">	<mat-icon>delete</mat-icon>Obrisi
+                Aukciju</button>
+        </div>
     </div>
+    
 </div>

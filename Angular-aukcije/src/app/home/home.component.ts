@@ -70,7 +70,7 @@ export class HomeComponent {
       subscribe(response => {
         this.auctions = response;
         this.getItems();
-
+        console.log(this.auctions);
 
       }, error => { console.log(error); });
 
@@ -80,9 +80,9 @@ export class HomeComponent {
     this.items = [];
     this.auctions.forEach(element => {
       this.items.push(this.itemSerivce.getItemsByAuction(element));
-    
-    });
 
+    });
+    console.log(this.items);
   }
 
 

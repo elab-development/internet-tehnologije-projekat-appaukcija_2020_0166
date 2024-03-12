@@ -19,6 +19,8 @@ import { GetBidsService } from '../get-bids/get-bids.service';
 import { AuctionService } from '../services/auction.service';
 import { User } from '../models/user';
 import { UsersService } from '../users/users.service';
+import { DeleteAuctionService } from '../deleteAuction/delete-auction.service';
+import { DeleteItemService } from '../delete-item/delete-item.service';
 
 @Component({
   selector: 'app-item-page',
@@ -51,7 +53,8 @@ export class ItemPageComponent {
     private router: Router, private getAuctionService: GetAuctionsService,
     private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
     private createBidService: CreateBidService, private getBidService: GetBidsService, private auctionService: AuctionService,
-    private usersService: UsersService) {
+    private usersService: UsersService, private deleteAuctionService: DeleteAuctionService,
+    private deleteItemService:DeleteItemService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
@@ -67,7 +70,6 @@ export class ItemPageComponent {
     this.remainingTime();
     this.intervalId = setInterval(() => this.remainingTime(), 1000);
     this.setAuctions();
-    console.log(this.item.user_id);
   }
 
 
@@ -123,6 +125,10 @@ export class ItemPageComponent {
       this.validationMessage = "Licitacija je istekla, ne mozete vise licitirati."
       return;
     }
+    if (this.userId == this.item.user_id) {
+      this.validationMessage = "Ne mozete licitrati na sopstvenoj aukciji."
+      return;
+    }
 
     this.updateTrenutnaCena();
 
@@ -166,14 +172,13 @@ export class ItemPageComponent {
   setUsers() {
     this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
     this.userToken = this.user.access_token;
+    this.userId = this.user.user_id;
     this.usersService.getUsers(this.userToken, this.userId)
       .subscribe(response => {
         const responseData = response as unknown as { users: User[] };
         this.users = responseData.users;
-        console.log(this.users);
 
         this.users.forEach(element => {
-          console.log("this.userId:", this.userId, "element.id:", element.id);
           if (this.item.user_id.toString() === element.id.toString()) {
             this.userName = element.username;
             console.log("Match found! UserName:", this.userName);
@@ -185,6 +190,20 @@ export class ItemPageComponent {
         console.log(error);
       });
   }
+  deleteAuction() {
+    this.deleteAuctionService.deleteAucion(this.userToken, this.auctionId).subscribe(response => {
+      console.log(response)
+
+    }, error => {
+      console.log(error);
+    })
+     this.deleteItemService.deleteItem(this.userToken,this.item.id).subscribe(response=>{
+      console.log(response);
+     },error=>{
+      console.log(error);
+     })
+  }
+ 
 
 }
 
