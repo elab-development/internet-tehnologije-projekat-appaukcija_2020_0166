@@ -23,16 +23,19 @@ export class AddItemDialogComponent {
   constructor(private addItemService: AddItemService, private addAuctionService: AddAuctionService,
     private datePipe: DatePipe) {
     this.formattedDatePocetni = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd HH:mm:ss')!;
+    
   }
   AddAuction(nazivPredmeta: string, opisPredmeta: string, pocetna_cena: string, trenutna_cena: string, urlSlike: string) {
 
     this.formattedDateTrenutni = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd HH:mm:ss')!;
-    console.log(this.formattedDatePocetni);
-    console.log(this.formattedDateTrenutni);
     this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
     this.userToken = this.user.access_token;
     if (!nazivPredmeta || !opisPredmeta || !pocetna_cena || !trenutna_cena || !urlSlike) {
       this.validationMessage = "Molimo vas unesite sve podatke.";
+      return;
+    }
+    if(moment(this.selectedDate) <= moment()){
+      this.validationMessage="Morate uneti datum koji je validan."
       return;
     }
     this.validationMessage = "";

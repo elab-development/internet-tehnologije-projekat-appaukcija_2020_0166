@@ -37,6 +37,15 @@
 
 
         </div>
+        <div class="nijedanBid"
+        *ngIf="(endMessage.length>0 && signal==1) ">
+        <p>
+          {{endMessage}}
+            
+        </p>
+
+
+    </div>
 
         <div class="upozorenje">
             <p *ngIf="validationMessage.length > 0" style="color:red">{{validationMessage}}</p>
@@ -67,20 +76,28 @@
             </div>
 
 
-            <div class="uProizvoda">
+            <div class="uProizvoda" *ngIf="item.user_id!==userId">
                 <a href="#" routerLink="/user/{{this.item.user_id}}">
                     <button mat-raised-button><mat-icon>inbox</mat-icon>Sve aukcije prodavca</button>
                 </a>
             </div>
-            <mat-dialog-actions>
+            <div class="uProizvoda" *ngIf="item.user_id===userId">
+                <a href="#" routerLink="/user/{{this.item.user_id}}">
+                    <button mat-raised-button><mat-icon>inbox</mat-icon>Sve vase aukcije</button>
+                </a>
+            </div>
+            <div *ngIf="item.user_id!==userId" >
+                <mat-dialog-actions>
 
                 <button mat-raised-button (click)="openDialog()"><mat-icon> message</mat-icon>Kontaktiraj
                     prodavca</button>
 
             </mat-dialog-actions>
+            </div>
+            
 
         </div>
-        <div class="obrisiAukciju" *ngIf="item.user_id===userId" >
+        <div class="obrisiAukciju" *ngIf="item.user_id===userId || (user?.role=='admin'&& signal==1)" >
             <button mat-raised-button (click)="deleteAuction()">	<mat-icon>delete</mat-icon>Obrisi
                 Aukciju</button>
         </div>

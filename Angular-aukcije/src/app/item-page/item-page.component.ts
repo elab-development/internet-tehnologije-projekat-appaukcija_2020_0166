@@ -21,6 +21,7 @@ import { User } from '../models/user';
 import { UsersService } from '../users/users.service';
 import { DeleteAuctionService } from '../deleteAuction/delete-auction.service';
 import { DeleteItemService } from '../delete-item/delete-item.service';
+import { BidService } from '../services/bid.service';
 
 @Component({
   selector: 'app-item-page',
@@ -36,6 +37,7 @@ export class ItemPageComponent {
   userName!: string;
   displayVal: number = 0;
   validationMessage: string = '';
+  endMessage: string = '';
   preostaliSati: number = 0;
   preostaliDani: number = 0;
   preostaliMinuti: number = 0;
@@ -52,16 +54,16 @@ export class ItemPageComponent {
     private followService: FollowService, private cartService: CartService,
     private router: Router, private getAuctionService: GetAuctionsService,
     private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
-    private createBidService: CreateBidService, private getBidService: GetBidsService, private auctionService: AuctionService,
+    private createBidService: CreateBidService,  private bidsService: BidService,private auctionService: AuctionService,
     private usersService: UsersService, private deleteAuctionService: DeleteAuctionService,
-    private deleteItemService:DeleteItemService) {
+    private deleteItemService: DeleteItemService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
 
       this.auctionId = this.auctionService.getAuctionIdByItemId(this.item.id);
 
-
+      
     })
 
 
@@ -164,7 +166,9 @@ export class ItemPageComponent {
     this.getAuctionService.getAuctions().
       subscribe(response => {
         this.auctions = response;
+        this.bids=this.bidsService.data;
         this.setUsers();
+        this.isBid(this.bids);
       }, error => { console.log(error); });
 
 
@@ -177,7 +181,6 @@ export class ItemPageComponent {
       .subscribe(response => {
         const responseData = response as unknown as { users: User[] };
         this.users = responseData.users;
-
         this.users.forEach(element => {
           if (this.item.user_id.toString() === element.id.toString()) {
             this.userName = element.username;
@@ -197,13 +200,20 @@ export class ItemPageComponent {
     }, error => {
       console.log(error);
     })
-     this.deleteItemService.deleteItem(this.userToken,this.item.id).subscribe(response=>{
+    this.deleteItemService.deleteItem(this.userToken, this.item.id).subscribe(response => {
       console.log(response);
-     },error=>{
+    }, error => {
       console.log(error);
-     })
+    })
   }
- 
+isBid(bids:Bid[]){
+  console.log(bids);
+  if (bids.some(element => element.auction_id.toString() === this.auctionId.toString())) {
+    return;
+  }
+
+  this.endMessage="Nema pobednika aukcije, nijedan korisnik nije licitirao."
+}
 
 }
 

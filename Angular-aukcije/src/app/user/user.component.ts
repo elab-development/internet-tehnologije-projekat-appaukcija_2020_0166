@@ -57,13 +57,13 @@ export class UserComponent implements OnInit {
       .subscribe(response => {
         const responseData = response as unknown as { users: User[] };
         this.users = responseData.users;
-        console.log(this.users);
+        
   
         this.users.forEach(element => {
-          console.log("this.userId:", this.userId, "element.id:", element.id);
+          
           if (this.userId.toString() === element.id.toString()) {
             this.userName = element.username;
-            console.log("Match found! UserName:", this.userName);
+            
           }
         });
         

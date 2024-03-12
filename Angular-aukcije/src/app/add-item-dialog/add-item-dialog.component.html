@@ -17,7 +17,7 @@
 
         </mat-form-field>
         <mat-form-field appearance="fill" class="podaci">
-            <input type="number" Input #pocetnaCena placeholder="Pocetna cena ">
+            <input type="number" matInput #pocetnaCena placeholder="Pocetna cena ">
 
         </mat-form-field>
      
@@ -26,7 +26,7 @@
 
         </mat-form-field>
         <mat-form-field appearance="fill" class="podaci">
-            <input type="date" matInput #vreme_zavrsetka  (change)="updateDate(vreme_zavrsetka.value)" placeholder="Vreme zavrsetka aukcije ">
+            <input matInput type="datetime-local" matInput #vreme_zavrsetka  (change)="updateDate(vreme_zavrsetka.value)" placeholder="Vreme zavrsetka aukcije ">
 
         </mat-form-field>
     </mat-dialog-content>

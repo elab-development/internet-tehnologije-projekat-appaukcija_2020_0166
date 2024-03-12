@@ -3,4 +3,5 @@ export class LoginResponse {
     access_token!: string;
     message!: string;
     user_id!: number;
+    role!:string;
 }
