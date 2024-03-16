@@ -7,8 +7,9 @@ import { ContactComponent } from './contact/contact.component';
 import { ItemPageComponent } from './item-page/item-page.component';
 import { UserComponent } from './user/user.component';
 import { CartComponent } from './cart/cart.component';
+import { AuctionsResolver, ItemsResolver } from './my-resolver.resolver';
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver }},
   { path: 'search/:searchTerm', component: HomeComponent },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'follow-page', component: FollowPageComponent },

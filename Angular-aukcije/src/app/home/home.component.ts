@@ -20,6 +20,7 @@ export class HomeComponent {
   public user!: LoginResponse | null;
   userToken!: string;
   items: Item[] = [];
+  proba: Item[] = [];
   itemsGotovo: Item[] = [];
   p: number = 1;
   i: number = 0;
@@ -30,9 +31,17 @@ export class HomeComponent {
     this.items = this.itemSerivce.getAll();
   }
   ngOnInit(): void {
-
-    this.setAuctions();
-
+    this.route.data.subscribe(data => {
+      this.auctions = data['auctionsData'];
+    })
+    this.route.data.subscribe(data=>{
+      this.proba=data['itemsData'];
+    })
+    this.itemSerivce.setData(this.proba);
+    console.log(this.proba);
+    console.log(this.auctions);
+  
+this.getItems();
     this.route.params.subscribe(params => {
 
       if (params['searchTerm']) {
@@ -69,7 +78,9 @@ export class HomeComponent {
     this.getAuctionService.getAuctions().
       subscribe(response => {
         this.auctions = response;
+        console.log(this.auctions);
         this.getItems();
+
 
       }, error => { console.log(error); });
 
@@ -79,9 +90,9 @@ export class HomeComponent {
     this.items = [];
     this.auctions.forEach(element => {
       this.items.push(this.itemSerivce.getItemsByAuction(element));
-
+      console.log(this.items);
     });
-   
+
   }
 
 

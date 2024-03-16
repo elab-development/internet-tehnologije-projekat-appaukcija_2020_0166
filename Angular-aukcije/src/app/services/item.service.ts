@@ -16,7 +16,7 @@ export class ItemsService {
 
   ];
   constructor(private getItemService: GetItemsService) {
-    this.setItems();
+    
   }
   getItemById(id: number): Item {
     return this.getAll().find(item => item.id == id)!;
@@ -67,21 +67,7 @@ export class ItemsService {
   setData(items: Item[]) {
     this.data = items;
   }
-  setItems() {
-
-
-    this.getItemService.getItems().
-      subscribe(response => {
-
-        this.setData(response);
-
-        
-      }, error => { console.log(error); });
-
-
-
-
-  }
+  
   getItemsByAuction(auction: Auction): Item {
     let item = this.data.filter(e => e.id === auction.item_id)[0];
     item.preostaloVreme = auction.vreme_zavrsetka;

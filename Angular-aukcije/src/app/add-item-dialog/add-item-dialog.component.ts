@@ -28,8 +28,7 @@ export class AddItemDialogComponent {
   AddAuction(nazivPredmeta: string, opisPredmeta: string, pocetna_cena: string, trenutna_cena: string, urlSlike: string) {
 
     this.formattedDateTrenutni = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd HH:mm:ss')!;
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-    this.userToken = this.user.access_token;
+   
     if (!nazivPredmeta || !opisPredmeta || !pocetna_cena || !trenutna_cena || !urlSlike) {
       this.validationMessage = "Molimo vas unesite sve podatke.";
       return;

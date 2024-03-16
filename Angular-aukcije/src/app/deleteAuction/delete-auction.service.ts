@@ -12,8 +12,7 @@ export class DeleteAuctionService {
   constructor(private readonly httpClient: HttpClient) { }
 
   deleteAucion( auction_id: number) {
- 
-   
+    
     const url = `${this.apiUrl}/${auction_id}`;
     return this.httpClient.delete(url).pipe(
       catchError(error => {

@@ -63,7 +63,7 @@ export class ItemPageComponent {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
 
-      this.auctionId = this.auctionService.getAuctionIdByItemId(this.item.id);
+      
 
       
     })
@@ -168,7 +168,11 @@ export class ItemPageComponent {
     }
   }
   setAuctions() {
-
+    this.user = this.authService.getUser();
+    if(this.user!=null){
+    this.userToken = this.user.access_token;
+    this.userId = this.user.user_id;
+    }
     this.getAuctionService.getAuctions().
       subscribe(response => {
         this.auctions = response;
@@ -200,7 +204,7 @@ export class ItemPageComponent {
     
   }
   deleteAuction() {
-    this.deleteAuctionService.deleteAucion( this.auctionId).subscribe(response => {
+    this.deleteAuctionService.deleteAucion( this.auctionService.getAuctionIdByItemId(this.item.id)).subscribe(response => {
       console.log(response)
 
     }, error => {
