@@ -8,6 +8,7 @@ import { Cart } from '../models/cart';
 import { CartService } from '../services/cart.service';
 import { UsersService } from '../users/users.service';
 import { User } from '../models/user';
+import { AuthServiceService } from '../authservice';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -22,7 +23,7 @@ export class UserComponent implements OnInit {
   public user!: LoginResponse | null;
   userToken!: string;
   constructor(private itemSerivce: ItemsService, private activatedRoute: ActivatedRoute,
-    private userItemService: UserItemService, private usersService: UsersService) {
+    private userItemService: UserItemService, private usersService: UsersService, private authService: AuthServiceService) {
 
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
@@ -38,9 +39,9 @@ export class UserComponent implements OnInit {
 
 
   setItems() {
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-    this.userToken = this.user.access_token;
-    this.userItemService.getItemsUser(this.userToken, this.userId).
+
+
+    this.userItemService.getItemsUser(this.userId).
       subscribe(response => {
 
         this.items = Object.values(response);
@@ -49,28 +50,28 @@ export class UserComponent implements OnInit {
 
       }, error => { console.log(error); });
 
+
   }
   setUsers() {
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-    this.userToken = this.user.access_token;
-    this.usersService.getUsers(this.userToken, this.userId)
+
+    this.usersService.getUsers()
       .subscribe(response => {
         const responseData = response as unknown as { users: User[] };
         this.users = responseData.users;
-        
-  
+
+        console.log(this.users);
         this.users.forEach(element => {
-          
+
           if (this.userId.toString() === element.id.toString()) {
             this.userName = element.username;
-            
+
           }
         });
-        
-  
+
+
       }, error => {
         console.log(error);
       });
   }
-  
+
 }

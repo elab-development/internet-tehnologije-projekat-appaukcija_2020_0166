@@ -10,6 +10,7 @@ import { ItemsService } from '../services/item.service';
 import { Auction } from '../models/auction';
 import { AuctionService } from '../services/auction.service';
 import moment from 'moment';
+import { AuthServiceService } from '../authservice';
 
 @Component({
   selector: 'app-follow-page',
@@ -17,46 +18,48 @@ import moment from 'moment';
   styleUrl: './follow-page.component.css'
 })
 export class FollowPageComponent {
-follow!:Follow;
-boolean!:boolean
-auction!:Auction;
-bids!: Bid[];
+  follow!: Follow;
+  boolean!: boolean
+  auction!: Auction;
+  bids!: Bid[];
   userToken!: string;
   public user!: LoginResponse | null;
-constructor(private followService: FollowService,private matDialog:MatDialog,private getBidService:GetBidsService,
-  private itemService:ItemsService,private auctionService:AuctionService) {
+  constructor(private followService: FollowService, private matDialog: MatDialog, private getBidService: GetBidsService,
+    private itemService: ItemsService, private auctionService: AuctionService, private authService: AuthServiceService) {
 
-  this.setFollow();
-  setInterval(() => this.updateFollow(), 1000);
-}
-ngOnInit(){
- 
-  
+    this.setFollow();
+    setInterval(() => this.updateFollow(), 1000);
+  }
+  ngOnInit() {
+
+
     this.addItemsToFollow();
-   
-}
-emptyFollow(){
-  this.followService.getFollow().items = [];
-}
-addItemsToFollow(){
-  
-  this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-  this.userToken = this.user.access_token;
-  this.getBidService.getBids(this.userToken).
-  subscribe(response => {
-    this.bids = response;
-    this.bids.forEach(element => {
-    if(element.user_id===this.user?.user_id){
-      this.auction=this.auctionService.getAuctionById(element.auction_id);
-      
-      this.followService.addToFollow(this.itemService.getItemsByAuction(this.auction));
-    }
-  
-    });
 
-  }, error => { console.log(error); });
- 
-}
+  }
+  emptyFollow() {
+    this.followService.getFollow().items = [];
+  }
+  addItemsToFollow() {
+
+    this.user = this.authService.getUser();
+    if (this.user != null) {
+      this.userToken = this.user.access_token;
+      this.getBidService.getBids().
+        subscribe(response => {
+          this.bids = response;
+          this.bids.forEach(element => {
+            if (element.user_id === this.user?.user_id) {
+              this.auction = this.auctionService.getAuctionById(element.auction_id);
+
+              this.followService.addToFollow(this.itemService.getItemsByAuction(this.auction));
+            }
+
+          });
+
+        }, error => { console.log(error); });
+    }
+
+  }
   setFollow() {
     this.follow = this.followService.getFollow();
   }
@@ -65,15 +68,15 @@ addItemsToFollow(){
     this.setFollow();
   }
   updateFollow() {
- 
+
     this.follow.items.forEach(element => {
       if (moment(element.item.preostaloVreme) <= moment()) {
-      element.gotov=true;
-      
+        element.gotov = true;
+
 
       }
-      else{
-        element.gotov=false;
+      else {
+        element.gotov = false;
       }
     });
   }

@@ -6,6 +6,7 @@ import { AddItemService } from '../add-Item/add-item.service';
 import { AddItemDialogComponent } from '../add-item-dialog/add-item-dialog.component';
 
 import { MatDialog } from '@angular/material/dialog';
+import { AuthServiceService } from '../authservice';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -16,16 +17,18 @@ export class HeaderComponent implements OnInit {
   userToken!: string;
   
   constructor(private logOutService: UserLogoutService, private router: Router,
-    private addItemService: AddItemService,private matDialog: MatDialog,) { }
+    private addItemService: AddItemService,private matDialog: MatDialog,private authService:AuthServiceService) { }
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
+    this.user = this.authService.getUser();
+    if(this.user!=null){
     this.userToken = this.user.access_token;
+    }
   }
   onLogout() {
 
     if (this.userToken !== null) {
 
-      this.logOutService.logout(this.userToken).
+      this.logOutService.logout().
         subscribe(response => {
           console.log(response)
         }, error => { console.log(error); });

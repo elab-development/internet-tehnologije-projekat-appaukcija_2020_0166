@@ -11,17 +11,14 @@ export class AddAuctionService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  addAuction(accessToken: string, item_id:number,vreme_pocetka:string,vreme_zavrsetka:string) {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`,
-     
-    });
+  addAuction( item_id:number,vreme_pocetka:string,vreme_zavrsetka:string) {
+   
 
     const formData = new FormData();
     formData.append('item_id', item_id.toString());
     formData.append('vreme_pocetka', vreme_pocetka);
     formData.append('vreme_zavrsetka', vreme_zavrsetka);
-    return this.httpClient.post(this.apiUrl, formData, { headers: headers }).pipe(
+    return this.httpClient.post(this.apiUrl, formData).pipe(
       catchError(error => {
         console.error('Auction creation failed:', error);
         alert('GRESKA!');

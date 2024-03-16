@@ -12,11 +12,8 @@ export class AddItemService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  addItem(accessToken: string, naziv:string,opis:string,pocetna_cena:string,trenutna_cena:string,url:string) {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`,
-     
-    });
+  addItem( naziv:string,opis:string,pocetna_cena:string,trenutna_cena:string,url:string) {
+   
 
     const formData = new FormData();
     formData.append('naziv', naziv);
@@ -24,7 +21,7 @@ export class AddItemService {
     formData.append('pocetna_cena', pocetna_cena);
     formData.append('trenutna_cena', trenutna_cena);
     formData.append('url', url);
-    return this.httpClient.post(this.apiUrl, formData, { headers: headers }).pipe(
+    return this.httpClient.post(this.apiUrl, formData).pipe(
       map(response => response as Item),
       catchError(error => {
         console.error('Bid creation failed:', error);

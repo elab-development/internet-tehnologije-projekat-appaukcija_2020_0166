@@ -10,12 +10,10 @@ export class UserItemService {
   private apiUrl: string = "http://127.0.0.1:8000/api/user";
   constructor(private readonly httpClient: HttpClient) { }
 
-  getItemsUser(accessToken: string,userId: number){
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`
-    });
+  getItemsUser(userId: number){
+  
     const url = `${this.apiUrl}/${userId}/items`;
-    return this.httpClient.get<Item[]>(url, { headers }).pipe(
+    return this.httpClient.get<Item[]>(url).pipe(
       catchError(error => {
         console.error('Fetching items failed:', error);
         return throwError(error);

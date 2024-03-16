@@ -10,18 +10,15 @@ export class CreateBidService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  makeBid(accessToken: string, auction_id: number, iznos: number) {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`,
-     
-    });
+  makeBid( auction_id: number, iznos: number) {
+ 
 
     const formData = new FormData();
     formData.append('auction_id', auction_id.toString());
     formData.append('iznos', iznos.toString());
     
 
-    return this.httpClient.post(this.apiUrl, formData, { headers: headers }).pipe(
+    return this.httpClient.post(this.apiUrl, formData).pipe(
       catchError(error => {
         console.error('Bid creation failed:', error);
         alert('GRESKA!');

@@ -11,14 +11,11 @@ export class DeleteItemService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  deleteItem(accessToken: string, item_id: number) {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`,
-     
-    });
+  deleteItem( item_id: number) {
+ 
    
     const url = `${this.apiUrl}/${item_id}`;
-    return this.httpClient.delete(url, { headers: headers }).pipe(
+    return this.httpClient.delete(url).pipe(
       catchError(error => {
         console.error('Item removal failed:', error);
         alert('GRESKA!');

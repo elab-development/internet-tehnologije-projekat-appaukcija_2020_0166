@@ -11,11 +11,9 @@ export class GetBidsService {
   private apiUrl: string = "http://127.0.0.1:8000/api/bids";
   constructor(private readonly httpClient: HttpClient) { }
 
-  getBids(accessToken: string) {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`
-    });
-    return this.httpClient.get(this.apiUrl,{ headers }).pipe(
+  getBids() {
+ 
+    return this.httpClient.get(this.apiUrl).pipe(
       map(response => response as Bid[]),
       catchError(error => {
         console.error('Logout failed:', error);

@@ -22,6 +22,7 @@ import { UsersService } from '../users/users.service';
 import { DeleteAuctionService } from '../deleteAuction/delete-auction.service';
 import { DeleteItemService } from '../delete-item/delete-item.service';
 import { BidService } from '../services/bid.service';
+import { AuthServiceService } from '../authservice';
 
 @Component({
   selector: 'app-item-page',
@@ -31,6 +32,7 @@ import { BidService } from '../services/bid.service';
 export class ItemPageComponent {
   auctions!: Auction[];
   item!: Item;
+  proba!:string |null;
   users: User[] = [];
   userId!: number;
   unosIznosa: any;
@@ -56,7 +58,7 @@ export class ItemPageComponent {
     private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
     private createBidService: CreateBidService,  private bidsService: BidService,private auctionService: AuctionService,
     private usersService: UsersService, private deleteAuctionService: DeleteAuctionService,
-    private deleteItemService: DeleteItemService) {
+    private deleteItemService: DeleteItemService,private authService:AuthServiceService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
@@ -136,20 +138,24 @@ export class ItemPageComponent {
 
   }
   updateTrenutnaCena() {
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
+    this.user = this.authService.getUser();
+    if(this.user!=null){
+    this.userToken = this.user.access_token;
+    this.userId = this.user.user_id;
+    }
 
     if (this.user !== null) {
       this.userToken = this.user.access_token;
       this.item.trenutna_cena = this.displayVal;
       this.item = this.itemsService.update(this.item)
-      this.updateTrenutnaCenaService.updateTrenutnaCena(this.userToken, this.item.id, this.item).
+      this.updateTrenutnaCenaService.updateTrenutnaCena( this.item.id, this.item).
         subscribe(response => {
 
         }, error => { console.log(error); });
 
 
 
-      this.createBidService.makeBid(this.userToken, this.auctionId, this.item.trenutna_cena).
+      this.createBidService.makeBid( this.auctionId, this.item.trenutna_cena).
         subscribe(response => {
 
         }, error => { console.log(error); });
@@ -174,13 +180,12 @@ export class ItemPageComponent {
 
   }
   setUsers() {
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-    this.userToken = this.user.access_token;
-    this.userId = this.user.user_id;
-    this.usersService.getUsers(this.userToken, this.userId)
+  
+    this.usersService.getUsers( )
       .subscribe(response => {
         const responseData = response as unknown as { users: User[] };
         this.users = responseData.users;
+        console.log(this.users);
         this.users.forEach(element => {
           if (this.item.user_id.toString() === element.id.toString()) {
             this.userName = element.username;
@@ -192,15 +197,16 @@ export class ItemPageComponent {
       }, error => {
         console.log(error);
       });
+    
   }
   deleteAuction() {
-    this.deleteAuctionService.deleteAucion(this.userToken, this.auctionId).subscribe(response => {
+    this.deleteAuctionService.deleteAucion( this.auctionId).subscribe(response => {
       console.log(response)
 
     }, error => {
       console.log(error);
     })
-    this.deleteItemService.deleteItem(this.userToken, this.item.id).subscribe(response => {
+    this.deleteItemService.deleteItem(this.item.id).subscribe(response => {
       console.log(response);
     }, error => {
       console.log(error);

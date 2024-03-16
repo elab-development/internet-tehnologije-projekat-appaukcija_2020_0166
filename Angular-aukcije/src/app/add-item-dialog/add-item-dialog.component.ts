@@ -39,12 +39,12 @@ export class AddItemDialogComponent {
       return;
     }
     this.validationMessage = "";
-    this.addItemService.addItem(this.userToken, nazivPredmeta, opisPredmeta, pocetna_cena, trenutna_cena, urlSlike).subscribe(response => {
+    this.addItemService.addItem( nazivPredmeta, opisPredmeta, pocetna_cena, trenutna_cena, urlSlike).subscribe(response => {
       const responseData = response as unknown as { data: Item };
 
       this.itemId = responseData.data.id
 
-      this.addAuctionService.addAuction(this.userToken, this.itemId, this.formattedDatePocetni, this.formattedDateTrenutni).subscribe(response => {
+      this.addAuctionService.addAuction( this.itemId, this.formattedDatePocetni, this.formattedDateTrenutni).subscribe(response => {
 
 
 

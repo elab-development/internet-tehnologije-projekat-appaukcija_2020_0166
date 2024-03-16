@@ -17,7 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { ContactComponent } from './contact/contact.component';
 import { ItemPageComponent } from './item-page/item-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ItemReusableComponent } from './item-reusable/item-reusable.component';
 import { FooterComponent } from './footer/footer.component';
 import { CapitalizePipe } from './capitalize.pipe';
@@ -27,7 +27,7 @@ import { UserComponent } from './user/user.component';
 import { CartComponent } from './cart/cart.component';
 import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component';
 import { DatePipe } from '@angular/common';
-
+import { AuthInterceptor } from './auth.interceptor';
 
 
 @NgModule({
@@ -62,7 +62,13 @@ import { DatePipe } from '@angular/common';
     HttpClientModule,
     NgxPaginationModule
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+    }
+  ]
+    ,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

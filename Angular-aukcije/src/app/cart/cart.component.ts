@@ -14,6 +14,7 @@ import { BidService } from '../services/bid.service';
 import { Observable } from 'rxjs';
 import { ItemsService } from '../services/item.service';
 import { AuctionService } from '../services/auction.service';
+import { AuthServiceService } from '../authservice';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -33,7 +34,7 @@ export class CartComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     private cartService: CartService, private getAuctionService: GetAuctionsService,
     private bidsService: BidService, private getBidsService: GetBidsService,private itemService:ItemsService
-    ,private auctionService:AuctionService) {
+    ,private auctionService:AuctionService,private authService:AuthServiceService) {
     this.setCart();
   }
   ngOnInit(): void {
@@ -46,7 +47,9 @@ export class CartComponent implements OnInit {
     this.cart = this.cartService.getCart();
   }
   setAuctions() {
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse
+   
+    this.user = this.authService.getUser();
+    if(this.user!=null){
     this.userToken = this.user.access_token;
     this.getAuctionService.getAuctions().
       subscribe(response => {
@@ -62,12 +65,14 @@ export class CartComponent implements OnInit {
       this.auctionsFinish.forEach(element => {
         this.BidsFinish(element.id);
        
-      });
+      } );
        console.log(this.bidsFinish); 
        this.auctionsFinish.forEach(element => {
         this.MaxBids(element.id);
        });
+      
        console.log(this.bidsFinishMax);
+       
        this.bidsFinishMax.forEach(element => {
         if(element.user_id===this.user?.user_id){
           this.cartService.addToCart(this.itemService.getItemById(this.auctionService.getItemIdByAuctionId(element.auction_id)));
@@ -75,7 +80,7 @@ export class CartComponent implements OnInit {
        });
       }, error => { console.log(error); });
 
-
+    }
   }
 
 BidsFinish(auctionId:number){

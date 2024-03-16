@@ -36,8 +36,8 @@ export class BidService {
   setBids() {
   
     this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-    this.userToken = this.user.access_token;
-    this.getBidsService.getBids(this.userToken).subscribe
+   
+    this.getBidsService.getBids().subscribe
       (response => {
 
         this.data=response;

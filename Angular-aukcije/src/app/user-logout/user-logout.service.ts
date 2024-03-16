@@ -8,11 +8,9 @@ export class UserLogoutService {
   private apiUrl: string = "http://127.0.0.1:8000/api/logout"
   constructor(private readonly httpClient: HttpClient) { }
 
-  logout(accessToken: string) {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`
-    });
-    return this.httpClient.get(this.apiUrl, { headers }).pipe(
+  logout() {
+  
+    return this.httpClient.get(this.apiUrl).pipe(
       catchError(error => {
         console.error('Logout failed:', error);
         return throwError(error);

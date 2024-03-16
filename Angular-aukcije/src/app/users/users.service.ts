@@ -11,10 +11,8 @@ export class UsersService {
   private apiUrl: string = "http://127.0.0.1:8000/api/users";
   constructor(private readonly httpClient: HttpClient) { }
 
-  getUsers(accessToken: string,userId: number){
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`
-    });
+  getUsers(){
+    
     return this.httpClient.get(this.apiUrl).pipe(
       map(response => response as User[]),
       catchError(error => {

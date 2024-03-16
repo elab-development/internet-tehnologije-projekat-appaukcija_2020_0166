@@ -10,13 +10,11 @@ export class UpdateTrenutnaCenaService {
   private apiUrl: string = "http://127.0.0.1:8000/api/item";
   constructor(private readonly httpClient: HttpClient) {
   }
-  updateTrenutnaCena(accessToken: string, itemId: number, updatedData: Item) {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${accessToken}`
-    });
+  updateTrenutnaCena( itemId: number, updatedData: Item) {
+   
     const url = `${this.apiUrl}/${itemId}`;
     const jsonData = ({ trenutna_cena: updatedData.trenutna_cena });
-    return this.httpClient.put(url, jsonData , { headers }).pipe(
+    return this.httpClient.put(url, jsonData ).pipe(
 
       catchError(error => {
         console.error('Update failed:', error);
