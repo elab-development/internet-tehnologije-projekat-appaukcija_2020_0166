@@ -64,3 +64,8 @@ div button:hover {
 .pratim p{
     margin-left: 1.2rem;
 }
+.chart button{
+    background-color: #0E4C92; 
+    margin-left: 1rem;
+  
+}

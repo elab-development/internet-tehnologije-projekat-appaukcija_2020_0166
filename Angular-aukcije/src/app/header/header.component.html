@@ -2,9 +2,12 @@
     <div class="container">
         <div class="left-button">
             <a href="#" routerLink="/"><button mat-raised-button>KupiBrzo!</button></a>
+            <div class="chart" *ngIf="user?.role=='admin'">
             
+                <a href="#" routerLink="/chart-page"><button mat-raised-button> Grafici <mat-icon> bar_chart</mat-icon></button></a>
+            </div>
         </div>
-        
+       
         <div class="user-info" *ngIf="user">
             
             <p>{{user.userName}}</p>

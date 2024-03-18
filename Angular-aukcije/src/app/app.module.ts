@@ -30,6 +30,8 @@ import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.compon
 import { DatePipe } from '@angular/common';
 import { AuthInterceptor } from './auth.interceptor';
 import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ChartPageComponent } from './cart-page/chart-page.component';
 
 
 @NgModule({
@@ -50,6 +52,8 @@ import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
     CartComponent,
     AddItemDialogComponent,
     DropdownMenuComponent,
+    ChartPageComponent
+   
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,8 @@ import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
     MatInputModule,
     HttpClientModule,
     NgxPaginationModule,
-    MatSelectModule
+    MatSelectModule,
+    NgApexchartsModule
   ],
   providers: [
     DatePipe,
