@@ -7,16 +7,16 @@ import { ContactComponent } from './contact/contact.component';
 import { ItemPageComponent } from './item-page/item-page.component';
 import { UserComponent } from './user/user.component';
 import { CartComponent } from './cart/cart.component';
-import { AuctionsResolver, ItemsResolver } from './my-resolver.resolver';
+import { AuctionsResolver, BidsResolver, ItemsResolver, UserItemResolver, UserResolver } from './my-resolver.resolver';
 const routes: Routes = [
   { path: '', component: HomeComponent, resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver }},
-  { path: 'search/:searchTerm', component: HomeComponent },
+  { path: 'search/:searchTerm', component: HomeComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver } },
   { path: 'user-login', component: UserLoginComponent },
-  { path: 'follow-page', component: FollowPageComponent },
-  { path: 'item/:id', component: ItemPageComponent },
+  { path: 'follow-page', component: FollowPageComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver,bidsData:BidsResolver } },
+  { path: 'item/:id', component: ItemPageComponent,resolve: {usersData:UserResolver ,bidsData:BidsResolver } },
   { path: 'contact/:id', component: ContactComponent },
-  { path: 'user/:id', component: UserComponent },
-  { path: 'cart', component: CartComponent },
+  { path: 'user/:id', component: UserComponent ,resolve: {userItemsData: UserItemResolver,usersData:UserResolver }},
+  { path: 'cart', component: CartComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver,bidsData:BidsResolver } },
 ];
 
 @NgModule({

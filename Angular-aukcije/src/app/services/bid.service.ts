@@ -9,10 +9,9 @@ export class BidService {
   public user!: LoginResponse | null;
   userToken!: string;
   public data: Bid[] = [
-    
+
   ];
-  constructor(private getBidsService:GetBidsService) {
-    this.setBids();
+  constructor(private getBidsService: GetBidsService) {
   }
 
   getItemById(id: number): Bid {
@@ -33,21 +32,8 @@ export class BidService {
     return this.data;
   }
 
-  setBids() {
-  
-    this.user = JSON.parse(localStorage.getItem('user')!) as LoginResponse;
-   
-    this.getBidsService.getBids().subscribe
-      (response => {
+  setBids(bids: Bid[]) {
 
-        this.data=response;
-        
-
-
-      }, error => { console.log(error); });
-
-  
-
-  
-}
+    this.data = bids;
+  }
 }

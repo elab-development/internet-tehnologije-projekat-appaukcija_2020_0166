@@ -11,7 +11,7 @@ export class AuctionService {
 
   ];
   constructor(private getAuctionService:GetAuctionsService) {
-    this.setAuctions();
+  
    }
   getAuctionById(id: number): Auction {
     return this.getAll().find(auction => auction.id == id)!;
@@ -27,18 +27,7 @@ export class AuctionService {
   setData(auctions: Auction[]) {
     this.data = auctions;
   }
-  setAuctions() {
-  
 
-    this.getAuctionService.getAuctions().
-      subscribe(response => {
-
-        this.setData(response);
-
-
-      }, error => { console.log(error); });
-
-}
 getItemIdByAuctionId(auction_id:number): number {
   let auction = this.data.filter(e=>e.id === auction_id)[0];
 

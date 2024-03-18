@@ -16,6 +16,7 @@ import { AuthServiceService } from '../authservice';
 })
 export class UserComponent implements OnInit {
   items: Item[] = [];
+  proba!: Item[];
   users: User[] = [];
   userName!: string;
   cart!: Cart;
@@ -32,46 +33,34 @@ export class UserComponent implements OnInit {
     })
   }
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      const responseData = data['usersData'] as unknown as { users: User[] };;
+      this.users = responseData.users;
+      console.log(this.users);
+      
+    })
+    this.activatedRoute.data.subscribe(data => {
+      this.items = Object.values(data['userItemsData']);
+      console.log(this.items);
+    })
 
-    this.setItems();
-    console.log(this.userId);
-  }
-
-
-  setItems() {
-
-
-    this.userItemService.getItemsUser(this.userId).
-      subscribe(response => {
-
-        this.items = Object.values(response);
-        console.log(this.items);
-        this.setUsers();
-
-      }, error => { console.log(error); });
-
+    this.setUsers();
 
   }
+
+
+
   setUsers() {
 
-    this.usersService.getUsers()
-      .subscribe(response => {
-        const responseData = response as unknown as { users: User[] };
-        this.users = responseData.users;
+    this.users.forEach(element => {
 
-        console.log(this.users);
-        this.users.forEach(element => {
+      if (this.userId.toString() === element.id.toString()) {
+        this.userName = element.username;
 
-          if (this.userId.toString() === element.id.toString()) {
-            this.userName = element.username;
-
-          }
-        });
+      }
+    });
 
 
-      }, error => {
-        console.log(error);
-      });
   }
 
 }

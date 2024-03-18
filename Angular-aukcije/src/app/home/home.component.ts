@@ -9,6 +9,7 @@ import { GetItemsService } from '../items/get-items.service';
 import { GetAuctionsService } from '../get-autions/get-auctions.service';
 import { Auction } from '../models/auction';
 import moment from 'moment';
+import { AuctionService } from '../services/auction.service';
 
 @Component({
   selector: 'app-home',
@@ -19,31 +20,32 @@ export class HomeComponent {
   auctions!: Auction[];
   public user!: LoginResponse | null;
   userToken!: string;
+  itemsAuctions: Item[] = [];
   items: Item[] = [];
-  proba: Item[] = [];
   itemsGotovo: Item[] = [];
   p: number = 1;
   i: number = 0;
   itemsPerPage: number = 6;
   totalProduct: any;
   constructor(private itemSerivce: ItemsService, private route: ActivatedRoute, private logOutService: UserLogoutService,
-    private getItemService: GetItemsService, private getAuctionService: GetAuctionsService) {
+    private getItemService: GetItemsService, private getAuctionService: GetAuctionsService, private auctionService: AuctionService) {
     this.items = this.itemSerivce.getAll();
   }
   ngOnInit(): void {
     this.route.data.subscribe(data => {
       this.auctions = data['auctionsData'];
     })
-    this.route.data.subscribe(data=>{
-      this.proba=data['itemsData'];
+    this.route.data.subscribe(data => {
+      this.items = data['itemsData'];
     })
-    this.itemSerivce.setData(this.proba);
-    console.log(this.proba);
-    console.log(this.auctions);
-  
-this.getItems();
-    this.route.params.subscribe(params => {
+    this.itemSerivce.setData(this.items);
 
+    this.auctionService.setData(this.auctions);
+
+
+    this.getItems();
+    this.route.params.subscribe(params => {
+      debugger;
       if (params['searchTerm']) {
         this.items = this.itemSerivce.getAll().filter(item => item.naziv.toLowerCase().startsWith(params['searchTerm'].toLowerCase()));
         this.itemsGotovo = this.itemSerivce.getAllGotovo().filter(item => item.naziv.toLowerCase().startsWith(params['searchTerm'].toLowerCase()));
@@ -71,26 +73,13 @@ this.getItems();
       }
     });
   }
-  setAuctions() {
-
-
-
-    this.getAuctionService.getAuctions().
-      subscribe(response => {
-        this.auctions = response;
-        console.log(this.auctions);
-        this.getItems();
-
-
-      }, error => { console.log(error); });
-
-
-  }
+ 
   getItems() {
-    this.items = [];
+    this.itemsAuctions = [];
+
     this.auctions.forEach(element => {
-      this.items.push(this.itemSerivce.getItemsByAuction(element));
-      console.log(this.items);
+      this.itemsAuctions.push(this.itemSerivce.getItemsByAuction(element));
+      
     });
 
   }

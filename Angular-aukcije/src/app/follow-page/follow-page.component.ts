@@ -11,6 +11,8 @@ import { Auction } from '../models/auction';
 import { AuctionService } from '../services/auction.service';
 import moment from 'moment';
 import { AuthServiceService } from '../authservice';
+import { ActivatedRoute } from '@angular/router';
+import { Item } from '../models/item';
 
 @Component({
   selector: 'app-follow-page',
@@ -21,17 +23,30 @@ export class FollowPageComponent {
   follow!: Follow;
   boolean!: boolean
   auction!: Auction;
+  auctions!:Auction[];
+  items!:Item[];
   bids!: Bid[];
   userToken!: string;
   public user!: LoginResponse | null;
-  constructor(private followService: FollowService, private matDialog: MatDialog, private getBidService: GetBidsService,
+  constructor(private followService: FollowService, private matDialog: MatDialog, private route: ActivatedRoute, private getBidService: GetBidsService,
     private itemService: ItemsService, private auctionService: AuctionService, private authService: AuthServiceService) {
 
     this.setFollow();
     setInterval(() => this.updateFollow(), 1000);
   }
   ngOnInit() {
-
+    this.route.data.subscribe(data => {
+      this.bids = data['bidsData'];
+      console.log(this.bids);
+    })
+    this.route.data.subscribe(data => {
+      this.auctions = data['auctionsData'];
+    })
+    this.route.data.subscribe(data => {
+      this.items = data['itemsData'];
+    })
+    this.itemService.setData(this.items);
+    this.auctionService.setData(this.auctions);
 
     this.addItemsToFollow();
 
@@ -44,19 +59,16 @@ export class FollowPageComponent {
     this.user = this.authService.getUser();
     if (this.user != null) {
       this.userToken = this.user.access_token;
-      this.getBidService.getBids().
-        subscribe(response => {
-          this.bids = response;
-          this.bids.forEach(element => {
-            if (element.user_id === this.user?.user_id) {
-              this.auction = this.auctionService.getAuctionById(element.auction_id);
 
-              this.followService.addToFollow(this.itemService.getItemsByAuction(this.auction));
-            }
+      this.bids.forEach(element => {
+        if (element.user_id === this.user?.user_id) {
+          this.auction = this.auctionService.getAuctionById(element.auction_id);
 
-          });
+          this.followService.addToFollow(this.itemService.getItemsByAuction(this.auction));
+        }
 
-        }, error => { console.log(error); });
+      });
+
     }
 
   }

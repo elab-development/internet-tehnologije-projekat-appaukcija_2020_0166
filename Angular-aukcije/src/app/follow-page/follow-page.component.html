@@ -2,12 +2,14 @@
 <div *ngIf="follow && follow.items.length>0" class="container">
     <ul>
         <li *ngFor="let followItem of follow.items">
-            <div>
+            <div class="slika">
                 <img [src]="followItem.item.url" alt="followItem.item.name">
             </div>
-            <div>
+            <div class="naziv">
                 <a routerLink="/item/{{followItem.item.id}}">
-                    {{followItem.item.naziv}}
+                    <p>
+                     {{followItem.item.naziv}}   
+                    </p>
                     
                 </a>
             </div>
@@ -19,16 +21,17 @@
             <p>Kraj licitacije:</p>
             {{followItem.item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
            </div>
-           
             <div *ngIf="this.followItem.gotov==true">
                 <button class="remove-button" (click)="removeFromFollow(followItem)" mat-raised-button>Ukloni iz Pratim</button>
             </div>
+            
             <div *ngIf="this.followItem.gotov==true">
                 <p>KRAJ LICITACIJE, AUKCIJA JE ISTEKLA!</p>
                 
             </div>
-
+           
         </li>
+        
     </ul>
     
 </div>

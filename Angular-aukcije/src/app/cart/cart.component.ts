@@ -25,20 +25,34 @@ export class CartComponent implements OnInit {
   auctionsFinish: Auction[] = [];
   auctionsFinishMax: Auction[] = [];
   cart!: Cart;
-  maxBid!:Bid;
+  maxBid!: Bid;
+  items!: Item[];
   bids: Bid[] = [];
-  bidsFinish: Bid[]=[];
-  bidsFinishMax: Bid[]=[];
+  bidsFinish: Bid[] = [];
+  bidsFinishMax: Bid[] = [];
   userToken!: string;
   public user!: LoginResponse | null;
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private cartService: CartService, private getAuctionService: GetAuctionsService,
-    private bidsService: BidService, private getBidsService: GetBidsService,private itemService:ItemsService
-    ,private auctionService:AuctionService,private authService:AuthServiceService) {
+    private bidsService: BidService, private getBidsService: GetBidsService, private itemService: ItemsService
+    , private auctionService: AuctionService, private authService: AuthServiceService) {
     this.setCart();
   }
   ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.auctions = data['auctionsData'];
+      this.auctionService.setData(this.auctions);
+    })
+    this.route.data.subscribe(data => {
+      this.bids = data['bidsData'];
+      this.bidsService.setBids(this.bids);
 
+    })
+    this.route.data.subscribe(data => {
+      this.items = data['itemsData'];
+      this.itemService.setData(this.items);
+    })
+    this.getItems();
     this.setAuctions();
     setInterval(() => this.updateCart(), 1000);
   }
@@ -47,75 +61,81 @@ export class CartComponent implements OnInit {
     this.cart = this.cartService.getCart();
   }
   setAuctions() {
-   
-    this.user = this.authService.getUser();
-    if(this.user!=null){
-    this.userToken = this.user.access_token;
-    this.getAuctionService.getAuctions().
-      subscribe(response => {
-        this.auctions = response;
-        this.bids = this.bidsService.data;
-        this.auctions.forEach(element => {
-          if (moment(element.vreme_zavrsetka) <= moment()) {
-            this.auctionsFinish.push(element);
-          }
 
-        })
-        console.log(this.auctionsFinish);
+    this.user = this.authService.getUser();
+    if (this.user != null) {
+      this.userToken = this.user.access_token;
+      this.auctions.forEach(element => {
+        if (moment(element.vreme_zavrsetka) <= moment()) {
+          this.auctionsFinish.push(element);
+        }
+
+      })
+      console.log(this.auctionsFinish);
       this.auctionsFinish.forEach(element => {
         this.BidsFinish(element.id);
-       
-      } );
-       console.log(this.bidsFinish); 
-       this.auctionsFinish.forEach(element => {
+
+      });
+      console.log(this.bidsFinish);
+      this.auctionsFinish.forEach(element => {
         this.MaxBids(element.id);
-       });
-      
-       console.log(this.bidsFinishMax);
-       
-       this.bidsFinishMax.forEach(element => {
-        if(element.user_id===this.user?.user_id){
+      });
+
+      console.log(this.bidsFinishMax);
+
+      this.bidsFinishMax.forEach(element => {
+        if (element.user_id === this.user?.user_id) {
           this.cartService.addToCart(this.itemService.getItemById(this.auctionService.getItemIdByAuctionId(element.auction_id)));
         }
-       });
-      }, error => { console.log(error); });
+      });
+
 
     }
   }
 
-BidsFinish(auctionId:number){
-  this.bids.forEach(element => {
-    if(element.auction_id==auctionId){
-      this.bidsFinish.push(element);
-    }
-  });
-}
-MaxBids(auction_id:number){
-  let maxIznos=0;
-  
-  this.bidsFinish.forEach(element => {
-    if(element.auction_id==auction_id){
-      if(element.iznos>=maxIznos){
-        maxIznos=element.iznos;
-        this.maxBid=element;
+  BidsFinish(auctionId: number) {
+    this.bids.forEach(element => {
+      if (element.auction_id == auctionId) {
+        this.bidsFinish.push(element);
       }
-    }
-    else{
-      return;
-    }
-  });
-
-  if (!this.bidsFinishMax.some(element => element.id === this.maxBid.id)) {
-    this.bidsFinishMax.push(this.maxBid);
+    });
   }
-  
-}
-updateCart(){
-  this.cart.items.forEach(element => {
-    if(moment(element.item.preostaloVreme) >= moment() ){
-      this.cartService.removeFromCart(element.item.id);
-    }
-  });
-}
+  MaxBids(auction_id: number) {
+    let maxIznos = 0;
 
+    this.bidsFinish.forEach(element => {
+      if (element.auction_id == auction_id) {
+        if (element.iznos >= maxIznos) {
+          maxIznos = element.iznos;
+          this.maxBid = element;
+        }
+      }
+      else {
+        return;
+      }
+    });
+
+    if (!this.bidsFinishMax.some(element => element.id === this.maxBid.id)) {
+      this.bidsFinishMax.push(this.maxBid);
+    }
+
+  }
+  updateCart() {
+    this.cart.items.forEach(element => {
+      console.log(moment(element.item.preostaloVreme))
+      if (moment(element.item.preostaloVreme) >= moment()) {
+        this.cartService.removeFromCart(element.item.id);
+      }
+    });
+  }
+
+  getItems() {
+    this.items = [];
+
+    this.auctions.forEach(element => {
+      this.items.push(this.itemService.getItemsByAuction(element));
+
+    });
+
+  }
 }

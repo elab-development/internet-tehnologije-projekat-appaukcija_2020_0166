@@ -32,7 +32,8 @@ import { AuthServiceService } from '../authservice';
 export class ItemPageComponent {
   auctions!: Auction[];
   item!: Item;
-  proba!:string |null;
+  itemsProba!: Item[];
+  proba!: string | null;
   users: User[] = [];
   userId!: number;
   unosIznosa: any;
@@ -56,24 +57,41 @@ export class ItemPageComponent {
     private followService: FollowService, private cartService: CartService,
     private router: Router, private getAuctionService: GetAuctionsService,
     private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
-    private createBidService: CreateBidService,  private bidsService: BidService,private auctionService: AuctionService,
+    private createBidService: CreateBidService, private bidsService: BidService, private auctionService: AuctionService,
     private usersService: UsersService, private deleteAuctionService: DeleteAuctionService,
-    private deleteItemService: DeleteItemService,private authService:AuthServiceService) {
+    private deleteItemService: DeleteItemService, private authService: AuthServiceService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
 
-      
 
-      
+
+
     })
 
 
   }
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(data => {
+      const responseData = data['usersData'] as unknown as { users: User[] };;
+      this.users = responseData.users;
+      
+    })
+    this.activatedRoute.data.subscribe(data => {
+      this.bids = data['bidsData'];
+     
+    })
+    this.user = this.authService.getUser();
+    if (this.user != null) {
+      this.userToken = this.user.access_token;
+      this.userId = this.user.user_id;
+    }
+    this.auctionId = this.auctionService.getAuctionIdByItemId(this.item.id);
     this.remainingTime();
     this.intervalId = setInterval(() => this.remainingTime(), 1000);
-    this.setAuctions();
+
+    this.setUsers();
+    this.isBid(this.bids);
   }
 
 
@@ -138,24 +156,20 @@ export class ItemPageComponent {
 
   }
   updateTrenutnaCena() {
-    this.user = this.authService.getUser();
-    if(this.user!=null){
-    this.userToken = this.user.access_token;
-    this.userId = this.user.user_id;
-    }
+   
 
     if (this.user !== null) {
       this.userToken = this.user.access_token;
       this.item.trenutna_cena = this.displayVal;
       this.item = this.itemsService.update(this.item)
-      this.updateTrenutnaCenaService.updateTrenutnaCena( this.item.id, this.item).
+      this.updateTrenutnaCenaService.updateTrenutnaCena(this.item.id, this.item).
         subscribe(response => {
 
         }, error => { console.log(error); });
 
 
 
-      this.createBidService.makeBid( this.auctionId, this.item.trenutna_cena).
+      this.createBidService.makeBid(this.auctionId, this.item.trenutna_cena).
         subscribe(response => {
 
         }, error => { console.log(error); });
@@ -167,44 +181,20 @@ export class ItemPageComponent {
       this.router.navigate(['/user-login']);
     }
   }
-  setAuctions() {
-    this.user = this.authService.getUser();
-    if(this.user!=null){
-    this.userToken = this.user.access_token;
-    this.userId = this.user.user_id;
-    }
-    this.getAuctionService.getAuctions().
-      subscribe(response => {
-        this.auctions = response;
-        this.bids=this.bidsService.data;
-        this.setUsers();
-        this.isBid(this.bids);
-      }, error => { console.log(error); });
 
-
-  }
   setUsers() {
-  
-    this.usersService.getUsers( )
-      .subscribe(response => {
-        const responseData = response as unknown as { users: User[] };
-        this.users = responseData.users;
-        console.log(this.users);
-        this.users.forEach(element => {
-          if (this.item.user_id.toString() === element.id.toString()) {
-            this.userName = element.username;
-            console.log("Match found! UserName:", this.userName);
-          }
-        });
+
+    this.users.forEach(element => {
+      if (this.item.user_id.toString() === element.id.toString()) {
+        this.userName = element.username;
+        console.log("Match found! UserName:", this.userName);
+      }
+    });
 
 
-      }, error => {
-        console.log(error);
-      });
-    
   }
   deleteAuction() {
-    this.deleteAuctionService.deleteAucion( this.auctionService.getAuctionIdByItemId(this.item.id)).subscribe(response => {
+    this.deleteAuctionService.deleteAucion(this.auctionService.getAuctionIdByItemId(this.item.id)).subscribe(response => {
       console.log(response)
 
     }, error => {
@@ -216,14 +206,15 @@ export class ItemPageComponent {
       console.log(error);
     })
   }
-isBid(bids:Bid[]){
-  console.log(bids);
-  if (bids.some(element => element.auction_id.toString() === this.auctionId.toString())) {
-    return;
-  }
+  isBid(bids: Bid[]) {
+    console.log(bids);
+    if (bids.some(element => element.auction_id === this.auctionId)) {
 
-  this.endMessage="Nema pobednika aukcije, nijedan korisnik nije licitirao."
-}
+      return;
+    }
+
+    this.endMessage = "Nema pobednika aukcije, nijedan korisnik nije licitirao."
+  }
 
 }
 

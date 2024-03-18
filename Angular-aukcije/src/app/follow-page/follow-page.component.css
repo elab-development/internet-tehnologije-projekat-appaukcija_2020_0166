@@ -18,7 +18,6 @@ ul{
 
 ul li{
 display: flex;
-justify-content: space-around;
 align-items: center;
 flex-wrap: wrap;
 border-bottom: 1px solid black;
@@ -59,4 +58,10 @@ ul li select{
 
  button{
     margin-top:5% !important;
+}
+.naziv p{
+    margin-left: 3rem;
+}
+.slika{
+    margin-left:3rem;
 }
