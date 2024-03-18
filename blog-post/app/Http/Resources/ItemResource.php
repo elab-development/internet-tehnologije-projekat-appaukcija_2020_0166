@@ -24,7 +24,8 @@ class ItemResource extends JsonResource
             'pocetna_cena' => $this->resource->pocetna_cena,
             'trenutna_cena' => $this->resource->trenutna_cena,
             'user_id' => $this->resource->user_id,
-            'url'=>$this->resource->url
+            'url'=>$this->resource->url,
+            'kategorija'=>$this->resource->kategorija
 
         ];
     }

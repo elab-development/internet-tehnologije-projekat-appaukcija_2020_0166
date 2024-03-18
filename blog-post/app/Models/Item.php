@@ -16,7 +16,8 @@ class Item extends Model
         'pocetna_cena',
         'trenutna_cena',
         'user_id',
-        'url'
+        'url',
+        'kategorija'
     ];
 
     public function user(){
