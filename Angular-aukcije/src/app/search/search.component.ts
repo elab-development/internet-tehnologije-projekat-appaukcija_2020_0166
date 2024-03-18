@@ -26,7 +26,7 @@ export class SearchComponent {
       if (params['searchTerm'])
         this.searchTerm = params['searchTerm'];
     })
-    this.itemsService
+    
   }
   search(): void {
     if (this.searchTerm)

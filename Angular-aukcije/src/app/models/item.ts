@@ -7,4 +7,5 @@ export class Item {
     url!:string;
     user_id!:number;
     preostaloVreme!:Date;
+    kategorija!:String;
 }

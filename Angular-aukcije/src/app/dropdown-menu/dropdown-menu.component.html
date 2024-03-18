@@ -1,0 +1,6 @@
+<mat-form-field >
+    <mat-label>Izaberite kategoriju</mat-label>
+    <mat-select >
+      <mat-option *ngFor="let option of options" [value]="option " (click)="filtriraj(option)"> {{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>

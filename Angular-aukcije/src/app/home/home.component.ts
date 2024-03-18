@@ -37,6 +37,7 @@ export class HomeComponent {
     })
     this.route.data.subscribe(data => {
       this.items = data['itemsData'];
+      console.log(this.items);
     })
     this.itemSerivce.setData(this.items);
 
@@ -44,44 +45,47 @@ export class HomeComponent {
 
 
     this.getItems();
+    this.updateItem();
     this.route.params.subscribe(params => {
-      debugger;
+
       if (params['searchTerm']) {
-        this.items = this.itemSerivce.getAll().filter(item => item.naziv.toLowerCase().startsWith(params['searchTerm'].toLowerCase()));
+        this.itemsAuctions = this.itemSerivce.getAllItemsWithAuctions().filter(item => item.naziv.toLowerCase().startsWith(params['searchTerm'].toLowerCase()));
         this.itemsGotovo = this.itemSerivce.getAllGotovo().filter(item => item.naziv.toLowerCase().startsWith(params['searchTerm'].toLowerCase()));
       }
+      else{
+        this.itemsGotovo=this.itemSerivce.getAllGotovo();
+      }
+      
+      if (params['filtrationTerm']) {
+        this.itemsAuctions = this.itemSerivce.getAllItemsWithAuctions().filter(item => item.kategorija.toLowerCase()==(params['filtrationTerm'].toLowerCase()));
+        this.itemsGotovo = this.itemSerivce.getAllGotovo().filter(item => item.kategorija.toLowerCase()==(params['filtrationTerm'].toLowerCase()));
+      }
 
-      else
-        this.items = this.itemSerivce.getAll();
-      this.itemsGotovo = this.itemSerivce.getAllGotovo();
+
     })
 
 
-    //setInterval(() => this.updateItem(), 1000);
+    
   }
   updateItem() {
 
-    this.items.forEach(element => {
+    for (let i = this.itemsAuctions.length - 1; i >= 0; i--) {
+      const element = this.itemsAuctions[i];
       if (moment(element.preostaloVreme) <= moment()) {
         this.itemSerivce.addItemGotovo(element);
-        const indexToRemove = this.items.indexOf(element);
-        if (indexToRemove !== -1) {
-          this.items.splice(indexToRemove, 1);
-        }
-
-
+        this.itemsAuctions.splice(i, 1);
       }
-    });
+    }
   }
- 
+
   getItems() {
     this.itemsAuctions = [];
 
     this.auctions.forEach(element => {
       this.itemsAuctions.push(this.itemSerivce.getItemsByAuction(element));
-      
-    });
 
+    });
+    this.itemSerivce.setData2(this.itemsAuctions);
   }
 
 

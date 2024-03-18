@@ -1,9 +1,12 @@
 <app-search>
 
 </app-search>
+<div class="dropdown-menu">
+    <app-dropdown-menu></app-dropdown-menu>
+</div>
 <h3>Najtrazeniji predmeti</h3>
 <ul>
-    <li *ngFor="let item of items |paginate:{itemsPerPage:6,currentPage:p}">
+    <li *ngFor="let item of itemsAuctions |paginate:{itemsPerPage:6,currentPage:p}">
         <app-item-reusable [item]="item"></app-item-reusable>
     </li>
 </ul>

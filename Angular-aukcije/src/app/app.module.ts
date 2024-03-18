@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { ContactComponent } from './contact/contact.component';
@@ -28,6 +29,7 @@ import { CartComponent } from './cart/cart.component';
 import { AddItemDialogComponent } from './add-item-dialog/add-item-dialog.component';
 import { DatePipe } from '@angular/common';
 import { AuthInterceptor } from './auth.interceptor';
+import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
 
 
 @NgModule({
@@ -47,6 +49,7 @@ import { AuthInterceptor } from './auth.interceptor';
     UserComponent,
     CartComponent,
     AddItemDialogComponent,
+    DropdownMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { AuthInterceptor } from './auth.interceptor';
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatSelectModule
   ],
   providers: [
     DatePipe,

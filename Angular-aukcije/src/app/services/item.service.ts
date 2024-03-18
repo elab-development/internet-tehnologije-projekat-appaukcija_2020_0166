@@ -15,6 +15,9 @@ export class ItemsService {
   private data: Item[] = [
 
   ];
+  private data2: Item[] = [
+
+  ];
   constructor(private getItemService: GetItemsService) {
     
   }
@@ -24,6 +27,9 @@ export class ItemsService {
 
   getAll(): Item[] {
     return this.data;
+  }
+  getAllItemsWithAuctions(): Item[] {
+    return this.data2;
   }
   getAllGotovo(): Item[] {
     return this.dataGotovo;
@@ -66,6 +72,9 @@ export class ItemsService {
 
   setData(items: Item[]) {
     this.data = items;
+  }
+  setData2(items: Item[]) {
+    this.data2 = items;
   }
   
   getItemsByAuction(auction: Auction): Item {
