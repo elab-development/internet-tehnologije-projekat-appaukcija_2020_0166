@@ -88,15 +88,16 @@ class UserController extends Controller
 
     public function getbyid($user_id)
     {
-        $user = User::with('items')->get()->where('id', $user_id);
+        $user = User::with('items')->find($user_id);
         if (is_null($user)) {
             return response()->json('Data not found', 404);
         }
         return response()->json($user);
     }
+    
     public function getBidsbyUserId($user_id)
     {
-        $user = User::with('bids')->get()->where('id', $user_id);
+        $user = User::with('bids')->find($user_id);
         if (is_null($user)) {
             return response()->json('Data not found', 404);
         }

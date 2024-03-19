@@ -115,12 +115,15 @@ class AuctionController extends Controller
         return response()-> json('Successful delete', 200);
     }
     public function getBidsbyAuctionId($auction_id)
-    {
-        $auction = Auction::with('bids')->get()->where('id', $auction_id);
-        if (is_null($auction)) {
-            return response()->json('Data not found', 404);
-        }
-        return response()->json($auction);
+{
+    $auction = Auction::with('bids')->find($auction_id);
+
+    if (is_null($auction)) {
+        return response()->json('Data not found', 404);
     }
+
+    return response()->json($auction);
+}
+
 
 }
