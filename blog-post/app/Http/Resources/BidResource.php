@@ -20,8 +20,8 @@ class BidResource extends JsonResource
             'id' => $this->resource->id,
             'auction' => new AuctionResource($this->resource->auction),
             'iznos' => $this->resource->iznos,
-            'user' => new UserResource($this->resource->user)
-
+            'user' => new UserResource($this->resource->user),
+            
 
         ];
     }

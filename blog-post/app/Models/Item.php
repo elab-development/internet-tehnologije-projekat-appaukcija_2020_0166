@@ -23,8 +23,8 @@ class Item extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-    public function aukcija(){
-        return $this->belongTo(Auction::Class);
+    public function auction(){
+        return $this->hasMany(Auction::Class);
     }
 
 }

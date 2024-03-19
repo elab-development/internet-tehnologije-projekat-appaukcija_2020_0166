@@ -17,7 +17,7 @@ class Auction extends Model
     ];
     public function items()
     {
-        return $this->hasMany(Item::Class);
+        return $this->belongsTo(Item::Class);
     }
     public function bids()
     {

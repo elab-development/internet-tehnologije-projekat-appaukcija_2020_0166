@@ -46,8 +46,8 @@ class ItemController extends Controller
             'opis' => 'required|string|max:100',
             'pocetna_cena' => 'required|numeric',
             'trenutna_cena' => 'required|numeric',
-         
-            'url'=>'required'
+
+            'url' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +60,7 @@ class ItemController extends Controller
             'pocetna_cena' => $request->pocetna_cena,
             'trenutna_cena' => $request->trenutna_cena,
             'user_id' => Auth::user()->id,
-            'url'=>$request->url
+            'url' => $request->url
         ]);
 
         return response()->json(['message' => 'Item created successfully.', 'data' => new ItemResource($item)]);
@@ -131,4 +131,14 @@ class ItemController extends Controller
         $item->delete();
         return response()->json('Item deleted successfully');
     }
+    public function getAuctionbyItemId($item_id)
+    {
+        $item = Item::with('auction')->where('id', $item_id)->first();
+        if (is_null($item)) {
+            return response()->json('Data not found', 404);
+        }
+        return response()->json($item);
+
+    }
+
 }
