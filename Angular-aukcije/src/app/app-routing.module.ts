@@ -9,6 +9,8 @@ import { UserComponent } from './user/user.component';
 import { CartComponent } from './cart/cart.component';
 import { AuctionsResolver, BidsResolver, ItemsResolver, UserItemResolver, UserResolver } from './my-resolver.resolver';
 import { ChartPageComponent } from './cart-page/chart-page.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 const routes: Routes = [
   { path: '', component: HomeComponent, resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver }},
   { path: 'search/:searchTerm', component: HomeComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver } },
@@ -20,6 +22,8 @@ const routes: Routes = [
   { path: 'chart-page', component: ChartPageComponent,resolve: {bidsData:BidsResolver } },
   { path: 'user/:id', component: UserComponent ,resolve: {userItemsData: UserItemResolver,usersData:UserResolver }},
   { path: 'cart', component: CartComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver,bidsData:BidsResolver } },
+  { path: 'forget-password', component: ForgetPasswordComponent,resolve: {usersData:UserResolver } },
+  { path: 'reset-password/:email', component:ResetPasswordComponent}
 ];
 
 @NgModule({

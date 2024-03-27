@@ -32,6 +32,8 @@ import { AuthInterceptor } from './auth.interceptor';
 import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartPageComponent } from './cart-page/chart-page.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { ChartPageComponent } from './cart-page/chart-page.component';
     CartComponent,
     AddItemDialogComponent,
     DropdownMenuComponent,
-    ChartPageComponent
+    ChartPageComponent,
+    ForgetPasswordComponent,
+    ResetPasswordComponent
    
   ],
   imports: [

@@ -18,7 +18,7 @@ button {
 
 .left-button button {
     background-color: #0E4C92;
-
+    color: white;
 }
 
 div button:hover {
@@ -58,14 +58,17 @@ div button:hover {
     font-family: "Quicksand", sans-serif;
     font-weight: 1000;
 }
-.dodajAukciju p{
+
+.dodajAukciju p {
     margin-left: -0.5rem;
 }
-.pratim p{
+
+.pratim p {
     margin-left: 1.2rem;
 }
-.chart button{
-    background-color: #0E4C92; 
+
+.chart button {
+    background-color: #0E4C92;
     margin-left: 1rem;
-  
+
 }

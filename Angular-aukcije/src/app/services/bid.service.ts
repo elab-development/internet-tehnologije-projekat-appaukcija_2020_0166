@@ -11,7 +11,7 @@ export class BidService {
   public data: Bid[] = [
 
   ];
-  constructor(private getBidsService: GetBidsService) {
+  constructor() {
   }
 
   getItemById(id: number): Bid {

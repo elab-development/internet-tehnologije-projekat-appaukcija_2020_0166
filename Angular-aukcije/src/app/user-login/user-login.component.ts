@@ -1,9 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { LoginServiceService } from './login-service.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { catchError, pipe, throwError } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserRegisterService } from '../user-register/user-register.service';
+
+@Injectable({ providedIn: 'root' })
+export class UserLoggedInEvent {
+  private eventSubject = new Subject<any>();
+  public eventObservable = this.eventSubject.asObservable();
+  emitEvent(event: any) {
+    this.eventSubject.next(event);
+  }
+}
+
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -22,7 +31,7 @@ export class UserLoginComponent implements OnInit {
     email: '',
     password: ''
   }
-  constructor(private loginService: LoginServiceService, private router: Router, private registerService: UserRegisterService) { }
+  constructor(private loginService: LoginServiceService, private router: Router, private registerService: UserRegisterService, private userLoggedInEvent: UserLoggedInEvent) { }
   ngOnInit(): void {
 
   }
@@ -30,7 +39,7 @@ export class UserLoginComponent implements OnInit {
     this.registerService.register(this.signupObj.userName, this.signupObj.email, this.signupObj.password, this.signupObj.broj_telefona, this.signupObj.adresa)
       .subscribe(response => {
         console.log(response);
-      
+
       }, error => { console.log(error); });
 
   }
@@ -39,7 +48,7 @@ export class UserLoginComponent implements OnInit {
       .subscribe(response => {
         response.userName = this.loginObj.userName;
         localStorage.setItem('user', JSON.stringify(response));
-        window.location.reload();
+        this.userLoggedInEvent.emitEvent(response);
         this.router.navigate(['/']);
       }, error => { console.log(error); });
 

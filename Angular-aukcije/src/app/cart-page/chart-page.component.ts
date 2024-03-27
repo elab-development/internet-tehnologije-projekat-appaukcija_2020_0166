@@ -44,9 +44,9 @@ export class ChartPageComponent {
     this.activatedRoute.data.subscribe(data => {
       this.bids = data['bidsData'];
       const dates: string[] = this.bids.map(bid => new Date(bid.created_at).toLocaleDateString());
-      console.log(dates);
+   
       const uniqueDates: string[] = Array.from(new Set(dates));
-      console.log(uniqueDates);
+     
       const dataPoints = uniqueDates.map(date => {
         return {
           x: date,

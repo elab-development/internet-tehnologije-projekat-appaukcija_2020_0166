@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Item } from '../models/item';
 import { LoginResponse } from '../user-login/login-response';
-import { GetItemsService } from '../items/get-items.service';
 import { Auction } from '../models/auction';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -12,14 +10,10 @@ export class ItemsService {
   userToken!: string;
 
   private dataGotovo: Item[] = [];
-  private data: Item[] = [
+  private data: Item[] = [];
+  private data2: Item[] = [];
+  constructor() {
 
-  ];
-  private data2: Item[] = [
-
-  ];
-  constructor(private getItemService: GetItemsService) {
-    
   }
   getItemById(id: number): Item {
     return this.getAll().find(item => item.id == id)!;
@@ -76,7 +70,7 @@ export class ItemsService {
   setData2(items: Item[]) {
     this.data2 = items;
   }
-  
+
   getItemsByAuction(auction: Auction): Item {
     let item = this.data.filter(e => e.id === auction.item_id)[0];
     item.preostaloVreme = auction.vreme_zavrsetka;
