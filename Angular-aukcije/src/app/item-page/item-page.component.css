@@ -152,5 +152,9 @@ img {
 .nijedanBid{
     font-weight: 500;
 }
+.pocetnaCena{
+    justify-content: space-between
+}
+
 
 

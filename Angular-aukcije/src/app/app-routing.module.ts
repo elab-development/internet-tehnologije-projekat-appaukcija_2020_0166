@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'user/:id', component: UserComponent ,resolve: {userItemsData: UserItemResolver,usersData:UserResolver }},
   { path: 'cart', component: CartComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver,bidsData:BidsResolver } },
   { path: 'forget-password', component: ForgetPasswordComponent,resolve: {usersData:UserResolver } },
-  { path: 'reset-password/:email', component:ResetPasswordComponent}
+  { path: 'reset-password', component:ResetPasswordComponent}
 ];
 
 @NgModule({

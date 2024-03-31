@@ -8,11 +8,21 @@
         </div>
         <div class="pocetnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Pocetna cena:</p>
-            {{item.pocetna_cena|currency}}
+            {{item.pocetna_cena| number:'1.0-0'}} {{currencySymbol}}
+
+            <mat-form-field>
+                <mat-label>Izaberite valutu</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let option of currency" [value]="option " (click)="promeniValutu(option)"> {{
+                        option }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
         </div>
-        <div class="trenutnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
+        <div class="trenutnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }" >
             <p>Trenutna cena:</p>
-            {{item.trenutna_cena|currency}}
+            {{item.trenutna_cena| number:'1.0-0'}} {{currencySymbol}}
         </div>
         <div class="preostaloVreme" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Aukcija traje do:</p>
@@ -22,38 +32,37 @@
             <p>Preostalo vreme aukcije:</p>
             {{preostaliDani}} dana {{preostaliSati}}:{{preostaliMinuti}}:{{preostaleSekunde}}
         </div>
-        <div class="unesi" >
-            <mat-form-field  class="form-field" >
-                    <input type="number" matInput #matInput placeholder="Unesi licitaciju">
-                    <mat-icon> attach_money</mat-icon>
-                </mat-form-field>
+        <div class="unesi">
+            <mat-form-field class="form-field">
+                <input type="number"  matInput #matInput placeholder="Unesi licitaciju">
+                {{currencySymbol}}
+            </mat-form-field>
+
         </div>
-        <div class="gotovo"
-            *ngIf="signal==1 ">
+        <div class="gotovo" *ngIf="signal==1 ">
             <p>
                 Aukcija je zavrsena. Ne mozete vise licitirati.
-                
+
             </p>
 
 
         </div>
-        <div class="nijedanBid"
-        *ngIf="(endMessage.length>0 && signal==1) ">
-        <p>
-          {{endMessage}}
-            
-        </p>
+        <div class="nijedanBid" *ngIf="(endMessage.length>0 && signal==1) ">
+            <p>
+                {{endMessage}}
+
+            </p>
 
 
-    </div>
+        </div>
 
         <div class="upozorenje">
             <p *ngIf="validationMessage.length > 0" style="color:red">{{validationMessage}}</p>
         </div>
-        
-              <button (click)="getSelectedPriceValue(matInput.value)" mat-raised-button>Licitiraj</button>
-        
-      
+
+        <button (click)="getSelectedPriceValue(matInput.value)" mat-raised-button>Licitiraj</button>
+
+
         <p>
             Opis: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
@@ -86,21 +95,21 @@
                     <button mat-raised-button><mat-icon>inbox</mat-icon>Sve vase aukcije</button>
                 </a>
             </div>
-            <div *ngIf="item.user_id!==userId" >
+            <div *ngIf="item.user_id!==userId">
                 <mat-dialog-actions>
 
-                <button mat-raised-button (click)="openDialog()"><mat-icon> message</mat-icon>Kontaktiraj
-                    prodavca</button>
+                    <button mat-raised-button (click)="openDialog()"><mat-icon> message</mat-icon>Kontaktiraj
+                        prodavca</button>
 
-            </mat-dialog-actions>
+                </mat-dialog-actions>
             </div>
-            
+
 
         </div>
-        <div class="obrisiAukciju" *ngIf="item.user_id===userId || (user?.role=='admin'&& signal==1)" >
-            <button mat-raised-button (click)="deleteAuction()">	<mat-icon>delete</mat-icon>Obrisi
+        <div class="obrisiAukciju" *ngIf="item.user_id===userId || (user?.role=='admin'&& signal==1)">
+            <button mat-raised-button (click)="deleteAuction()"> <mat-icon>delete</mat-icon>Obrisi
                 Aukciju</button>
         </div>
     </div>
-    
+
 </div>

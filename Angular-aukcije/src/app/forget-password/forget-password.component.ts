@@ -3,6 +3,7 @@ import { ForgetPasswordService } from '../forget-password.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/user';
 
+
 @Component({
   selector: 'app-forget-password',
   templateUrl: './forget-password.component.html',
@@ -14,7 +15,7 @@ export class ForgetPasswordComponent {
   users: User[] = [];
   userEmails: string[] = [];
   constructor(private forgetPasswordService: ForgetPasswordService, private router: Router,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute ) {
 
   }
   ngOnInit(): void {
@@ -42,6 +43,7 @@ export class ForgetPasswordComponent {
       this.validationMessage = "Email adresa nije ispravna!"
       return;
     }
+   
     this.forgetPasswordService.sendResetLink(this.resetEmail).subscribe(response => {
       alert("Reset link vam je poslat na mail!")
     }, error => {
@@ -49,6 +51,6 @@ export class ForgetPasswordComponent {
       return;
     }
     )
-    this.router.navigate(['/reset-password', this.resetEmail]);
+   
   }
 }

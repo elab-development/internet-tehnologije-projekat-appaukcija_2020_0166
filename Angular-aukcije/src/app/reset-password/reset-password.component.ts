@@ -9,22 +9,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ResetPasswordComponent {
   resetEmail: string = "";
+  token: string = "";
   validationMessage = "";
   constructor(private resetPasswordService: ResetPasswordService, private route: ActivatedRoute
-    ,private router:Router) {
-    
-    route.params.subscribe((params) => {
+    , private router: Router) {
+
+    route.queryParams.subscribe((params) => {
+     
       if (params['email'])
         this.resetEmail = params['email'];
+        this.token = params['token'];
     })
   }
   ngOnInit(): void {
-    
+
   }
 
-  resetPassword(token: string, password: string, confirmPassword: string) {
-    console.log(this.resetEmail);
-    if (token == "" || password == "" || confirmPassword == "") {
+  resetPassword(password: string, confirmPassword: string) {
+
+    if (this.token == "" || password == "" || confirmPassword == "") {
       this.validationMessage = "Morate uneti sve parametre!";
       return;
     }
@@ -33,11 +36,12 @@ export class ResetPasswordComponent {
       return;
     } this.validationMessage = "";
 
-   if(password.length<8){
-    this.validationMessage="Sifra mora imati najmanje osam karaktera!"
-    return;
-   }
-    this.resetPasswordService.sendResetLink(this.resetEmail, token, password, confirmPassword).subscribe(response => {
+    if (password.length < 8) {
+      this.validationMessage = "Sifra mora imati najmanje osam karaktera!"
+      return;
+    }
+
+    this.resetPasswordService.sendResetLink(this.resetEmail, this.token, password, confirmPassword).subscribe(response => {
       alert("Uspesno ste zamenili lozinku!")
     }, error => {
       console.log(error);

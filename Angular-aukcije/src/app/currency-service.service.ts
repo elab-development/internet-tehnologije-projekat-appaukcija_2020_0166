@@ -1,0 +1,18 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CurrencyInfoService {
+  private apiUrl = 'https://api.freecurrencyapi.com/v1/currencies';
+  private apiKey = 'fca_live_3Aux39wrTiQukOCQ9m2IpJSeQ3c1PLAmJNY3U5US';
+
+  constructor(private http: HttpClient) { }
+
+  getCurrencyInfo(currencies: string): Observable<any> {
+    const url = `${this.apiUrl}?apikey=${this.apiKey}&currencies=${currencies}`;
+    return this.http.get<any>(url);
+  }
+}

@@ -23,6 +23,8 @@ import { DeleteAuctionService } from '../deleteAuction/delete-auction.service';
 import { DeleteItemService } from '../delete-item/delete-item.service';
 import { BidService } from '../services/bid.service';
 import { AuthServiceService } from '../authservice';
+import { CurrencyInfoService } from '../currency-service.service';
+import { currencyRatioService } from '../currency-ratio.service';
 
 @Component({
   selector: 'app-item-page',
@@ -46,12 +48,25 @@ export class ItemPageComponent {
   preostaliMinuti: number = 0;
   preostaleSekunde: number = 0;
   intervalId: any;
+  currencySymbol: string = "$";
   maxBid!: number;
   signal: number = 0;
   auctionId!: number;
   bids: Bid[] = [];
   public user!: LoginResponse | null;
   userToken!: string;
+  currency: string[] = [];
+  currencyInfo: any;
+  currencyRatio: any;
+  usdToCad!: number;
+  usdToEur!: number;
+  cadToEur!: number;
+  eurToCad!: number;
+  eurToUsd!: number;
+  cadToUsd!: number;
+  prikazCena!: number;
+  trenutnaCenaDolar!: number;
+  pocetnaCenaDolar!: number;
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
     private followService: FollowService, private cartService: CartService,
@@ -59,12 +74,13 @@ export class ItemPageComponent {
     private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
     private createBidService: CreateBidService, private bidsService: BidService, private auctionService: AuctionService,
     private usersService: UsersService, private deleteAuctionService: DeleteAuctionService,
-    private deleteItemService: DeleteItemService, private authService: AuthServiceService) {
+    private deleteItemService: DeleteItemService, private authService: AuthServiceService,
+    private currencyService: CurrencyInfoService, private currencyRatioService: currencyRatioService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
-
-
+      this.trenutnaCenaDolar = this.item.trenutna_cena;
+      this.pocetnaCenaDolar = this.item.pocetna_cena;
 
 
     })
@@ -75,11 +91,11 @@ export class ItemPageComponent {
     this.activatedRoute.data.subscribe(data => {
       const responseData = data['usersData'] as unknown as { users: User[] };;
       this.users = responseData.users;
-      
+
     })
     this.activatedRoute.data.subscribe(data => {
       this.bids = data['bidsData'];
-     
+
     })
     this.user = this.authService.getUser();
     if (this.user != null) {
@@ -92,6 +108,34 @@ export class ItemPageComponent {
 
     this.setUsers();
     this.isBid(this.bids);
+    const currencies = 'EUR,USD,CAD';
+
+    this.currencyService.getCurrencyInfo(currencies)
+      .subscribe(
+        data => {
+          this.currencyInfo = data.data;
+
+          this.currency.push(this.currencyInfo['CAD'].name);
+          this.currency.push(this.currencyInfo['USD'].name);
+          this.currency.push(this.currencyInfo['EUR'].name);
+          this.currencyRatioService.getCurrencyRatio(currencies).subscribe(data => {
+            this.currencyRatio = data.data;
+            this.usdToCad = (this.currencyRatio['CAD']);
+            this.usdToEur = (this.currencyRatio['EUR']);
+            this.eurToCad = this.usdToCad / this.usdToEur;
+            this.cadToEur = 1 / this.eurToCad;
+            this.eurToUsd = 1 / this.usdToEur;
+            this.cadToUsd = 1 / this.usdToCad;
+
+          }, error => {
+            console.error('Error', error);
+          })
+        },
+        error => {
+          console.error('Error:', error);
+          // Handle error as needed
+        }
+      );
   }
 
 
@@ -156,11 +200,24 @@ export class ItemPageComponent {
 
   }
   updateTrenutnaCena() {
-   
+
+    if (this.currencySymbol == "$") {
+      this.item.trenutna_cena = this.displayVal;
+      this.pocetnaCenaDolar = this.item.trenutna_cena;
+    }
+    if (this.currencySymbol == "€") {
+      this.item.trenutna_cena = this.displayVal * this.eurToUsd;
+      this.pocetnaCenaDolar = this.item.trenutna_cena;
+      this.currencySymbol = "$";
+    }
+    if (this.currencySymbol == "CA$") {
+      this.item.trenutna_cena = this.displayVal * this.cadToUsd;
+      this.pocetnaCenaDolar = this.item.trenutna_cena;
+      this.currencySymbol = "$";
+    }
 
     if (this.user !== null) {
       this.userToken = this.user.access_token;
-      this.item.trenutna_cena = this.displayVal;
       this.item = this.itemsService.update(this.item)
       this.updateTrenutnaCenaService.updateTrenutnaCena(this.item.id, this.item).
         subscribe(response => {
@@ -214,6 +271,41 @@ export class ItemPageComponent {
     }
 
     this.endMessage = "Nema pobednika aukcije, nijedan korisnik nije licitirao."
+  }
+  promeniValutu(option: string) {
+    if (option == "Canadian Dollar" && this.currencySymbol == "$") {
+      this.item.trenutna_cena = this.item.trenutna_cena * this.usdToCad;
+      this.item.pocetna_cena = this.item.pocetna_cena * this.usdToCad;
+      this.currencySymbol = "CA$";
+      return;
+    }
+    if (option == "Canadian Dollar" && this.currencySymbol == "€") {
+      this.item.trenutna_cena = this.item.trenutna_cena * this.eurToCad;
+      this.item.pocetna_cena = this.item.pocetna_cena * this.eurToCad;
+      this.currencySymbol = "CA$";
+      return;
+    }
+    if (option == "Euro" && this.currencySymbol == "$") {
+      this.item.trenutna_cena = this.item.trenutna_cena * this.usdToEur;
+      this.item.pocetna_cena = this.item.pocetna_cena * this.usdToEur;
+      this.currencySymbol = "€";
+      return;
+    }
+    if (option == "Euro" && this.currencySymbol == "CA$") {
+      this.item.trenutna_cena = this.item.trenutna_cena * this.cadToEur;
+      this.item.pocetna_cena = this.item.pocetna_cena * this.cadToEur;
+      this.currencySymbol = "€";
+      return;
+    }
+    if (option == "US Dollar") {
+      this.item.trenutna_cena = this.trenutnaCenaDolar;
+      this.item.pocetna_cena = this.pocetnaCenaDolar;
+      this.currencySymbol = "$";
+      return;
+    }
+  }
+  getIntegerNumber(): number {
+    return Math.round(this.item.trenutna_cena);
   }
 
 }
