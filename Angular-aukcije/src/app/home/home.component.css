@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
 
 
-.pagination{
+.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,3 +60,8 @@ a:hover {
     margin-right: 5px;
 }
 
+.sortiranje {
+    position: absolute;
+    right: 1rem;
+    top: 15.5rem;
+}

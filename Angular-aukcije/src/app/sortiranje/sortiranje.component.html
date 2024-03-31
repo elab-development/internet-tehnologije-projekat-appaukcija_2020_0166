@@ -1,0 +1,6 @@
+<mat-form-field >
+    <mat-label>Sortiranje po:</mat-label>
+    <mat-select >
+      <mat-option *ngFor="let option of options" [value]="option "  (click)="sortiraj(option)"> {{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>

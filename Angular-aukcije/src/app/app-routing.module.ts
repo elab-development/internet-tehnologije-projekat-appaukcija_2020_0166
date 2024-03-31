@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver }},
   { path: 'search/:searchTerm', component: HomeComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver } },
   { path: 'filtration/:filtrationTerm', component: HomeComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver } },
+  { path: 'sort/:sortTerm', component: HomeComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver } },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'follow-page', component: FollowPageComponent,resolve: { auctionsData: AuctionsResolver,itemsData:ItemsResolver,bidsData:BidsResolver } },
   { path: 'item/:id', component: ItemPageComponent,resolve: {usersData:UserResolver ,bidsData:BidsResolver } },

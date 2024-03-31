@@ -34,6 +34,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartPageComponent } from './cart-page/chart-page.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SortiranjeComponent } from './sortiranje/sortiranje.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     DropdownMenuComponent,
     ChartPageComponent,
     ForgetPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    SortiranjeComponent
    
   ],
   imports: [

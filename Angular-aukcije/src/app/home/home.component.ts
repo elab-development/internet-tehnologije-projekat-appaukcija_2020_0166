@@ -52,20 +52,30 @@ export class HomeComponent {
         this.itemsAuctions = this.itemSerivce.getAllItemsWithAuctions().filter(item => item.naziv.toLowerCase().startsWith(params['searchTerm'].toLowerCase()));
         this.itemsGotovo = this.itemSerivce.getAllGotovo().filter(item => item.naziv.toLowerCase().startsWith(params['searchTerm'].toLowerCase()));
       }
-      else{
-        this.itemsGotovo=this.itemSerivce.getAllGotovo();
+      else {
+        this.itemsGotovo = this.itemSerivce.getAllGotovo();
       }
-      
+
       if (params['filtrationTerm']) {
-        this.itemsAuctions = this.itemSerivce.getAllItemsWithAuctions().filter(item => item.kategorija.toLowerCase()==(params['filtrationTerm'].toLowerCase()));
-        this.itemsGotovo = this.itemSerivce.getAllGotovo().filter(item => item.kategorija.toLowerCase()==(params['filtrationTerm'].toLowerCase()));
+        this.itemsAuctions = this.itemSerivce.getAllItemsWithAuctions().filter(item => item.kategorija.toLowerCase() == (params['filtrationTerm'].toLowerCase()));
+        this.itemsGotovo = this.itemSerivce.getAllGotovo().filter(item => item.kategorija.toLowerCase() == (params['filtrationTerm'].toLowerCase()));
+      }
+      if (params['sortTerm'] == "Trenutnoj ceni") {
+        this.sortByTrenutnaCena();
+      }
+     
+      if (params['sortTerm'] == "Datumu pocetka aukcije") {
+        this.sortByDate();
+      }
+      if (params['sortTerm'] == "A-Z") {
+        this.sortByAlphabet();
       }
 
 
     })
 
 
-    
+
   }
   updateItem() {
 
@@ -87,6 +97,18 @@ export class HomeComponent {
     });
     this.itemSerivce.setData2(this.itemsAuctions);
   }
-
+  sortByTrenutnaCena() {
+    this.itemsAuctions = this.itemSerivce.getAllItemsWithAuctions().sort((a, b) => b.trenutna_cena - a.trenutna_cena);
+  }
+  sortByAlphabet() {
+    this.itemsAuctions = this.itemSerivce.getAllItemsWithAuctions().sort((a, b) => a.naziv.localeCompare(b.naziv));
+  }
+  sortByDate() {
+    this.itemsAuctions = this.itemSerivce.getAllItemsWithAuctions().map(item => ({
+      ...item,
+      preostaloVreme: typeof item.preostaloVreme === 'string' ? new Date(item.preostaloVreme) : item.preostaloVreme
+    })).sort((a, b) => a.preostaloVreme.getTime() - b.preostaloVreme.getTime());
+  }
+  
 
 }
