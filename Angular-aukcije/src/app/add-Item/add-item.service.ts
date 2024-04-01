@@ -12,7 +12,7 @@ export class AddItemService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  addItem( naziv:string,opis:string,pocetna_cena:string,trenutna_cena:string,url:string) {
+  addItem( naziv:string,opis:string,pocetna_cena:string,trenutna_cena:string,url:string,kategorija:string) {
    
 
     const formData = new FormData();
@@ -21,6 +21,7 @@ export class AddItemService {
     formData.append('pocetna_cena', pocetna_cena);
     formData.append('trenutna_cena', trenutna_cena);
     formData.append('url', url);
+    formData.append('kategorija',kategorija);
     return this.httpClient.post(this.apiUrl, formData).pipe(
       map(response => response as Item),
       catchError(error => {

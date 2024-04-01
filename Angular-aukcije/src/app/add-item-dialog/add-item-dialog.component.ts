@@ -15,6 +15,8 @@ export class AddItemDialogComponent {
   public user!: LoginResponse | null;
   userToken!: string;
   selectedDate!: Date;
+  options: string[] = ['Kompjuterske Igrice i Filmovi', 'Tehnika', 'Sport', 'Ostalo'];
+  option: string = "";
   itemId!: number;
   currentDate: Date = new Date();
   formattedDateTrenutni!: string;
@@ -23,27 +25,32 @@ export class AddItemDialogComponent {
   constructor(private addItemService: AddItemService, private addAuctionService: AddAuctionService,
     private datePipe: DatePipe) {
     this.formattedDatePocetni = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd HH:mm:ss')!;
-    
+
   }
   AddAuction(nazivPredmeta: string, opisPredmeta: string, pocetna_cena: string, trenutna_cena: string, urlSlike: string) {
 
     this.formattedDateTrenutni = this.datePipe.transform(this.selectedDate, 'yyyy-MM-dd HH:mm:ss')!;
-   
+
     if (!nazivPredmeta || !opisPredmeta || !pocetna_cena || !trenutna_cena || !urlSlike) {
       this.validationMessage = "Molimo vas unesite sve podatke.";
       return;
     }
-    if(moment(this.selectedDate) <= moment()){
-      this.validationMessage="Morate uneti datum koji je validan."
+    if (this.option == "") {
+      this.validationMessage = "Morate izabrati kategoriju proizvoda."
       return;
     }
+    if (moment(this.selectedDate) <= moment()) {
+      this.validationMessage = "Morate uneti datum koji je validan."
+      return;
+    }
+   
     this.validationMessage = "";
-    this.addItemService.addItem( nazivPredmeta, opisPredmeta, pocetna_cena, trenutna_cena, urlSlike).subscribe(response => {
+    this.addItemService.addItem(nazivPredmeta, opisPredmeta, pocetna_cena, trenutna_cena, urlSlike, this.option).subscribe(response => {
       const responseData = response as unknown as { data: Item };
 
       this.itemId = responseData.data.id
 
-      this.addAuctionService.addAuction( this.itemId, this.formattedDatePocetni, this.formattedDateTrenutni).subscribe(response => {
+      this.addAuctionService.addAuction(this.itemId, this.formattedDatePocetni, this.formattedDateTrenutni).subscribe(response => {
 
 
 
@@ -61,5 +68,8 @@ export class AddItemDialogComponent {
   updateDate(value: string) {
 
     this.selectedDate = new Date(value);
+  }
+  opcija(option: string) {
+    this.option = option;
   }
 }

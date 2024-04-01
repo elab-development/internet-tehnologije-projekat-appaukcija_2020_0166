@@ -34,6 +34,8 @@ import { currencyRatioService } from '../currency-ratio.service';
 export class ItemPageComponent {
   auctions!: Auction[];
   item!: Item;
+  signalValuta: boolean = false;
+  inputValue: string = '';  
   itemsProba!: Item[];
   proba!: string | null;
   users: User[] = [];
@@ -49,6 +51,7 @@ export class ItemPageComponent {
   preostaleSekunde: number = 0;
   intervalId: any;
   currencySymbol: string = "$";
+  selectedCurrency: string = '';
   maxBid!: number;
   signal: number = 0;
   auctionId!: number;
@@ -176,7 +179,7 @@ export class ItemPageComponent {
 
 
 
-  getSelectedPriceValue(value: string) {
+  getSelectedPriceValue(value: string,inputElement: HTMLInputElement) {
     this.validationMessage = '';
     this.displayVal = parseInt(value);
     if (!this.displayVal) {
@@ -195,24 +198,27 @@ export class ItemPageComponent {
       this.validationMessage = "Ne mozete licitrati na sopstvenoj aukciji."
       return;
     }
-
+    this.inputValue = "";
+    inputElement.placeholder = "Unesi licitaciju";
     this.updateTrenutnaCena();
 
   }
+ 
   updateTrenutnaCena() {
 
     if (this.currencySymbol == "$") {
       this.item.trenutna_cena = this.displayVal;
-      this.pocetnaCenaDolar = this.item.trenutna_cena;
+      
     }
     if (this.currencySymbol == "€") {
       this.item.trenutna_cena = this.displayVal * this.eurToUsd;
-      this.pocetnaCenaDolar = this.item.trenutna_cena;
+    
       this.currencySymbol = "$";
+      this.selectedCurrency = "";
     }
     if (this.currencySymbol == "CA$") {
       this.item.trenutna_cena = this.displayVal * this.cadToUsd;
-      this.pocetnaCenaDolar = this.item.trenutna_cena;
+      this.selectedCurrency = "";
       this.currencySymbol = "$";
     }
 
@@ -231,6 +237,7 @@ export class ItemPageComponent {
 
         }, error => { console.log(error); });
       this.addToFollow();
+      this.signalValuta = true;
     }
 
     else {
@@ -297,10 +304,26 @@ export class ItemPageComponent {
       this.currencySymbol = "€";
       return;
     }
-    if (option == "US Dollar") {
+    if (option == "US Dollar" && this.signalValuta == false) {
       this.item.trenutna_cena = this.trenutnaCenaDolar;
       this.item.pocetna_cena = this.pocetnaCenaDolar;
       this.currencySymbol = "$";
+      return;
+    }
+    if (option == "US Dollar" && this.signalValuta == true && this.currencySymbol == "€") {
+      this.item.trenutna_cena = this.item.trenutna_cena * this.eurToUsd;
+      this.item.pocetna_cena = this.pocetnaCenaDolar;
+      this.currencySymbol = "$";
+      this.signalValuta = false;
+      this.trenutnaCenaDolar = this.item.trenutna_cena;
+      return;
+    }
+    if (option == "US Dollar" && this.signalValuta == true && this.currencySymbol == "CA$") {
+      this.item.trenutna_cena = this.item.trenutna_cena * this.cadToUsd;
+      this.item.pocetna_cena = this.pocetnaCenaDolar;
+      this.currencySymbol = "$";
+      this.signalValuta = false;
+      this.trenutnaCenaDolar = this.item.trenutna_cena;
       return;
     }
   }

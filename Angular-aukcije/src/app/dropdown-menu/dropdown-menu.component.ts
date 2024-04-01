@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DropdownMenuComponent implements OnInit {
   options: string[] = ['Kompjuterske Igrice i Filmovi', 'Tehnika', 'Sport', 'Ostalo'];
-  option!: String;
+  option!: string;
   constructor(private router: Router, private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
@@ -18,7 +18,7 @@ export class DropdownMenuComponent implements OnInit {
         this.option = params['filtrationTerm'];
     })
   }
-  filtriraj(option: String) {
+  filtriraj(option: string) {
     console.log(option);
     this.option=option;
     this.router.navigateByUrl('/filtration/' + this.option);

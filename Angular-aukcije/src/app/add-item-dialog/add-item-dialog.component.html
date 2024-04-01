@@ -20,11 +20,17 @@
             <input type="number" matInput #pocetnaCena placeholder="Pocetna cena ">
 
         </mat-form-field>
-     
+       
         <mat-form-field appearance="fill" class="podaci">
             <input matInput #slika placeholder="Slika ">
 
         </mat-form-field>
+        <mat-form-field >
+            <mat-label>Izaberite kategoriju</mat-label>
+            <mat-select >
+              <mat-option *ngFor="let option of options" [value]="option " (click)="opcija(option)"> {{ option }}</mat-option>
+            </mat-select>
+          </mat-form-field>
         <mat-form-field appearance="fill" class="podaci">
             <input matInput type="datetime-local" matInput #vreme_zavrsetka  (change)="updateDate(vreme_zavrsetka.value)" placeholder="Vreme zavrsetka aukcije ">
 

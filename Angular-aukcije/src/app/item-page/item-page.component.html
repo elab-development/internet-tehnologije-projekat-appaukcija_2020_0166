@@ -12,7 +12,7 @@
 
             <mat-form-field>
                 <mat-label>Izaberite valutu</mat-label>
-                <mat-select>
+                <mat-select [(ngModel)]="selectedCurrency">
                     <mat-option *ngFor="let option of currency" [value]="option " (click)="promeniValutu(option)"> {{
                         option }}</mat-option>
                 </mat-select>
@@ -33,8 +33,9 @@
             {{preostaliDani}} dana {{preostaliSati}}:{{preostaliMinuti}}:{{preostaleSekunde}}
         </div>
         <div class="unesi">
-            <mat-form-field class="form-field">
-                <input type="number"  matInput #matInput placeholder="Unesi licitaciju">
+            <mat-form-field class="form-field" >
+                
+                <input type="number"  matInput #matInput placeholder="Unesi licitaciju" [(ngModel)]="inputValue">
                 {{currencySymbol}}
             </mat-form-field>
 
@@ -60,7 +61,7 @@
             <p *ngIf="validationMessage.length > 0" style="color:red">{{validationMessage}}</p>
         </div>
 
-        <button (click)="getSelectedPriceValue(matInput.value)" mat-raised-button>Licitiraj</button>
+        <button (click)="getSelectedPriceValue(matInput.value, matInput)" mat-raised-button>Licitiraj</button>
 
 
         <p>

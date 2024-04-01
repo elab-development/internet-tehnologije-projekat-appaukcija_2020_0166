@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SortiranjeComponent {
   options: string[] = ['Trenutnoj ceni','Datumu pocetka aukcije','A-Z'];
-  option!: String;
+  option!: string;
   constructor(private router: Router, private route: ActivatedRoute) { }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -16,7 +16,7 @@ export class SortiranjeComponent {
         this.option = params['sortTerm'];
     })
   }
-  sortiraj(option: String) {
+  sortiraj(option: string) {
     console.log(option);
     this.option=option;
     this.router.navigateByUrl('/sort/' + this.option);
