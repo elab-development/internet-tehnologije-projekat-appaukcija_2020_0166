@@ -25,6 +25,7 @@ import { BidService } from '../services/bid.service';
 import { AuthServiceService } from '../authservice';
 import { CurrencyInfoService } from '../currency-service.service';
 import { currencyRatioService } from '../currency-ratio.service';
+import { UpdateVremeZavrsetkaService } from '../update-vreme-zavrsetka.service';
 
 @Component({
   selector: 'app-item-page',
@@ -32,10 +33,10 @@ import { currencyRatioService } from '../currency-ratio.service';
   styleUrl: './item-page.component.css'
 })
 export class ItemPageComponent {
-  auctions!: Auction[];
+  auction!: Auction;
   item!: Item;
   signalValuta: boolean = false;
-  inputValue: string = '';  
+  inputValue: string = '';
   itemsProba!: Item[];
   proba!: string | null;
   users: User[] = [];
@@ -72,13 +73,13 @@ export class ItemPageComponent {
   pocetnaCenaDolar!: number;
   constructor(private activatedRoute: ActivatedRoute,
     private itemsService: ItemsService, private matDialog: MatDialog,
-    private followService: FollowService, private cartService: CartService,
-    private router: Router, private getAuctionService: GetAuctionsService,
+    private followService: FollowService, private router: Router,
     private updateTrenutnaCenaService: UpdateTrenutnaCenaService,
-    private createBidService: CreateBidService, private bidsService: BidService, private auctionService: AuctionService,
-    private usersService: UsersService, private deleteAuctionService: DeleteAuctionService,
+    private createBidService: CreateBidService, private auctionService: AuctionService,
+    private deleteAuctionService: DeleteAuctionService,
     private deleteItemService: DeleteItemService, private authService: AuthServiceService,
-    private currencyService: CurrencyInfoService, private currencyRatioService: currencyRatioService) {
+    private currencyService: CurrencyInfoService, private currencyRatioService: currencyRatioService,
+    private updateVremeZavrsetkaService: UpdateVremeZavrsetkaService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
@@ -106,6 +107,7 @@ export class ItemPageComponent {
       this.userId = this.user.user_id;
     }
     this.auctionId = this.auctionService.getAuctionIdByItemId(this.item.id);
+    this.auction = this.auctionService.getAuctionById(this.auctionId);
     this.remainingTime();
     this.intervalId = setInterval(() => this.remainingTime(), 1000);
 
@@ -179,7 +181,7 @@ export class ItemPageComponent {
 
 
 
-  getSelectedPriceValue(value: string,inputElement: HTMLInputElement) {
+  getSelectedPriceValue(value: string, inputElement: HTMLInputElement) {
     this.validationMessage = '';
     this.displayVal = parseInt(value);
     if (!this.displayVal) {
@@ -201,18 +203,30 @@ export class ItemPageComponent {
     this.inputValue = "";
     inputElement.placeholder = "Unesi licitaciju";
     this.updateTrenutnaCena();
+    if (this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0 && this.preostaleSekunde < 60) {
+      this.item.preostaloVreme = typeof this.item.preostaloVreme === 'string' ? new Date(this.item.preostaloVreme) : this.item.preostaloVreme;
+      const currentTime = new Date();
+
+      this.item.preostaloVreme = new Date(currentTime.getTime() + 60000);
+      this.auction.vreme_zavrsetka=new Date(currentTime.getTime() + 60000);
+      this.updateVremeZavrsetkaService.updateVremeZavrsetka(this.auctionId, this.auction).subscribe(response => {
+        console.log(response);
+      }, error => {
+        console.log(error);
+      })
+    }
 
   }
- 
+
   updateTrenutnaCena() {
 
     if (this.currencySymbol == "$") {
       this.item.trenutna_cena = this.displayVal;
-      
+
     }
     if (this.currencySymbol == "€") {
       this.item.trenutna_cena = this.displayVal * this.eurToUsd;
-    
+
       this.currencySymbol = "$";
       this.selectedCurrency = "";
     }
@@ -271,7 +285,6 @@ export class ItemPageComponent {
     })
   }
   isBid(bids: Bid[]) {
-    console.log(bids);
     if (bids.some(element => element.auction_id === this.auctionId)) {
 
       return;

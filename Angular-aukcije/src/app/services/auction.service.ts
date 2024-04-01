@@ -10,7 +10,7 @@ export class AuctionService {
   private data: Auction[] = [
 
   ];
-  constructor(private getAuctionService:GetAuctionsService) {
+  constructor() {
   
    }
   getAuctionById(id: number): Auction {
@@ -20,6 +20,7 @@ export class AuctionService {
     let auction = this.data.filter(e=>e.item_id === item_id)[0];
     return auction.id;
   }
+ 
  
   getAll(): Auction[] {
     return this.data;

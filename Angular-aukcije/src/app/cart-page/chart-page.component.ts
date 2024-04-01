@@ -102,7 +102,7 @@ export class ChartPageComponent {
         },
         yaxis: {
           min: 0,
-          max: 10,
+          max: 60,
           title: {
             text: "Bids"
           }
