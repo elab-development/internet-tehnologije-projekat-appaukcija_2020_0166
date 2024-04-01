@@ -10,29 +10,30 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules\Password as RulesPassword;
-
+use DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
 
 class ForgotPasswordController extends Controller
 {
     public function forgotPassword(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
+    { $request->validate([
+        'email' => 'required|email',
+    ]);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
 
-        if ($status == Password::RESET_LINK_SENT) {
-            return [
-                'status' => __($status)
-            ];
-        }
+    if ($status == Password::RESET_LINK_SENT) {
+        return [
+            'status' => __($status)
+        ];
+    }
 
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
-        ]);
+    throw ValidationException::withMessages([
+        'email' => [trans($status)],
+    ]);
     }
     public function reset(Request $request)
     {

@@ -6,6 +6,7 @@ use App\Http\Resources\AuctionResource;
 use App\Models\Auction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 class AuctionController extends Controller
 {
     /**
@@ -37,13 +38,13 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
-      $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'item_id' => 'required|string|max:255',
             'vreme_pocetka' => 'required|date_format:Y-m-d H:i:s',
             'vreme_zavrsetka' => 'required|date_format:Y-m-d H:i:s',
-          
-         
-           
+
+
+
         ]);
 
         if ($validator->fails()) {
@@ -54,12 +55,12 @@ class AuctionController extends Controller
             'item_id' => $request->item_id,
             'vreme_pocetka' => $request->vreme_pocetka,
             'vreme_zavrsetka' => $request->vreme_zavrsetka,
-            
+            'broj_licitacija' => 0
         ]);
 
         return response()->json(['message' => 'Auction created successfully.']);
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -96,7 +97,17 @@ class AuctionController extends Controller
      */
     public function update(Request $request, Auction $auction)
     {
-        //
+        $validator = Validator::make($request->all(), [
+
+            'vreme_zavrsetka' => 'required|date_format:Y-m-d H:i:s',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+        $auction->vreme_zavrsetka = $request->vreme_zavrsetka;
+        $auction->save();
+        return response()->json(['message' => 'Auction updated successfully.', 'data' => new AuctionResource($auction)]);
     }
 
     /**
@@ -112,18 +123,18 @@ class AuctionController extends Controller
             return response()->json('Data not found', 404);
         }
         Auction::destroy($auction_id);
-        return response()-> json('Successful delete', 200);
+        return response()->json('Successful delete', 200);
     }
     public function getBidsbyAuctionId($auction_id)
-{
-    $auction = Auction::with('bids')->find($auction_id);
+    {
+        $auction = Auction::with('bids')->find($auction_id);
 
-    if (is_null($auction)) {
-        return response()->json('Data not found', 404);
+        if (is_null($auction)) {
+            return response()->json('Data not found', 404);
+        }
+
+        return response()->json($auction);
     }
-
-    return response()->json($auction);
-}
 
 
 }

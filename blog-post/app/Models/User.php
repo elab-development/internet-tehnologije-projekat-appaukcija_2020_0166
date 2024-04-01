@@ -24,7 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'broj_telefona',
-        'adresa'
+        'adresa',
+        'reset_code'
     ];
 
     /**
@@ -45,16 +46,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function items(){
+    public function items()
+    {
         return $this->hasMany(Item::class);
     }
-    public function bids(){
+    public function bids()
+    {
         return $this->hasMany(Bid::class);
     }
     public function sendPasswordResetNotification($token)
     {
 
-        $url = 'https://spa.test/reset-password?token=' . $token;
+        $url = 'http://localhost:4200/reset-password?token=' . $token . '&email='. $this->getEmailForPasswordReset();
 
         $this->notify(new ResetPasswordNotification($url));
     }

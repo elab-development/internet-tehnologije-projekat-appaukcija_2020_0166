@@ -46,8 +46,8 @@ class ItemController extends Controller
             'opis' => 'required|string|max:100',
             'pocetna_cena' => 'required|numeric',
             'trenutna_cena' => 'required|numeric',
-
-            'url' => 'required'
+            'url' => 'required',
+            'kategorija' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +60,8 @@ class ItemController extends Controller
             'pocetna_cena' => $request->pocetna_cena,
             'trenutna_cena' => $request->trenutna_cena,
             'user_id' => Auth::user()->id,
-            'url' => $request->url
+            'url' => $request->url,
+            'kategorija'=>$request->kategorija
         ]);
 
         return response()->json(['message' => 'Item created successfully.', 'data' => new ItemResource($item)]);

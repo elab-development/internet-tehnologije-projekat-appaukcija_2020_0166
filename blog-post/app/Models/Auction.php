@@ -13,6 +13,7 @@ class Auction extends Model
         'item_id',
         'vreme_pocetka',
         'vreme_zavrsetka',
+        'broj_licitacija'
 
     ];
     public function items()
