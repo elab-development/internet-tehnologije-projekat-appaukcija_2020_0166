@@ -9,6 +9,7 @@
 .container>* {
     min-width: 25rem;
     max-width: 40rem;
+
 }
 
 img {
@@ -16,7 +17,7 @@ img {
     flex: 10;
     object-fit: cover;
     height: 50rem;
-    margin: 1rem;
+    margin-top: -1rem;
     filter: brightness(94%)
 }
 
@@ -44,7 +45,7 @@ img {
     padding: 1rem;
     border-radius: 0.4rem;
     border-color: black;
-    color:white;
+    color: white;
     background-color: #0E4C92;
 }
 
@@ -53,6 +54,14 @@ img {
     display: flex;
     align-items: baseline;
 
+    font-size: 1.8rem;
+    margin-bottom: -40px;
+}
+
+.raspolozivaSredstva {
+    display: flex;
+    align-items: baseline;
+    font-weight: 100;
     font-size: 1.8rem;
     margin-bottom: -40px;
 }
@@ -99,7 +108,7 @@ img {
     border-radius: 1rem;
     padding: .5rem;
     margin: .5rem;
-    margin-top: -15rem;
+    margin-top: 3rem;
 }
 
 .contact>div {
@@ -114,7 +123,7 @@ img {
 
 .contact .nazivKorisnika {
     margin-bottom: 1.5rem;
-    margin-left:3rem;
+    margin-left: 3rem;
 }
 
 .contact .uProizvoda {
@@ -135,26 +144,29 @@ img {
 .upozorenje p {
     margin-top: -40px;
 }
-.pobeda p{
+
+.pobeda p {
     margin-top: 0rem;
     margin-left: 4rem;
 
 }
-.upozorenje{
+
+.upozorenje {
     margin-top: 2rem;
 }
-.gotovo{
-   font-weight: 500;
-}
-.obrisiAukciju button{
-    margin-top: 4rem;
-}
-.nijedanBid{
+
+.gotovo {
     font-weight: 500;
 }
-.pocetnaCena{
-    justify-content: space-between
+
+.obrisiAukciju button {
+    margin-top: 1rem;
 }
 
+.nijedanBid {
+    font-weight: 500;
+}
 
-
+.header {
+    margin-top: 5rem;
+}

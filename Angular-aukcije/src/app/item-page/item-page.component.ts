@@ -26,6 +26,8 @@ import { AuthServiceService } from '../authservice';
 import { CurrencyInfoService } from '../currency-service.service';
 import { currencyRatioService } from '../currency-ratio.service';
 import { UpdateVremeZavrsetkaService } from '../update-vreme-zavrsetka.service';
+import { UpdateNovacService } from '../update-novac.service';
+import { GetMoneyService } from '../get-money.service';
 
 @Component({
   selector: 'app-item-page',
@@ -68,6 +70,7 @@ export class ItemPageComponent {
   eurToCad!: number;
   eurToUsd!: number;
   cadToUsd!: number;
+  novac!: number;
   prikazCena!: number;
   trenutnaCenaDolar!: number;
   pocetnaCenaDolar!: number;
@@ -79,7 +82,8 @@ export class ItemPageComponent {
     private deleteAuctionService: DeleteAuctionService,
     private deleteItemService: DeleteItemService, private authService: AuthServiceService,
     private currencyService: CurrencyInfoService, private currencyRatioService: currencyRatioService,
-    private updateVremeZavrsetkaService: UpdateVremeZavrsetkaService) {
+    private updateVremeZavrsetkaService: UpdateVremeZavrsetkaService, private updateNovacService: UpdateNovacService,
+    private getMoneyService: GetMoneyService) {
     activatedRoute.params.subscribe((params) => {
       if (params['id'])
         this.item = itemsService.getItemById(params['id']);
@@ -92,7 +96,9 @@ export class ItemPageComponent {
 
   }
   ngOnInit(): void {
+
     this.activatedRoute.data.subscribe(data => {
+      this.user = this.authService.getUser();
       const responseData = data['usersData'] as unknown as { users: User[] };;
       this.users = responseData.users;
 
@@ -101,10 +107,23 @@ export class ItemPageComponent {
       this.bids = data['bidsData'];
 
     })
+    this.activatedRoute.data.subscribe(data => {
+      const responseData = data['moneyData'] as unknown as { novac: number };;
+      this.novac = responseData.novac;
+    })
+
+
     this.user = this.authService.getUser();
     if (this.user != null) {
       this.userToken = this.user.access_token;
       this.userId = this.user.user_id;
+      // this.getMoneyService.GetMoney(this.userId).subscribe(response => {
+      //   const responseObject = JSON.parse(JSON.stringify(response));
+      //   this.novac = responseObject.novac;
+      //   console.log(this.novac);
+      // }, error => {
+      //   console.log(error);
+      // })
     }
     this.auctionId = this.auctionService.getAuctionIdByItemId(this.item.id);
     this.auction = this.auctionService.getAuctionById(this.auctionId);
@@ -115,32 +134,32 @@ export class ItemPageComponent {
     this.isBid(this.bids);
     const currencies = 'EUR,USD,CAD';
 
-    this.currencyService.getCurrencyInfo(currencies)
-      .subscribe(
-        data => {
-          this.currencyInfo = data.data;
+    // this.currencyService.getCurrencyInfo(currencies)
+    //   .subscribe(
+    //     data => {
+    //       this.currencyInfo = data.data;
 
-          this.currency.push(this.currencyInfo['CAD'].name);
-          this.currency.push(this.currencyInfo['USD'].name);
-          this.currency.push(this.currencyInfo['EUR'].name);
-          this.currencyRatioService.getCurrencyRatio(currencies).subscribe(data => {
-            this.currencyRatio = data.data;
-            this.usdToCad = (this.currencyRatio['CAD']);
-            this.usdToEur = (this.currencyRatio['EUR']);
-            this.eurToCad = this.usdToCad / this.usdToEur;
-            this.cadToEur = 1 / this.eurToCad;
-            this.eurToUsd = 1 / this.usdToEur;
-            this.cadToUsd = 1 / this.usdToCad;
+    //       this.currency.push(this.currencyInfo['CAD'].name);
+    //       this.currency.push(this.currencyInfo['USD'].name);
+    //       this.currency.push(this.currencyInfo['EUR'].name);
+    //       this.currencyRatioService.getCurrencyRatio(currencies).subscribe(data => {
+    //         this.currencyRatio = data.data;
+    //         this.usdToCad = (this.currencyRatio['CAD']);
+    //         this.usdToEur = (this.currencyRatio['EUR']);
+    //         this.eurToCad = this.usdToCad / this.usdToEur;
+    //         this.cadToEur = 1 / this.eurToCad;
+    //         this.eurToUsd = 1 / this.usdToEur;
+    //         this.cadToUsd = 1 / this.usdToCad;
 
-          }, error => {
-            console.error('Error', error);
-          })
-        },
-        error => {
-          console.error('Error:', error);
-          // Handle error as needed
-        }
-      );
+    //       }, error => {
+    //         console.error('Error', error);
+    //       })
+    //     },
+    //     error => {
+    //       console.error('Error:', error);
+    //       // Handle error as needed
+    //     }
+    //   );
   }
 
 
@@ -184,12 +203,17 @@ export class ItemPageComponent {
   getSelectedPriceValue(value: string, inputElement: HTMLInputElement) {
     this.validationMessage = '';
     this.displayVal = parseInt(value);
+
     if (!this.displayVal) {
       this.validationMessage = "Molimo vas unesite vasu licitaciju.";
       return;
     }
     if (this.displayVal <= this.item.trenutna_cena) {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
+      return;
+    }
+    if (this.user != null && this.displayVal > this.novac) {
+      this.validationMessage = "Nemate dovljno sredstava za datu transakciju!";
       return;
     }
     if (this.preostaleSekunde == 0 && this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0 || moment(this.item.preostaloVreme) <= moment()) {
@@ -202,13 +226,15 @@ export class ItemPageComponent {
     }
     this.inputValue = "";
     inputElement.placeholder = "Unesi licitaciju";
+
+    this.updateNovac(this.displayVal);
     this.updateTrenutnaCena();
     if (this.preostaliMinuti == 0 && this.preostaliSati == 0 && this.preostaliDani == 0 && this.preostaleSekunde < 60) {
       this.item.preostaloVreme = typeof this.item.preostaloVreme === 'string' ? new Date(this.item.preostaloVreme) : this.item.preostaloVreme;
       const currentTime = new Date();
 
       this.item.preostaloVreme = new Date(currentTime.getTime() + 60000);
-      this.auction.vreme_zavrsetka=new Date(currentTime.getTime() + 60000);
+      this.auction.vreme_zavrsetka = new Date(currentTime.getTime() + 60000);
       this.updateVremeZavrsetkaService.updateVremeZavrsetka(this.auctionId, this.auction).subscribe(response => {
         console.log(response);
       }, error => {
@@ -216,6 +242,14 @@ export class ItemPageComponent {
       })
     }
 
+  }
+  updateNovac(displayVal: number) {
+    this.novac = this.novac - displayVal;
+    this.updateNovacService.updateNovac(this.userId, this.novac).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.log(error);
+    })
   }
 
   updateTrenutnaCena() {
@@ -259,6 +293,7 @@ export class ItemPageComponent {
       this.router.navigate(['/user-login']);
     }
   }
+
 
   setUsers() {
 

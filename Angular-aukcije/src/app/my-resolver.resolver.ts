@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable, of, switchMap, throwError } from 'rxjs';
 import { DataServiceService } from './services/data-service.service';
 import { UserItemService } from './user-item/user-item.service';
+import { GetMoneyService } from './get-money.service';
+import { AuthServiceService } from './authservice';
 
 @Injectable({
   providedIn: 'root'
@@ -61,4 +63,28 @@ export class UserItemResolver implements Resolve<any> {
   }
 
 }
+@Injectable({
+  providedIn: 'root'
+})
+export class MoneyResolver implements Resolve<number> {
+
+  constructor(private getMoneyService: GetMoneyService, private authService: AuthServiceService) {}
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    const user = this.authService.getUser();
+
+    if (user && user.user_id) {
+      const userId = user.user_id;
+
+      
+      
+      return this.getMoneyService.GetMoney(userId);
+    } else {
+      
+      return of(0);
+    }
+  }
+}
+
+
 

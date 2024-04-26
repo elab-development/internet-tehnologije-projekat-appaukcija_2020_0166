@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
     private matDialog: MatDialog, private userLoggedInEvent: UserLoggedInEvent,private authService:AuthServiceService) { }
 
   ngOnInit(): void {
+    
     this.userLoggedInEvent.eventObservable.subscribe(user => {
       this.user = user;
       this.userToken = user.access_token;

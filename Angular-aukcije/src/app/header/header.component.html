@@ -3,29 +3,31 @@
         <div class="left-button">
             <a href="#" routerLink="/"><button mat-raised-button>KupiBrzo!</button></a>
             <div class="chart" *ngIf="user?.role=='admin'">
-            
-                <a href="#" routerLink="/chart-page"><button mat-raised-button> Grafici <mat-icon> bar_chart</mat-icon></button></a>
+
+                <a href="#" routerLink="/chart-page"><button mat-raised-button> Grafici <mat-icon>
+                            bar_chart</mat-icon></button></a>
             </div>
         </div>
-       
+
         <div class="user-info" *ngIf="user">
-            
+
             <p>{{user.userName}}</p>
+        
         </div>
         <div class="right-buttons">
             <div class="dodajAukciju" *ngIf="user">
-               
-                <button mat-fab (click)="AddAuction()" >	<mat-icon>add_shopping_cart</mat-icon></button>
+
+                <button mat-fab (click)="AddAuction()"> <mat-icon>add_shopping_cart</mat-icon></button>
                 <p>Dodaj aukciju</p>
-            
+
             </div>
             <div class="pratim">
                 <button mat-fab (click)="onClickFollow()"><mat-icon>star</mat-icon></button>
                 <p>Pratim</p>
             </div>
             <div class="mojiPredmeti">
-            
-                    <button mat-fab (click)="onClickCart()" ><mat-icon>shopping_cart</mat-icon></button>
+
+                <button mat-fab (click)="onClickCart()"><mat-icon>shopping_cart</mat-icon></button>
                 <p>Predmeti</p>
             </div>
             <div class="Uloguj se" *ngIf="!user">

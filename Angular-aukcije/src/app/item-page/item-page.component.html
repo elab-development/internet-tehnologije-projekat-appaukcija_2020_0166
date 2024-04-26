@@ -6,24 +6,19 @@
                 {{item.naziv|capitalize}}
             </span>
         </div>
+        <div class="raspolozivaSredstva">
+            <p>Raspoloživa sredstva: {{novac}} {{currencySymbol}}</p>
+        </div>
         <div class="pocetnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
+            
             <p>Pocetna cena:</p>
             {{item.pocetna_cena| number:'1.0-0'}} {{currencySymbol}}
-
-            <mat-form-field>
-                <mat-label>Izaberite valutu</mat-label>
-                <mat-select [(ngModel)]="selectedCurrency">
-                    <mat-option *ngFor="let option of currency" [value]="option " (click)="promeniValutu(option)"> {{
-                        option }}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-
         </div>
         <div class="trenutnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }" >
             <p>Trenutna cena:</p>
             {{item.trenutna_cena| number:'1.0-0'}} {{currencySymbol}}
         </div>
+        
         <div class="preostaloVreme" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Aukcija traje do:</p>
             {{item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
@@ -38,7 +33,17 @@
                 <input type="number"  matInput #matInput placeholder="Unesi licitaciju" [(ngModel)]="inputValue">
                 {{currencySymbol}}
             </mat-form-field>
+            
 
+        </div>
+        <div class="valuta">
+            <mat-form-field>
+                <mat-label>Izaberite valutu</mat-label>
+                <mat-select [(ngModel)]="selectedCurrency">
+                    <mat-option *ngFor="let option of currency" [value]="option " (click)="promeniValutu(option)"> {{
+                        option }}</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
         <div class="gotovo" *ngIf="signal==1 ">
             <p>

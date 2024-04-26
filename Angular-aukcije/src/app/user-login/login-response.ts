@@ -4,4 +4,5 @@ export class LoginResponse {
     message!: string;
     user_id!: number;
     role!:string;
+    novac!:number;
 }
