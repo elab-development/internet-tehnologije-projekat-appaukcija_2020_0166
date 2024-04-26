@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'password' => $this->resource->password,
             'broj_telefona'=>$this->resource->broj_telefona,
             'adresa'=>$this->resource->adresa,
-            'role'=>$this->resource->role
+            'novac'=>$this->resource->novac
         ];
     }
 }

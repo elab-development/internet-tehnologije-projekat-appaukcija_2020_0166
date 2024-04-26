@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -72,8 +73,24 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+          
+            'novac' => 'required|numeric|',
+          
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+      
+        $user->novac = $request->novac;
+        
+        $user->save();
+
+        return response()->json(['message' => 'User updated successfully.', 'data' => new UserResource($user)]);
+    }    //
+    
 
     /**
      * Remove the specified resource from storage.
@@ -102,5 +119,20 @@ class UserController extends Controller
             return response()->json('Data not found', 404);
         }
         return response()->json($user);
+    }
+    public function getNovacbyUserId($user_id)
+    {
+        $user = User::find($user_id);
+
+        if (!$user) {
+            // Handle case where user is not found
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Retrieve the amount of money from the user
+        $novac = $user->novac;
+
+        return response()->json(['novac' => $novac]);
+    
     }
 }

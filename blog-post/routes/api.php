@@ -38,7 +38,7 @@ Route::post('/forget-password', [ForgotPasswordController::class, 'forgotPasswor
 Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
 Route::resource('users', UserController::class);
 Route::get('/user/{id}/items', [UserItemController::class, 'index']);
-
+Route::get('/user/{id}/novac', [UserController::class, 'getNovacbyUserId']);
 Route::get('/login', function () {
     return 'Please authenticate';
 });
@@ -46,6 +46,7 @@ Route::get('/login', function () {
 Route::group(['middleware' => ['auth:sanctum', 'admin']], function () {
     Route::get('/user/{id}', [UserController::class, 'getbyid']);
     Route::get('/user/{id}/bids', [UserController::class, 'getBidsbyUserId']);
+
     Route::get('/auction/{id}/bids', [AuctionController::class, 'getBidsbyAuctionId']);
     Route::get('/auction/{id}/item', [AuctionController::class, 'getItembyAuctionId']);
     Route::get('/item/{id}/auction', [ItemController::class, 'getAuctionbyItemId']);
