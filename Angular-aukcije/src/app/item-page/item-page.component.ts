@@ -46,6 +46,7 @@ export class ItemPageComponent {
   userId!: number;
   unosIznosa: any;
   userName!: string;
+  trenutnaCenaValuta!: number;
   displayVal: number = 0;
   displayValNovac!: number;
   validationMessage: string = '';
@@ -73,6 +74,7 @@ export class ItemPageComponent {
   eurToUsd!: number;
   cadToUsd!: number;
   novac!: number;
+  novacValuta!: number;
   novacDolar!: number;
   prikazCena!: number;
   trenutnaCenaDolar!: number;
@@ -206,15 +208,15 @@ export class ItemPageComponent {
       this.validationMessage = "Molimo vas unesite vasu licitaciju.";
       return;
     }
-    if(this.displayVal<0){
-      this.validationMessage="Ne mozete uneti brojeve manje od nule!";
+    if (this.displayVal < 0) {
+      this.validationMessage = "Ne mozete uneti brojeve manje od nule!";
       return;
     }
     if (this.displayVal <= this.item.trenutna_cena) {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
       return;
     }
-   
+
     if (this.user != null && this.displayVal > this.novac) {
       this.validationMessage = "Nemate dovljno sredstava za datu transakciju!";
       return;
@@ -247,48 +249,45 @@ export class ItemPageComponent {
 
   }
   updateNovac(displayVal: number) {
+    this.novac = this.novac - displayVal;
     if (this.currencySymbol == "$") {
-      this.novac = this.novac - displayVal;
+      this.novacValuta=this.novac;
     }
     if (this.currencySymbol == "€") {
-      this.novac = this.novac * this.eurToUsd - this.displayVal * this.eurToUsd;
+     this.novacValuta=this.novac*this.eurToUsd;
 
     }
     if (this.currencySymbol == "CA$") {
-      this.novac = this.novac * this.cadToUsd - this.displayVal * this.cadToUsd;
+      this.novacValuta=this.novac*this.cadToUsd;
 
     }
-    this.updateNovacService.updateNovac(this.userId, this.novac).subscribe(response => {
+    this.updateNovacService.updateNovac(this.userId, this.novacValuta).subscribe(response => {
       console.log(response);
     }, error => {
       console.log(error);
     })
   }
-  dodajNovac(value: string,inputElement: HTMLInputElement) {
-    
-
+  dodajNovac(value: string, inputElement: HTMLInputElement) {
     this.displayValNovac = parseInt(value);
-    if(this.displayValNovac<0){
-      this.validationMessage="Ne mozete uneti brojeve manje od nule!";
+    this.novac = this.novac + this.displayValNovac;
+    if (this.displayValNovac < 0) {
+      this.validationMessage = "Ne mozete uneti brojeve manje od nule!";
       return;
     }
     if (this.currencySymbol == "$") {
-      this.novac=this.novac+this.displayValNovac;
-
+      this.novacValuta = this.novac;
     }
     if (this.currencySymbol == "€") {
-      this.novac=this.novac*this.eurToUsd+this.displayValNovac*this.eurToUsd;
-      this.selectedCurrency = "";
-      this.currencySymbol = "$";
-    
+      this.novacValuta = this.novac * this.eurToUsd;
+
+
     }
     if (this.currencySymbol == "CA$") {
-      this.novac=this.novac*this.cadToUsd+this.displayValNovac*this.cadToUsd;
-      this.selectedCurrency = "";
-      this.currencySymbol = "$";
+      this.novacValuta = this.novac * this.cadToUsd;
+
     }
-    
-    this.updateNovacService.updateNovac(this.userId, this.novac).subscribe(response => {
+
+    this.updateNovacService.updateNovac(this.userId, this.novacValuta).subscribe(response => {
       console.log(response);
     }, error => {
       console.log(error);
@@ -299,27 +298,25 @@ export class ItemPageComponent {
   }
 
   updateTrenutnaCena() {
-
+    this.item.trenutna_cena = this.displayVal;
     if (this.currencySymbol == "$") {
-      this.item.trenutna_cena = this.displayVal;
 
+      this.trenutnaCenaValuta = this.item.trenutna_cena;
     }
     if (this.currencySymbol == "€") {
-      this.item.trenutna_cena = this.displayVal * this.eurToUsd;
+      this.trenutnaCenaValuta = this.item.trenutna_cena * this.eurToUsd;
 
-      this.currencySymbol = "$";
-      this.selectedCurrency = "";
+
     }
     if (this.currencySymbol == "CA$") {
-      this.item.trenutna_cena = this.displayVal * this.cadToUsd;
-      this.selectedCurrency = "";
-      this.currencySymbol = "$";
+      this.trenutnaCenaValuta = this.item.trenutna_cena * this.cadToUsd;
+
     }
 
     if (this.user !== null) {
       this.userToken = this.user.access_token;
       this.item = this.itemsService.update(this.item)
-      this.updateTrenutnaCenaService.updateTrenutnaCena(this.item.id, this.item).
+      this.updateTrenutnaCenaService.updateTrenutnaCena(this.item.id, this.trenutnaCenaValuta).
         subscribe(response => {
 
         }, error => { console.log(error); });
