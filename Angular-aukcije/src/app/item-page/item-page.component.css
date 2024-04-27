@@ -170,3 +170,18 @@ img {
 .header {
     margin-top: 5rem;
 }
+.dodajNovac{
+    margin-top: 1rem;
+    margin-bottom: -3rem;
+}
+.dodajNovac button{
+    margin-left: 2rem;
+    font-weight: 500;
+    border: solid 1px;
+    font-size: 1.2rem;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    border-color: black;
+    color: white;
+    background-color: #0E4C92;
+}

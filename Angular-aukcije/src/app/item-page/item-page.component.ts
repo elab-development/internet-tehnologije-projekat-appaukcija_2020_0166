@@ -37,8 +37,9 @@ import { GetMoneyService } from '../get-money.service';
 export class ItemPageComponent {
   auction!: Auction;
   item!: Item;
-  signalValuta: boolean = false;
   inputValue: string = '';
+  inputValue1: string = '';
+  signalValuta: boolean = false;
   itemsProba!: Item[];
   proba!: string | null;
   users: User[] = [];
@@ -46,6 +47,7 @@ export class ItemPageComponent {
   unosIznosa: any;
   userName!: string;
   displayVal: number = 0;
+  displayValNovac!: number;
   validationMessage: string = '';
   endMessage: string = '';
   preostaliSati: number = 0;
@@ -204,10 +206,15 @@ export class ItemPageComponent {
       this.validationMessage = "Molimo vas unesite vasu licitaciju.";
       return;
     }
+    if(this.displayVal<0){
+      this.validationMessage="Ne mozete uneti brojeve manje od nule!";
+      return;
+    }
     if (this.displayVal <= this.item.trenutna_cena) {
       this.validationMessage = "Morate uneti cifru vecu od trenutne cene proizvoda."
       return;
     }
+   
     if (this.user != null && this.displayVal > this.novac) {
       this.validationMessage = "Nemate dovljno sredstava za datu transakciju!";
       return;
@@ -256,6 +263,39 @@ export class ItemPageComponent {
     }, error => {
       console.log(error);
     })
+  }
+  dodajNovac(value: string,inputElement: HTMLInputElement) {
+    
+
+    this.displayValNovac = parseInt(value);
+    if(this.displayValNovac<0){
+      this.validationMessage="Ne mozete uneti brojeve manje od nule!";
+      return;
+    }
+    if (this.currencySymbol == "$") {
+      this.novac=this.novac+this.displayValNovac;
+
+    }
+    if (this.currencySymbol == "€") {
+      this.novac=this.novac*this.eurToUsd+this.displayValNovac*this.eurToUsd;
+      this.selectedCurrency = "";
+      this.currencySymbol = "$";
+    
+    }
+    if (this.currencySymbol == "CA$") {
+      this.novac=this.novac*this.cadToUsd+this.displayValNovac*this.cadToUsd;
+      this.selectedCurrency = "";
+      this.currencySymbol = "$";
+    }
+    
+    this.updateNovacService.updateNovac(this.userId, this.novac).subscribe(response => {
+      console.log(response);
+    }, error => {
+      console.log(error);
+    })
+    this.signalValuta = true;
+    this.inputValue1 = "";
+    inputElement.placeholder = "Dodaj novac na racun";
   }
 
   updateTrenutnaCena() {

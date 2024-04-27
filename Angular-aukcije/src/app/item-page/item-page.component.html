@@ -9,16 +9,26 @@
         <div class="raspolozivaSredstva">
             <p>Raspoloživa sredstva: {{novac}} {{currencySymbol}}</p>
         </div>
+        <div class="dodajNovac">
+            <mat-form-field class="form-field">
+
+                <input type="number" matInput #matInputDodajNovac placeholder="Dodaj novac na racun" min="0"[(ngModel)]="inputValue1">
+              {{currencySymbol}}
+            </mat-form-field>
+            <button mat-raised-button (click)="dodajNovac(matInputDodajNovac.value,matInputDodajNovac)">Dodaj</button>
+
+        </div>
+
         <div class="pocetnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
-            
+
             <p>Pocetna cena:</p>
             {{item.pocetna_cena| number:'1.0-0'}} {{currencySymbol}}
         </div>
-        <div class="trenutnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }" >
+        <div class="trenutnaCena" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Trenutna cena:</p>
             {{item.trenutna_cena| number:'1.0-0'}} {{currencySymbol}}
         </div>
-        
+
         <div class="preostaloVreme" [ngStyle]="{ 'font-family': 'Quicksand, sans-serif' }">
             <p>Aukcija traje do:</p>
             {{item.preostaloVreme|date:'dd.MM.yyyy HH:mm:ss'}}
@@ -28,12 +38,12 @@
             {{preostaliDani}} dana {{preostaliSati}}:{{preostaliMinuti}}:{{preostaleSekunde}}
         </div>
         <div class="unesi">
-            <mat-form-field class="form-field" >
-                
-                <input type="number"  matInput #matInput placeholder="Unesi licitaciju" [(ngModel)]="inputValue">
+            <mat-form-field class="form-field">
+
+                <input type="number" matInput #matInputLicitiraj placeholder="Unesi licitaciju"  min="0" [(ngModel)]="inputValue">
                 {{currencySymbol}}
             </mat-form-field>
-            
+
 
         </div>
         <div class="valuta">
@@ -66,7 +76,7 @@
             <p *ngIf="validationMessage.length > 0" style="color:red">{{validationMessage}}</p>
         </div>
 
-        <button (click)="getSelectedPriceValue(matInput.value, matInput)" mat-raised-button>Licitiraj</button>
+        <button (click)="getSelectedPriceValue(matInputLicitiraj.value, matInputLicitiraj)" mat-raised-button>Licitiraj</button>
 
 
         <p>

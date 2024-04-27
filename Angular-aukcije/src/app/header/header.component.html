@@ -12,9 +12,10 @@
         <div class="user-info" *ngIf="user">
 
             <p>{{user.userName}}</p>
-        
+
         </div>
         <div class="right-buttons">
+          
             <div class="dodajAukciju" *ngIf="user">
 
                 <button mat-fab (click)="AddAuction()"> <mat-icon>add_shopping_cart</mat-icon></button>
