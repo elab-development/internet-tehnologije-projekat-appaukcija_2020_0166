@@ -71,6 +71,7 @@ export class ItemPageComponent {
   eurToUsd!: number;
   cadToUsd!: number;
   novac!: number;
+  novacDolar!: number;
   prikazCena!: number;
   trenutnaCenaDolar!: number;
   pocetnaCenaDolar!: number;
@@ -109,6 +110,7 @@ export class ItemPageComponent {
     })
     this.activatedRoute.data.subscribe(data => {
       const responseData = data['moneyData'] as unknown as { novac: number };;
+      this.novacDolar = responseData.novac;
       this.novac = responseData.novac;
     })
 
@@ -117,13 +119,7 @@ export class ItemPageComponent {
     if (this.user != null) {
       this.userToken = this.user.access_token;
       this.userId = this.user.user_id;
-      // this.getMoneyService.GetMoney(this.userId).subscribe(response => {
-      //   const responseObject = JSON.parse(JSON.stringify(response));
-      //   this.novac = responseObject.novac;
-      //   console.log(this.novac);
-      // }, error => {
-      //   console.log(error);
-      // })
+
     }
     this.auctionId = this.auctionService.getAuctionIdByItemId(this.item.id);
     this.auction = this.auctionService.getAuctionById(this.auctionId);
@@ -134,32 +130,32 @@ export class ItemPageComponent {
     this.isBid(this.bids);
     const currencies = 'EUR,USD,CAD';
 
-    // this.currencyService.getCurrencyInfo(currencies)
-    //   .subscribe(
-    //     data => {
-    //       this.currencyInfo = data.data;
+    this.currencyService.getCurrencyInfo(currencies)
+      .subscribe(
+        data => {
+          this.currencyInfo = data.data;
 
-    //       this.currency.push(this.currencyInfo['CAD'].name);
-    //       this.currency.push(this.currencyInfo['USD'].name);
-    //       this.currency.push(this.currencyInfo['EUR'].name);
-    //       this.currencyRatioService.getCurrencyRatio(currencies).subscribe(data => {
-    //         this.currencyRatio = data.data;
-    //         this.usdToCad = (this.currencyRatio['CAD']);
-    //         this.usdToEur = (this.currencyRatio['EUR']);
-    //         this.eurToCad = this.usdToCad / this.usdToEur;
-    //         this.cadToEur = 1 / this.eurToCad;
-    //         this.eurToUsd = 1 / this.usdToEur;
-    //         this.cadToUsd = 1 / this.usdToCad;
+          this.currency.push(this.currencyInfo['CAD'].name);
+          this.currency.push(this.currencyInfo['USD'].name);
+          this.currency.push(this.currencyInfo['EUR'].name);
+          this.currencyRatioService.getCurrencyRatio(currencies).subscribe(data => {
+            this.currencyRatio = data.data;
+            this.usdToCad = (this.currencyRatio['CAD']);
+            this.usdToEur = (this.currencyRatio['EUR']);
+            this.eurToCad = this.usdToCad / this.usdToEur;
+            this.cadToEur = 1 / this.eurToCad;
+            this.eurToUsd = 1 / this.usdToEur;
+            this.cadToUsd = 1 / this.usdToCad;
 
-    //       }, error => {
-    //         console.error('Error', error);
-    //       })
-    //     },
-    //     error => {
-    //       console.error('Error:', error);
-    //       // Handle error as needed
-    //     }
-    //   );
+          }, error => {
+            console.error('Error', error);
+          })
+        },
+        error => {
+          console.error('Error:', error);
+          // Handle error as needed
+        }
+      );
   }
 
 
@@ -244,7 +240,17 @@ export class ItemPageComponent {
 
   }
   updateNovac(displayVal: number) {
-    this.novac = this.novac - displayVal;
+    if (this.currencySymbol == "$") {
+      this.novac = this.novac - displayVal;
+    }
+    if (this.currencySymbol == "€") {
+      this.novac = this.novac * this.eurToUsd - this.displayVal * this.eurToUsd;
+
+    }
+    if (this.currencySymbol == "CA$") {
+      this.novac = this.novac * this.cadToUsd - this.displayVal * this.cadToUsd;
+
+    }
     this.updateNovacService.updateNovac(this.userId, this.novac).subscribe(response => {
       console.log(response);
     }, error => {
@@ -331,30 +337,35 @@ export class ItemPageComponent {
     if (option == "Canadian Dollar" && this.currencySymbol == "$") {
       this.item.trenutna_cena = this.item.trenutna_cena * this.usdToCad;
       this.item.pocetna_cena = this.item.pocetna_cena * this.usdToCad;
+      this.novac = this.novac * this.usdToCad;
       this.currencySymbol = "CA$";
       return;
     }
     if (option == "Canadian Dollar" && this.currencySymbol == "€") {
       this.item.trenutna_cena = this.item.trenutna_cena * this.eurToCad;
       this.item.pocetna_cena = this.item.pocetna_cena * this.eurToCad;
+      this.novac = this.novac * this.eurToCad;
       this.currencySymbol = "CA$";
       return;
     }
     if (option == "Euro" && this.currencySymbol == "$") {
       this.item.trenutna_cena = this.item.trenutna_cena * this.usdToEur;
       this.item.pocetna_cena = this.item.pocetna_cena * this.usdToEur;
+      this.novac = this.novac * this.usdToEur;
       this.currencySymbol = "€";
       return;
     }
     if (option == "Euro" && this.currencySymbol == "CA$") {
       this.item.trenutna_cena = this.item.trenutna_cena * this.cadToEur;
       this.item.pocetna_cena = this.item.pocetna_cena * this.cadToEur;
+      this.novac = this.novac * this.cadToEur;
       this.currencySymbol = "€";
       return;
     }
     if (option == "US Dollar" && this.signalValuta == false) {
       this.item.trenutna_cena = this.trenutnaCenaDolar;
       this.item.pocetna_cena = this.pocetnaCenaDolar;
+      this.novac = this.novacDolar;
       this.currencySymbol = "$";
       return;
     }
@@ -362,6 +373,8 @@ export class ItemPageComponent {
       this.item.trenutna_cena = this.item.trenutna_cena * this.eurToUsd;
       this.item.pocetna_cena = this.pocetnaCenaDolar;
       this.currencySymbol = "$";
+      this.novac = this.novac * this.eurToUsd;
+      this.novacDolar = this.novac;
       this.signalValuta = false;
       this.trenutnaCenaDolar = this.item.trenutna_cena;
       return;
@@ -370,6 +383,8 @@ export class ItemPageComponent {
       this.item.trenutna_cena = this.item.trenutna_cena * this.cadToUsd;
       this.item.pocetna_cena = this.pocetnaCenaDolar;
       this.currencySymbol = "$";
+      this.novac = this.novac * this.cadToUsd;
+      this.novacDolar = this.novac;
       this.signalValuta = false;
       this.trenutnaCenaDolar = this.item.trenutna_cena;
       return;
