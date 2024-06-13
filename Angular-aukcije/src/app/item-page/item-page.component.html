@@ -125,6 +125,10 @@
         <div class="obrisiAukciju" *ngIf="item.user_id===userId || (user?.role=='admin'&& signal==1)">
             <button mat-raised-button (click)="deleteAuction()"> <mat-icon>delete</mat-icon>Obrisi
                 Aukciju</button>
+                
+        </div>
+        <div class="upozorenjeDelete">
+            <p *ngIf="validationMessageDelete.length > 0" style="color:red">{{validationMessageDelete}}</p>
         </div>
     </div>
 

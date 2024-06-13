@@ -37,6 +37,7 @@ import { GetMoneyService } from '../get-money.service';
 export class ItemPageComponent {
   auction!: Auction;
   item!: Item;
+  signalForDelete: number = 1;
   inputValue: string = '';
   inputValue1: string = '';
   signalValuta: boolean = false;
@@ -50,6 +51,7 @@ export class ItemPageComponent {
   displayVal: number = 0;
   displayValNovac!: number;
   validationMessage: string = '';
+  validationMessageDelete: string = '';
   endMessage: string = '';
   preostaliSati: number = 0;
   preostaliDani: number = 0;
@@ -251,14 +253,14 @@ export class ItemPageComponent {
   updateNovac(displayVal: number) {
     this.novac = this.novac - displayVal;
     if (this.currencySymbol == "$") {
-      this.novacValuta=this.novac;
+      this.novacValuta = this.novac;
     }
     if (this.currencySymbol == "€") {
-     this.novacValuta=this.novac*this.eurToUsd;
+      this.novacValuta = this.novac * this.eurToUsd;
 
     }
     if (this.currencySymbol == "CA$") {
-      this.novacValuta=this.novac*this.cadToUsd;
+      this.novacValuta = this.novac * this.cadToUsd;
 
     }
     this.updateNovacService.updateNovac(this.userId, this.novacValuta).subscribe(response => {
@@ -350,6 +352,10 @@ export class ItemPageComponent {
 
   }
   deleteAuction() {
+    if (this.signalForDelete == 0) {
+      this.validationMessageDelete = "Ne možete sada obrisati aukciju, drugi korisnik je već licitirao."
+      return;
+    }
     this.deleteAuctionService.deleteAucion(this.auctionService.getAuctionIdByItemId(this.item.id)).subscribe(response => {
       console.log(response)
 
@@ -364,7 +370,7 @@ export class ItemPageComponent {
   }
   isBid(bids: Bid[]) {
     if (bids.some(element => element.auction_id === this.auctionId)) {
-
+      this.signalForDelete = 0;
       return;
     }
 

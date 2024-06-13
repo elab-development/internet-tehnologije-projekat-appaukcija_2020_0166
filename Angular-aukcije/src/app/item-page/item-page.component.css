@@ -185,3 +185,10 @@ img {
     color: white;
     background-color: #0E4C92;
 }
+.upozorenjeDelete{
+    margin-top: 1rem;
+    
+}
+.upozorenjeDelete p{
+   font-size: large;
+}
