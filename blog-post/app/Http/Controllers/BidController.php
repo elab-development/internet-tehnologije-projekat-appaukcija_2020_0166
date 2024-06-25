@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\BidResource;
 use App\Models\Bid;
+use App\Jobs\PlaceBidJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -21,21 +22,24 @@ class BidController extends Controller
         $validator = Validator::make($request->all(), [
             'auction_id' => 'required|numeric',
             'iznos' => 'required|numeric',
-            
+
 
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }
-        $bid = Bid::create([
-            'auction_id' => $request->auction_id,
-            'iznos' => $request->iznos,
-            'user_id' =>Auth::user()->id,
-        ]);
+        $auctionId = $request->input('auction_id');
+        $bidAmount = $request->input('iznos');
+        $userId = Auth::id();
+
+
+        PlaceBidJob::dispatch($auctionId, $bidAmount, $userId)->onQueue('bids');
+    
+
         return response()->json([
             'message' => 'Bid je kreiran!',
-            'Bid' => $bid
-        
+         
+
 
         ]);
     }
