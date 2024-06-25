@@ -46,6 +46,7 @@ export class ItemPageComponent {
   users: User[] = [];
   userId!: number;
   unosIznosa: any;
+  bidValuta!: number;
   userName!: string;
   trenutnaCenaValuta!: number;
   displayVal: number = 0;
@@ -205,6 +206,7 @@ export class ItemPageComponent {
   getSelectedPriceValue(value: string, inputElement: HTMLInputElement) {
     this.validationMessage = '';
     this.displayVal = parseInt(value);
+    this.bidValuta = this.displayVal;
 
     if (!this.displayVal) {
       this.validationMessage = "Molimo vas unesite vasu licitaciju.";
@@ -307,12 +309,12 @@ export class ItemPageComponent {
     }
     if (this.currencySymbol == "€") {
       this.trenutnaCenaValuta = this.item.trenutna_cena * this.eurToUsd;
-
+      this.bidValuta = this.bidValuta * this.eurToUsd;
 
     }
     if (this.currencySymbol == "CA$") {
       this.trenutnaCenaValuta = this.item.trenutna_cena * this.cadToUsd;
-
+      this.bidValuta = this.bidValuta * this.cadToUsd;
     }
 
     if (this.user !== null) {
@@ -325,7 +327,7 @@ export class ItemPageComponent {
 
 
 
-      this.createBidService.makeBid(this.auctionId, this.item.trenutna_cena).
+      this.createBidService.makeBid(this.auctionId, this.bidValuta).
         subscribe(response => {
 
         }, error => { console.log(error); });

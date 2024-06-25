@@ -121,8 +121,7 @@ export class CartComponent implements OnInit {
 
   }
   updateCart() {
-    this.cart.items.forEach(element => {
-      console.log(moment(element.item.preostaloVreme))
+    this.cart.items.forEach(element => {  
       if (moment(element.item.preostaloVreme) >= moment()) {
         this.cartService.removeFromCart(element.item.id);
       }
